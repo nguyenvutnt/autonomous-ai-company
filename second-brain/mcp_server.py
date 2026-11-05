@@ -22,11 +22,13 @@ from engine import (
     CorporateSecondBrain,
 )
 from ceo_hr_orchestrator import CEOExecutiveAgent, HRAgentDirector
+from seo_aio_sao_division import SearchGrowthDivision
 
 mcp = FastMCP("corporate-second-brain")
 brain = CorporateSecondBrain()
 hr_director = HRAgentDirector(brain)
 ceo_agent = CEOExecutiveAgent(brain, hr_director)
+search_division = SearchGrowthDivision(brain)
 
 
 @mcp.tool()
@@ -291,6 +293,50 @@ def hr_evaluate_department_kpi(
         kpi_achieved=achieved,
         kpi_target=target,
         notes=notes,
+    )
+    return json.dumps(res, ensure_ascii=False, indent=2)
+
+
+@mcp.tool()
+def seo_crawl_url(url: str) -> str:
+    """
+    [SEO #7] Quét và bóc tách nội dung đối thủ từ một URL bất kỳ bằng Crawl4AI
+    và tự động lưu vào Bộ Não Thứ 2.
+    """
+    res = search_division.seo.crawl_competitor_url(url=url)
+    return json.dumps(res, ensure_ascii=False, indent=2)
+
+
+@mcp.tool()
+def search_generate_omni_package(
+    campaign_id: str,
+    product_name: str,
+    core_keyword: str,
+    price_vnd: float,
+    usp_list_json: str,
+    target_persona: str,
+    competitor_url: str = "",
+) -> str:
+    """
+    [SEO #7 + AIO #8 + SAO #9] Tự động chạy trọn bộ:
+    1. Kiểm tra chống ăn thịt từ khóa (Anti-Cannibalization) & lập Topic Cluster 5 bài.
+    2. Viết bài chuẩn E-E-A-T kèm bảng so sánh & Internal Link Graph.
+    3. Xuất Schema JSON-LD (`Product` + `FAQPage`) để ChatGPT/Perplexity/Google AI Overview trích dẫn.
+    4. Xuất bộ từ khóa tìm kiếm TikTok/FB/Shopee Search + mã HTML/JS chuẩn WebMCP cho AI Shopping Agents.
+    """
+    try:
+        usps = json.loads(usp_list_json) if usp_list_json else []
+    except Exception:
+        usps = [u.strip() for u in usp_list_json.split(",") if u.strip()]
+
+    res = search_division.execute_omni_search_campaign_package(
+        campaign_id=campaign_id,
+        product_name=product_name,
+        core_keyword=core_keyword,
+        price_vnd=price_vnd,
+        usp_highlights=usps,
+        target_persona=target_persona,
+        competitor_url=competitor_url or None,
     )
     return json.dumps(res, ensure_ascii=False, indent=2)
 
