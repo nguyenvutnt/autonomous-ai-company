@@ -501,7 +501,44 @@ class SearchGrowthDivision:
             for idx, f in enumerate(aio_pack["faqs"])
         )
 
-        article_markdown = f"""# {pillar_page['keyword'].title()}: Đánh Giá Chuyên Sâu & Bảng Giá Chuẩn E-E-A-T
+        is_eyc = "eyc" in product_name.lower() or "early years" in product_name.lower()
+        if is_eyc:
+            article_markdown = f"""# {pillar_page['keyword'].title()}: Kiến Trúc AI Agents, Phần Mềm Cloud & Hệ Sinh Thái Early Years Circle Chuẩn EYC
+
+{aio_pack['direct_answer_box_md']}
+
+---
+
+## 1. Thực trạng phân mảnh hệ thống tại {target_persona}
+Phần lớn doanh nghiệp và hệ thống trường mầm non hiện nay đang vận hành trên hàng chục công cụ rời rạc: phần mềm điểm danh riêng, nhóm chat phụ huynh riêng, bảng tính tài chính riêng và các công cụ AI đơn lẻ không có ngữ cảnh chung. Tại **CÔNG TY TNHH CÔNG NGHỆ VÀ TRÍ TUỆ NHÂN TẠO EYC (`https://eyc.asia`)**, chúng tôi giải quyết triệt để bài toán này theo triết lý: **"Hệ thống do con người dẫn dắt. Công việc được AI phối hợp thực thi."**
+
+## 2. Quy trình vận hành 6 bước chuẩn EYC (EYC 6-Step Operating Architecture)
+Mỗi giải pháp thuộc **{product_name}** đều vận hành xuyên suốt qua 6 bước có kiểm soát:
+1. **01. Định hướng:** Ban giám đốc xác lập mục tiêu kinh doanh và tiêu chuẩn đầu ra.
+2. **02. Ngữ cảnh:** Bộ Não Thứ 2 (3-Tier Corporate Second Brain) nạp dữ liệu doanh nghiệp, Luật Kaizen và đồ thị thực thể.
+3. **03. Agents:** 16 Trưởng bộ phận AI phối hợp theo đúng chuyên môn với điểm phê duyệt của con người (Human Approval Gate).
+4. **04. Hành động:** Thực thi tự động trên hệ thống phần mềm, Cloud, dữ liệu và truyền thông.
+5. **05. Kiểm tra:** Mọi hồ sơ sản phẩm đều có đường link nghiệm thu trực tiếp và nhật ký kiểm toán (Audit Log).
+6. **06. Kết quả:** Đo lường KPI, dòng tiền và tự động cập nhật bài học Kaizen.
+
+## 3. Các trụ cột công nghệ cốt lõi của {product_name}
+{chr(10).join(f'- **{u}**' for u in usp_highlights)}
+
+| Tiêu chí kiến trúc | {product_name} (Chuẩn EYC.ASIA) | Các công cụ phần mềm rời rạc truyền thống |
+| :--- | :--- | :--- |
+| **Mô hình điều phối** | {', '.join(usp_highlights[:2])} | Thao tác thủ công, dữ liệu phân tán |
+| **Điểm phê duyệt (Governance)** | Human Approval Gate + Nhật ký Audit Log | Không có luồng kiểm duyệt AI rõ ràng |
+| **Đồng bộ hệ sinh thái Mầm non** | 01 Teacher • 02 Family • 03 Admin • 04 TV | Ứng dụng đơn lẻ, thiếu kết nối thời gian thực |
+| **Pháp nhân & Bảo mật dữ liệu** | EYC (MST: 0319723892 • DUNS: 321425016) | Thiếu cam kết chủ quyền dữ liệu nội bộ |
+
+## 4. Hệ thống bài viết chuyên sâu trong cùng Topic Cluster (Internal Link Graph)
+{internal_links_md}
+
+## 5. Câu hỏi thường gặp (FAQ chuẩn AEO / AI Overview Citation)
+{faq_md}
+"""
+        else:
+            article_markdown = f"""# {pillar_page['keyword'].title()}: Đánh Giá Chuyên Sâu & Bảng Giá Chuẩn E-E-A-T
 
 {aio_pack['direct_answer_box_md']}
 

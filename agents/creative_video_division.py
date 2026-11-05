@@ -134,96 +134,194 @@ class ContentCopywriterAgent:
         usp_highlights: list[str],
         target_persona: str,
     ) -> dict[str, Any]:
-        usp_1 = usp_highlights[0] if len(usp_highlights) > 0 else "Xung điện TENS kép tác động sâu"
-        usp_2 = usp_highlights[1] if len(usp_highlights) > 1 else "Chườm ấm hồng ngoại chuẩn 42 độ C"
-        usp_3 = usp_highlights[2] if len(usp_highlights) > 2 else "Pin trâu 15 ngày, bảo hành 1 đổi 1"
+        is_eyc = "eyc" in product_name.lower() or "early years" in product_name.lower()
+        usp_1 = usp_highlights[0] if len(usp_highlights) > 0 else (
+            "Hệ thống AI Agents phối hợp thực thi theo quy trình 6 bước chuẩn EYC"
+            if is_eyc else "Xung điện TENS kép tác động sâu"
+        )
+        usp_2 = usp_highlights[1] if len(usp_highlights) > 1 else (
+            "Kết nối AI, phần mềm, dữ liệu Cloud và quản trị vận hành đồng bộ"
+            if is_eyc else "Chườm ấm hồng ngoại chuẩn 42 độ C"
+        )
+        usp_3 = usp_highlights[2] if len(usp_highlights) > 2 else (
+            "Early Years Circle: 01 Teacher, 02 Family, 03 Admin, 04 TV"
+            if is_eyc else "Pin trâu 15 ngày, bảo hành 1 đổi 1"
+        )
 
-        scenes = [
-            {
-                "scene_index": 1,
-                "time_range": "00:00 - 00:03",
-                "role": "HOOK_3S",
-                "type": "dramatic_reenactment",
-                "description": "Close-up of exhausted IT engineer holding stiff neck at 11PM in front of dual monitors",
-                "information_role": "problem_hook",
-                "narrative_role": "inciting_incident",
-                "shot_intent": "Grab viewer attention in 3s by mirroring acute neck pain at night",
-                "hero_moment": True,
-                "shot_language": {
-                    "shot_size": "close_up",
-                    "camera_movement": "push_in",
-                    "lighting_key": "low_key_neon",
+        if is_eyc:
+            scenes = [
+                {
+                    "scene_index": 1,
+                    "time_range": "00:00 - 00:03",
+                    "role": "HOOK_3S",
+                    "type": "dramatic_reenactment",
+                    "description": "Executive control room showing fragmented enterprise software vs EYC unified AI Agent orchestration",
+                    "information_role": "problem_hook",
+                    "narrative_role": "inciting_incident",
+                    "shot_intent": "Highlight operational fragmentation in enterprises and schools before EYC",
+                    "hero_moment": True,
+                    "shot_language": {
+                        "shot_size": "close_up",
+                        "camera_movement": "push_in",
+                        "lighting_key": "low_key_neon",
+                    },
+                    "subtitle_text": "01 ĐỊNH HƯỚNG: HỆ THỐNG DO CON NGƯỜI DẪN DẮT, AI PHỐI HỢP THỰC THI",
+                    "voiceover_text": f"Doanh nghiệp và nhà trường đang vận hành rời rạc giữa hàng chục công cụ? Tại EYC, hệ thống do con người dẫn dắt, công việc được AI phối hợp thực thi.",
+                    "visual_headline": "01 / ĐỊNH HƯỚNG HỆ THỐNG",
+                    "visual_subtext": f"Giải pháp cho {target_persona}",
+                    "accent_color": "#FE5E02",
                 },
-                "subtitle_text": "11H ĐÊM VẪN ÔM CỔ NHĂN MẶT VÌ NGỒI MÁY TÍNH 8 TIẾNG?",
-                "voiceover_text": f"11 giờ đêm vẫn ngồi ôm cổ nhăn mặt vì làm việc máy tính suốt 8 tiếng? Dân văn phòng đừng chủ quan!",
-                "visual_headline": "ĐAU MỎI CỔ VAI GÁY?",
-                "visual_subtext": f"Giải pháp cho {target_persona}",
-                "accent_color": "#F59E0B",
-            },
-            {
-                "scene_index": 2,
-                "time_range": "00:03 - 00:07",
-                "role": "SOLUTION_USP_1",
-                "type": "product_macro_reveal",
-                "description": f"3D thermal & TENS pulse visualization of {product_name} wrapping ergonomically around the neck",
-                "information_role": "mechanism_explanation",
-                "narrative_role": "rising_action",
-                "shot_intent": "Demonstrate dual TENS pulse and 42C infrared heat penetration",
-                "hero_moment": True,
-                "shot_language": {
-                    "shot_size": "macro_detail",
-                    "camera_movement": "orbit",
-                    "lighting_key": "warm_therapeutic",
+                {
+                    "scene_index": 2,
+                    "time_range": "00:03 - 00:07",
+                    "role": "SOLUTION_USP_1",
+                    "type": "product_macro_reveal",
+                    "description": f"Architectural visualization of {product_name} connecting AI Agents, Cloud Data, and Enterprise Workflows",
+                    "information_role": "mechanism_explanation",
+                    "narrative_role": "rising_action",
+                    "shot_intent": "Show EYC 6-step architecture from Context to Verified Output",
+                    "hero_moment": True,
+                    "shot_language": {
+                        "shot_size": "macro_detail",
+                        "camera_movement": "orbit",
+                        "lighting_key": "warm_therapeutic",
+                    },
+                    "subtitle_text": f"02 KIẾN TRÚC EYC: {usp_1.upper()}",
+                    "voiceover_text": f"Với {product_name}, chúng tôi triển khai {usp_1}, kết hợp {usp_2} giúp biến chỉ đạo của lãnh đạo thành kết quả thực tế.",
+                    "visual_headline": "02 / KIẾN TRÚC AI AGENTS",
+                    "visual_subtext": usp_1,
+                    "accent_color": "#FE5E02",
                 },
-                "subtitle_text": f"{product_name.upper()}: {usp_1.upper()}",
-                "voiceover_text": f"Đã có {product_name} với công nghệ {usp_1}, kết hợp {usp_2} giúp làm dịu nhanh cảm giác căng cứng cơ cổ.",
-                "visual_headline": usp_1.upper(),
-                "visual_subtext": usp_2,
-                "accent_color": "#10B981",
-            },
-            {
-                "scene_index": 3,
-                "time_range": "00:07 - 00:11",
-                "role": "PROOF_USP_2",
-                "type": "lifestyle_broll",
-                "description": "Office worker smiling and typing comfortably while wearing the lightweight cordless device",
-                "information_role": "social_proof_and_convenience",
-                "narrative_role": "climax",
-                "shot_intent": "Show effortless 15-minute daily usage at the office desk",
-                "hero_moment": False,
-                "shot_language": {
-                    "shot_size": "medium_shot",
-                    "camera_movement": "tracking_pan",
-                    "lighting_key": "high_key_daylight",
+                {
+                    "scene_index": 3,
+                    "time_range": "00:07 - 00:11",
+                    "role": "PROOF_USP_2",
+                    "type": "lifestyle_broll",
+                    "description": "Seamless synchronization between Teacher, Family, Admin, and Classroom TV on Early Years Circle",
+                    "information_role": "social_proof_and_convenience",
+                    "narrative_role": "climax",
+                    "shot_intent": "Demonstrate real-time synchronization across operational pillars",
+                    "hero_moment": False,
+                    "shot_language": {
+                        "shot_size": "medium_shot",
+                        "camera_movement": "tracking_pan",
+                        "lighting_key": "high_key_daylight",
+                    },
+                    "subtitle_text": f"03 VẬN HÀNH ĐỒNG BỘ: {usp_3.upper()}",
+                    "voiceover_text": f"Mọi điểm chạm vận hành đều được đồng bộ tức thì trên một nền tảng duy nhất: {usp_3}.",
+                    "visual_headline": "03 / ĐỒNG BỘ TOÀN DIỆN",
+                    "visual_subtext": usp_3,
+                    "accent_color": "#FE5E02",
                 },
-                "subtitle_text": f"THƯ GIÃN 15 PHÚT MỖI NGÀY - {usp_3.upper()}",
-                "voiceover_text": f"Chỉ cần 15 phút mỗi ngày ngay tại bàn làm việc. {usp_3}, nhỏ gọn mang đi mọi nơi.",
-                "visual_headline": "15 PHÚT THƯ GIÃN SÂU",
-                "visual_subtext": usp_3,
-                "accent_color": "#3B82F6",
-            },
-            {
-                "scene_index": 4,
-                "time_range": "00:11 - 00:15",
-                "role": "CTA_OFFER",
-                "type": "offer_cta_card",
-                "description": "High-contrast commercial offer card with warranty seal, price slash, and urgent CTA",
-                "information_role": "call_to_action",
-                "narrative_role": "resolution",
-                "shot_intent": "Drive immediate click/lead conversion with 12-month 1-to-1 warranty guarantee",
-                "hero_moment": False,
-                "shot_language": {
-                    "shot_size": "wide_graphic",
-                    "camera_movement": "zoom_snap",
-                    "lighting_key": "studio_high_contrast",
+                {
+                    "scene_index": 4,
+                    "time_range": "00:11 - 00:15",
+                    "role": "CTA_OFFER",
+                    "type": "offer_cta_card",
+                    "description": "EYC Official B2B Consultation Call-to-Action Card at eyc.asia",
+                    "information_role": "call_to_action",
+                    "narrative_role": "resolution",
+                    "shot_intent": "Invite enterprise leaders and school principals to schedule an architecture consultation at eyc.asia",
+                    "hero_moment": False,
+                    "shot_language": {
+                        "shot_size": "wide_graphic",
+                        "camera_movement": "zoom_snap",
+                        "lighting_key": "studio_high_contrast",
+                    },
+                    "subtitle_text": "04 KẾT NỐI NGAY TẠI EYC.ASIA — KIẾN TRÚC AI & PHẦN MỀM DOANH NGHIỆP",
+                    "voiceover_text": "Truy cập ngay eyc chấm asia hoặc liên hệ văn phòng 68 Nguyễn Huệ, Thành phố Hồ Chí Minh để đặt lịch tư vấn kiến trúc hệ thống ngay hôm nay.",
+                    "visual_headline": "EYC.ASIA",
+                    "visual_subtext": "Tầng 2, 68 Nguyễn Huệ, Phường Sài Gòn, TP.HCM • +84 942 391 906",
+                    "accent_color": "#FE5E02",
                 },
-                "subtitle_text": f"ƯU ĐÃI CHỈ {price_vnd:,.0f}Đ + FREESHIP - ĐẶT NGAY HÔM NAY!",
-                "voiceover_text": f"Ưu đãi hôm nay chỉ còn {int(price_vnd // 1000)} nghìn đồng kèm miễn phí vận chuyển. Bấm vào giỏ hàng hoặc nhắn tin nhận ưu đãi ngay!",
-                "visual_headline": f"CHỈ {price_vnd:,.0f} VNĐ",
-                "visual_subtext": "Bảo hành 1 đổi 1 (12 Tháng) • Freeship Toàn Quốc",
-                "accent_color": "#EF4444",
-            },
-        ]
+            ]
+        else:
+            scenes = [
+                {
+                    "scene_index": 1,
+                    "time_range": "00:00 - 00:03",
+                    "role": "HOOK_3S",
+                    "type": "dramatic_reenactment",
+                    "description": "Close-up of exhausted IT engineer holding stiff neck at 11PM in front of dual monitors",
+                    "information_role": "problem_hook",
+                    "narrative_role": "inciting_incident",
+                    "shot_intent": "Grab viewer attention in 3s by mirroring acute neck pain at night",
+                    "hero_moment": True,
+                    "shot_language": {
+                        "shot_size": "close_up",
+                        "camera_movement": "push_in",
+                        "lighting_key": "low_key_neon",
+                    },
+                    "subtitle_text": "11H ĐÊM VẪN ÔM CỔ NHĂN MẶT VÌ NGỒI MÁY TÍNH 8 TIẾNG?",
+                    "voiceover_text": f"11 giờ đêm vẫn ngồi ôm cổ nhăn mặt vì làm việc máy tính suốt 8 tiếng? Dân văn phòng đừng chủ quan!",
+                    "visual_headline": "ĐAU MỎI CỔ VAI GÁY?",
+                    "visual_subtext": f"Giải pháp cho {target_persona}",
+                    "accent_color": "#FE5E02",
+                },
+                {
+                    "scene_index": 2,
+                    "time_range": "00:03 - 00:07",
+                    "role": "SOLUTION_USP_1",
+                    "type": "product_macro_reveal",
+                    "description": f"3D thermal & TENS pulse visualization of {product_name} wrapping ergonomically around the neck",
+                    "information_role": "mechanism_explanation",
+                    "narrative_role": "rising_action",
+                    "shot_intent": "Demonstrate dual TENS pulse and 42C infrared heat penetration",
+                    "hero_moment": True,
+                    "shot_language": {
+                        "shot_size": "macro_detail",
+                        "camera_movement": "orbit",
+                        "lighting_key": "warm_therapeutic",
+                    },
+                    "subtitle_text": f"{product_name.upper()}: {usp_1.upper()}",
+                    "voiceover_text": f"Đã có {product_name} với công nghệ {usp_1}, kết hợp {usp_2} giúp làm dịu nhanh cảm giác căng cứng cơ cổ.",
+                    "visual_headline": usp_1.upper(),
+                    "visual_subtext": usp_2,
+                    "accent_color": "#FE5E02",
+                },
+                {
+                    "scene_index": 3,
+                    "time_range": "00:07 - 00:11",
+                    "role": "PROOF_USP_2",
+                    "type": "lifestyle_broll",
+                    "description": "Office worker smiling and typing comfortably while wearing the lightweight cordless device",
+                    "information_role": "social_proof_and_convenience",
+                    "narrative_role": "climax",
+                    "shot_intent": "Show effortless 15-minute daily usage at the office desk",
+                    "hero_moment": False,
+                    "shot_language": {
+                        "shot_size": "medium_shot",
+                        "camera_movement": "tracking_pan",
+                        "lighting_key": "high_key_daylight",
+                    },
+                    "subtitle_text": f"THƯ GIÃN 15 PHÚT MỖI NGÀY - {usp_3.upper()}",
+                    "voiceover_text": f"Chỉ cần 15 phút mỗi ngày ngay tại bàn làm việc. {usp_3}, nhỏ gọn mang đi mọi nơi.",
+                    "visual_headline": "15 PHÚT THƯ GIÃN SÂU",
+                    "visual_subtext": usp_3,
+                    "accent_color": "#FE5E02",
+                },
+                {
+                    "scene_index": 4,
+                    "time_range": "00:11 - 00:15",
+                    "role": "CTA_OFFER",
+                    "type": "offer_cta_card",
+                    "description": "High-contrast commercial offer card with warranty seal, price slash, and urgent CTA",
+                    "information_role": "call_to_action",
+                    "narrative_role": "resolution",
+                    "shot_intent": "Drive immediate click/lead conversion with 12-month 1-to-1 warranty guarantee",
+                    "hero_moment": False,
+                    "shot_language": {
+                        "shot_size": "wide_graphic",
+                        "camera_movement": "zoom_snap",
+                        "lighting_key": "studio_high_contrast",
+                    },
+                    "subtitle_text": f"ƯU ĐÃI CHỈ {price_vnd:,.0f}Đ + FREESHIP - ĐẶT NGAY HÔM NAY!",
+                    "voiceover_text": f"Ưu đãi hôm nay chỉ còn {int(price_vnd // 1000)} nghìn đồng kèm miễn phí vận chuyển. Bấm vào giỏ hàng hoặc nhắn tin nhận ưu đãi ngay!",
+                    "visual_headline": f"CHỈ {price_vnd:,.0f} VNĐ",
+                    "visual_subtext": "Bảo hành 1 đổi 1 (12 Tháng) • Freeship Toàn Quốc",
+                    "accent_color": "#FE5E02",
+                },
+            ]
 
         full_voiceover = " ".join(s["voiceover_text"] for s in scenes)
         return {
@@ -243,36 +341,69 @@ class ContentCopywriterAgent:
         Generates 200+ unique copy variations using combinatorial Spintax blocks
         so multi-group / multi-account social posting (`Facebook.Net` & `Postiz`) never triggers duplicate spam filters.
         """
-        hooks = [
-            "🔥 Dân văn phòng ngồi máy tính 8 tiếng đau mỏi cổ vai gáy chú ý!",
-            "⚡ 11h đêm vẫn ê ẩm đốt sống cổ vì chạy deadline suốt ngày?",
-            "💡 Bí quyết thư giãn cổ vai gáy chỉ 15 phút mỗi ngày ngay tại bàn làm việc!",
-            "🚨 Đừng để cơn căng mỏi cổ vai gáy làm giảm 50% hiệu suất làm việc của bạn!",
-            "✨ Quà tặng sức khỏe thiết thực nhất cho lập trình viên, kế toán & dân văn phòng!",
-        ]
-        intros = [
-            f"Trải nghiệm ngay siêu phẩm **{product_name}** thế hệ mới nhất 2026:",
-            f"Giải pháp chăm sóc tại nhà với **{product_name}** chuẩn công thái học:",
-            f"Hơn 10.000 khách hàng văn phòng đã tin chọn **{product_name}** bởi:",
-            f"Lý do **{product_name}** liên tục cháy hàng trong tháng này:",
-        ]
-        benefits = [
-            f"✅ {usp_highlights[0] if usp_highlights else 'Xung điện TENS kép'} + Chườm ấm hồng ngoại 42°C êm dịu.",
-            "✅ Thiết kế ôm sát cổ chữ U, siêu nhẹ, dùng cực êm tại văn phòng hoặc trên ô tô.",
-            "✅ Pin dung lượng lớn dùng tới 15 ngày, sạc Type-C tiện lợi.",
-        ]
-        offers = [
-            f"🎁 Giá ưu đãi hôm nay chỉ còn **{price_vnd:,.0f}đ** (Freeship toàn quốc).",
-            f"💥 Chốt đơn ngay giá gốc tại xưởng **{price_vnd:,.0f}đ** + Miễn phí giao hàng tận nơi.",
-            f"🔥 Giảm sâu chỉ còn **{price_vnd:,.0f}đ** cho 50 suất đăng ký đầu tiên hôm nay.",
-        ]
-        ctas = [
-            "👉 Inbox ngay hoặc để lại bình luận [TƯ VẤN] để nhận ưu đãi!",
-            "👉 Nhắn tin Zalo/Fanpage ngay để được kiểm tra hàng trước khi thanh toán!",
-            "👉 Bấm vào link bên dưới hoặc comment SĐT để giữ suất bảo hành 1 đổi 1 trong 12 tháng!",
-            "👉 Chấm (.) ngay dưới bài viết để đội ngũ chuyên viên gửi bảng giá chi tiết nhé!",
-            "👉 Đặt mua ngay hôm nay để nhận kèm bộ quà tặng chăm sóc sức khỏe!",
-        ]
+        is_eyc = "eyc" in product_name.lower() or "early years" in product_name.lower()
+        if is_eyc:
+            hooks = [
+                "01 / Doanh nghiệp và nhà trường vận hành rời rạc giữa hàng chục phần mềm độc lập?",
+                "02 / Làm sao để kết nối AI Agents, dữ liệu Cloud và quy trình phê duyệt vào một hệ thống duy nhất?",
+                "03 / Nền tảng vận hành giáo dục mầm non Early Years Circle — Đồng bộ Teacher, Family, Admin & TV.",
+                "04 / EYC (Everything You Connect): Hệ thống do con người dẫn dắt, công việc được AI phối hợp thực thi.",
+                "05 / Chuẩn hóa quy trình vận hành 6 bước từ Định hướng, Ngữ cảnh đến Kiểm tra & Kết quả thực tế.",
+            ]
+            intros = [
+                f"Khám phá kiến trúc công nghệ **{product_name}** do EYC phát triển:",
+                f"Giải pháp chuyển đổi vận hành thực tế cùng **{product_name}**:",
+                f"Tại sao các tổ chức và hệ thống giáo dục lựa chọn **{product_name}**?",
+                f"Kiến trúc tích hợp toàn diện của **{product_name}** tại `https://eyc.asia`:",
+            ]
+            benefits = [
+                f"- {usp_highlights[0] if usp_highlights else 'Hệ thống AI Agents phối hợp thực thi có kiểm soát'}.",
+                "- Tích hợp đồng bộ 4 điểm chạm: 01 Teacher, 02 Family, 03 Admin, 04 TV.",
+                "- Bảo mật dữ liệu chuẩn doanh nghiệp, rõ ràng từng điểm phê duyệt của lãnh đạo.",
+            ]
+            offers = [
+                f"Gói triển khai & tư vấn kiến trúc doanh nghiệp: **{price_vnd:,.0f} VNĐ**.",
+                f"Đăng ký khảo sát quy trình & demo hệ thống trực tiếp tại **eyc.asia** (Ngân sách tham chiếu: **{price_vnd:,.0f} VNĐ**).",
+                f"Tư vấn lộ trình triển khai AI & SaaS 6 bước chuẩn EYC (**{price_vnd:,.0f} VNĐ**).",
+            ]
+            ctas = [
+                "Truy cập https://eyc.asia hoặc liên hệ Hotline +84 942 391 906.",
+                "Đặt lịch làm việc tại Tầng 2, 68 Nguyễn Huệ, Phường Sài Gòn, TP. Hồ Chí Minh.",
+                "Gửi yêu cầu tư vấn kiến trúc qua email info@eyc.asia để nhận hồ sơ giải pháp chi tiết.",
+                "Kết nối trực tiếp với đội ngũ kỹ sư EYC tại https://eyc.asia/vi-vn/contact/.",
+                "Xem tài liệu kiến trúc 6 bước và bản demo Early Years Circle tại eyc.asia.",
+            ]
+        else:
+            hooks = [
+                "Dân văn phòng ngồi máy tính 8 tiếng đau mỏi cổ vai gáy chú ý!",
+                "11h đêm vẫn ê ẩm đốt sống cổ vì chạy deadline suốt ngày?",
+                "Bí quyết thư giãn cổ vai gáy chỉ 15 phút mỗi ngày ngay tại bàn làm việc!",
+                "Đừng để cơn căng mỏi cổ vai gáy làm giảm 50% hiệu suất làm việc của bạn!",
+                "Quà tặng sức khỏe thiết thực nhất cho lập trình viên, kế toán & dân văn phòng!",
+            ]
+            intros = [
+                f"Trải nghiệm ngay siêu phẩm **{product_name}** thế hệ mới nhất 2026:",
+                f"Giải pháp chăm sóc tại nhà với **{product_name}** chuẩn công thái học:",
+                f"Hơn 10.000 khách hàng văn phòng đã tin chọn **{product_name}** bởi:",
+                f"Lý do **{product_name}** liên tục cháy hàng trong tháng này:",
+            ]
+            benefits = [
+                f"- {usp_highlights[0] if usp_highlights else 'Xung điện TENS kép'} + Chườm ấm hồng ngoại 42°C êm dịu.",
+                "- Thiết kế ôm sát cổ chữ U, siêu nhẹ, dùng cực êm tại văn phòng hoặc trên ô tô.",
+                "- Pin dung lượng lớn dùng tới 15 ngày, sạc Type-C tiện lợi.",
+            ]
+            offers = [
+                f"Giá ưu đãi hôm nay chỉ còn **{price_vnd:,.0f}đ** (Freeship toàn quốc).",
+                f"Chốt đơn ngay giá gốc tại xưởng **{price_vnd:,.0f}đ** + Miễn phí giao hàng tận nơi.",
+                f"Giảm sâu chỉ còn **{price_vnd:,.0f}đ** cho 50 suất đăng ký đầu tiên hôm nay.",
+            ]
+            ctas = [
+                "Inbox ngay hoặc để lại bình luận [TƯ VẤN] để nhận ưu đãi!",
+                "Nhắn tin Zalo/Fanpage ngay để được kiểm tra hàng trước khi thanh toán!",
+                "Bấm vào link bên dưới hoặc comment SĐT để giữ suất bảo hành 1 đổi 1 trong 12 tháng!",
+                "Chấm (.) ngay dưới bài viết để đội ngũ chuyên viên gửi bảng giá chi tiết nhé!",
+                "Đặt mua ngay hôm nay để nhận kèm bộ quà tặng chăm sóc sức khỏe!",
+            ]
 
         spintax_template = (
             "{" + "|".join(hooks) + "}\n\n"
@@ -330,55 +461,84 @@ class DesignStudioAgent:
         product_name: str,
         price_vnd: float,
         usp_highlights: list[str],
-        watermark_text: str = "AI PRO OFFICIAL STUDIO",
+        watermark_text: str = "CÔNG TY TNHH CÔNG NGHỆ VÀ TRÍ TUỆ NHÂN TẠO EYC • EYC.ASIA",
     ) -> dict[str, Any]:
-        """Renders a 1080x1080 commercial e-commerce banner and exports optimized WebP."""
+        """Renders a 1080x1080 architectural EYC brand visual card (.webp) strictly using eyc.asia tokens."""
         width, height = 1080, 1080
-        img = Image.new("RGB", (width, height), "#0F172A")
+        img = Image.new("RGB", (width, height), "#07080B")
         draw = ImageDraw.Draw(img)
 
-        # Gradient background bands
+        # Subtle architectural dark gradient (#07080B -> #0E1017)
         for y in range(height):
-            r = int(15 + (y / height) * 20)
-            g = int(23 + (y / height) * 35)
-            b = int(42 + (y / height) * 65)
+            r = int(7 + (y / height) * 7)
+            g = int(8 + (y / height) * 8)
+            b = int(11 + (y / height) * 12)
             draw.line([(0, y), (width, y)], fill=(r, g, b))
 
-        # Top badge
-        draw.rounded_rectangle([(60, 50), (540, 125)], radius=20, fill="#F59E0B")
-        draw.text((90, 68), "CHÍNH HÃNG BẢO HÀNH 12 THÁNG", fill="#0F172A", font=self._load_font(26, bold=True))
+        # Top orange accent line
+        draw.rectangle([(0, 0), (width, 6)], fill="#FE5E02")
 
-        # Product Title
-        title_lines = textwrap.wrap(product_name.upper(), width=22)
+        # Composite official EYC logo if available
+        logo_path = ECOSYSTEM_ROOT / "virtual-office" / "static" / "eyc-brand" / "logo-eyc-light.png"
+        if logo_path.exists():
+            try:
+                logo_img = Image.open(str(logo_path)).convert("RGBA")
+                target_h = 54
+                target_w = int(logo_img.width * (target_h / max(1, logo_img.height)))
+                logo_resized = logo_img.resize((target_w, target_h))
+                img.paste(logo_resized, (60, 48), logo_resized)
+            except Exception:
+                draw.text((60, 52), "EYC — EVERYTHING YOU CONNECT", fill="#FE5E02", font=self._load_font(28, bold=True))
+        else:
+            draw.text((60, 52), "EYC — EVERYTHING YOU CONNECT", fill="#FE5E02", font=self._load_font(28, bold=True))
+
+        # Top-right index tag
+        draw.rounded_rectangle([(680, 48), (1020, 102)], radius=8, fill="#161922", outline="#FE5E02", width=2)
+        draw.text((705, 62), "01 / HỆ THỐNG AI EYC.ASIA", fill="#FFFFFF", font=self._load_font(22, bold=True))
+
+        # Hairline divider
+        draw.line([(60, 130), (1020, 130)], fill="#262B38", width=2)
+
+        # Product / Initiative Title
+        title_lines = textwrap.wrap(product_name.upper(), width=24)
         y_cursor = 165
         for line in title_lines[:2]:
-            draw.text((60, y_cursor), line, fill="#FFFFFF", font=self._load_font(56, bold=True))
-            y_cursor += 72
+            draw.text((60, y_cursor), line, fill="#FFFFFF", font=self._load_font(48, bold=True))
+            y_cursor += 64
 
-        # Center Visual Card & USP List
-        draw.rounded_rectangle([(60, 340), (1020, 760)], radius=32, fill="#1E293B", outline="#38BDF8", width=4)
-        y_usp = 385
-        for usp in usp_highlights[:3]:
-            wrapped = textwrap.wrap(f"✓ {usp}", width=36)
-            for wline in wrapped:
-                draw.text((100, y_usp), wline, fill="#E2E8F0", font=self._load_font(36, bold=False))
-                y_usp += 52
-            y_usp += 18
+        # Center Architecture Card (#0E1017 with #262B38 border & #FE5E02 left bar)
+        draw.rounded_rectangle([(60, 320), (1020, 770)], radius=16, fill="#0E1017", outline="#262B38", width=2)
+        draw.rectangle([(60, 320), (68, 770)], fill="#FE5E02")
 
-        # Price Callout Box
-        draw.rounded_rectangle([(60, 800), (1020, 960)], radius=28, fill="#DC2626")
+        y_usp = 365
+        for idx_u, usp in enumerate(usp_highlights[:3], start=1):
+            draw.text((100, y_usp), f"0{idx_u}", fill="#FE5E02", font=self._load_font(30, bold=True))
+            wrapped = textwrap.wrap(usp, width=34)
+            for wline in wrapped[:2]:
+                draw.text((165, y_usp), wline, fill="#F8FAFC", font=self._load_font(32, bold=False))
+                y_usp += 46
+            y_usp += 28
+
+        # Bottom Executive Callout Box (#161922 with #FE5E02 border)
+        draw.rounded_rectangle([(60, 810), (1020, 950)], radius=14, fill="#161922", outline="#FE5E02", width=2)
         draw.text(
-            (100, 845),
-            f"ƯU ĐÃI CHỈ: {price_vnd:,.0f} VNĐ (FREESHIP)",
-            fill="#FEF08A",
-            font=self._load_font(46, bold=True),
+            (95, 838),
+            "HỆ THỐNG DO CON NGƯỜI DẪN DẮT. AI PHỐI HỢP THỰC THI.",
+            fill="#FE5E02",
+            font=self._load_font(26, bold=True),
+        )
+        draw.text(
+            (95, 885),
+            "Tầng 2, 68 Nguyễn Huệ, P. Sài Gòn, TP.HCM  |  https://eyc.asia",
+            fill="#CBD5E1",
+            font=self._load_font(26, bold=False),
         )
 
-        # Watermark
-        draw.text((60, 1005), f"© {watermark_text}", fill="#94A3B8", font=self._load_font(24, bold=False))
+        # Footer legal line
+        draw.text((60, 995), f"© {watermark_text} • MST: 0319723892", fill="#94A3B8", font=self._load_font(22, bold=False))
 
         file_path = self.output_dir / f"studio_{_slugify(product_name)}.webp"
-        img.save(str(file_path), format="WEBP", quality=90)
+        img.save(str(file_path), format="WEBP", quality=92)
         return {
             "file_path": str(file_path),
             "resolution": "1080x1080",
@@ -391,53 +551,74 @@ class DesignStudioAgent:
         product_name: str,
         scenes: list[dict[str, Any]],
     ) -> list[str]:
-        """Renders 1080x1920 (9:16) vertical video frames with burned-in Kaizen Yellow-on-Black subtitles."""
+        """Renders 1080x1920 (9:16) vertical video frames strictly in EYC's #07080B + #FE5E02 design system."""
         width, height = 1080, 1920
         frame_paths: list[str] = []
+        logo_path = ECOSYSTEM_ROOT / "virtual-office" / "static" / "eyc-brand" / "logo-eyc-light.png"
 
         for scene in scenes:
             idx = scene["scene_index"]
-            img = Image.new("RGB", (width, height), "#090D16")
+            img = Image.new("RGB", (width, height), "#07080B")
             draw = ImageDraw.Draw(img)
 
-            # Dynamic background gradient
+            # Subtle dark gradient (#07080B -> #0E1017)
             for y in range(height):
-                r = int(12 + (y / height) * 28)
-                g = int(18 + (y / height) * 42)
-                b = int(38 + (y / height) * 75)
+                r = int(7 + (y / height) * 7)
+                g = int(8 + (y / height) * 8)
+                b = int(11 + (y / height) * 12)
                 draw.line([(0, y), (width, y)], fill=(r, g, b))
 
-            accent = scene.get("accent_color", "#F59E0B")
-            # Top Hook Banner
-            draw.rounded_rectangle([(60, 120), (1020, 230)], radius=24, fill=accent)
-            draw.text(
-                (100, 150),
-                product_name.upper()[:32],
-                fill="#090D16",
-                font=self._load_font(42, bold=True),
-            )
+            # Top #FE5E02 accent bar
+            draw.rectangle([(0, 0), (width, 8)], fill="#FE5E02")
 
-            # Center Headline Card
-            draw.rounded_rectangle([(60, 340), (1020, 1120)], radius=40, fill="#1E293B", outline=accent, width=6)
-            headline_lines = textwrap.wrap(scene["visual_headline"], width=16)
-            hy = 460
+            # Official EYC Logo top-left
+            if logo_path.exists():
+                try:
+                    logo_img = Image.open(str(logo_path)).convert("RGBA")
+                    target_h = 60
+                    target_w = int(logo_img.width * (target_h / max(1, logo_img.height)))
+                    logo_resized = logo_img.resize((target_w, target_h))
+                    img.paste(logo_resized, (60, 80), logo_resized)
+                except Exception:
+                    draw.text((60, 85), "EYC.ASIA", fill="#FE5E02", font=self._load_font(36, bold=True))
+            else:
+                draw.text((60, 85), "EYC.ASIA", fill="#FE5E02", font=self._load_font(36, bold=True))
+
+            draw.rounded_rectangle([(720, 80), (1020, 140)], radius=10, fill="#161922", outline="#FE5E02", width=2)
+            draw.text((750, 96), f"SCENE 0{idx} / 04", fill="#FFFFFF", font=self._load_font(26, bold=True))
+
+            # Center Architectural Headline Card
+            draw.rounded_rectangle([(60, 260), (1020, 1120)], radius=20, fill="#0E1017", outline="#262B38", width=3)
+            draw.rectangle([(60, 260), (70, 1120)], fill="#FE5E02")
+
+            draw.text((110, 320), product_name.upper()[:34], fill="#FE5E02", font=self._load_font(32, bold=True))
+
+            headline_lines = textwrap.wrap(scene["visual_headline"], width=18)
+            hy = 410
             for hline in headline_lines[:3]:
-                draw.text((110, hy), hline, fill="#FFFFFF", font=self._load_font(68, bold=True))
-                hy += 92
+                draw.text((110, hy), hline, fill="#FFFFFF", font=self._load_font(60, bold=True))
+                hy += 84
 
-            sub_lines = textwrap.wrap(scene["visual_subtext"], width=26)
-            hy += 40
-            for sline in sub_lines[:3]:
-                draw.text((110, hy), sline, fill="#38BDF8", font=self._load_font(44, bold=False))
-                hy += 64
+            sub_lines = textwrap.wrap(scene["visual_subtext"], width=28)
+            hy += 36
+            for sline in sub_lines[:4]:
+                draw.text((110, hy), sline, fill="#CBD5E1", font=self._load_font(40, bold=False))
+                hy += 58
 
-            # Kaizen Rule: Bold Yellow Subtitle on Dark Box in Lower Third (1220..1620)
-            draw.rounded_rectangle([(50, 1240), (1030, 1640)], radius=30, fill="#000000", outline="#FACC15", width=5)
-            sub_wrapped = textwrap.wrap(scene["subtitle_text"], width=22)
-            sy = 1310
+            # Lower-Third Subtitle Box (#161922 with #FE5E02 border & crisp white text)
+            draw.rounded_rectangle([(60, 1220), (1020, 1660)], radius=18, fill="#161922", outline="#FE5E02", width=3)
+            sub_wrapped = textwrap.wrap(scene["subtitle_text"], width=24)
+            sy = 1290
             for kline in sub_wrapped[:4]:
-                draw.text((95, sy), kline, fill="#FACC15", font=self._load_font(50, bold=True))
-                sy += 72
+                draw.text((100, sy), kline, fill="#FFFFFF", font=self._load_font(44, bold=True))
+                sy += 66
+
+            draw.text(
+                (60, 1760),
+                "CÔNG TY TNHH CÔNG NGHỆ VÀ TRÍ TUỆ NHÂN TẠO EYC  •  HTTPS://EYC.ASIA",
+                fill="#94A3B8",
+                font=self._load_font(24, bold=False),
+            )
 
             frame_file = self.output_dir / f"frame_{_slugify(product_name)}_s{idx}.png"
             img.save(str(frame_file), format="PNG")
@@ -675,6 +856,7 @@ class CreativeVideoStudioDivision:
         usp_highlights: list[str],
         target_persona: str,
         spintax_count: int = 200,
+        watermark_text: str = "CÔNG TY TNHH CÔNG NGHỆ VÀ TRÍ TUỆ NHÂN TẠO EYC • EYC.ASIA",
     ) -> dict[str, Any]:
         # 1. Copywriter (#4) drafts 4-scene script & 200x Spintax variations
         script_draft = self.copywriter.create_short_video_script(
@@ -702,6 +884,7 @@ class CreativeVideoStudioDivision:
             product_name=product_name,
             price_vnd=price_vnd,
             usp_highlights=usp_highlights,
+            watermark_text=watermark_text,
         )
         frame_paths = self.designer.render_vertical_scene_frames(
             product_name=product_name,
@@ -770,10 +953,12 @@ class CreativeVideoStudioDivision:
             "campaign_id": campaign_id,
             "product_name": product_name,
             "creative_approval": approval,
+            "script_scenes": script_draft["scenes"],
             "openmontage_qa_report": openmontage_qa,
             "spintax_summary": {
                 "total_unique_generated": spintax_bundle["total_unique_generated"],
                 "sample_variation_1": spintax_bundle["sample_variations"][0],
+                "sample_variations": spintax_bundle["sample_variations"],
             },
             "studio_banner_webp": studio_banner,
             "voiceover_audio": voiceover,

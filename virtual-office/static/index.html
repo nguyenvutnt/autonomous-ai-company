@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EYC – Everything You Connect | Hệ Thống Điều Phối & Phỏng Vấn 16 Phòng Ban AI (eyc.asia)</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>EYC | Hệ Thống Điều Hành Doanh Nghiệp AI & Trung Tâm Nghiệm Thu Sản Phẩm</title>
+  <link rel="icon" href="/static/eyc-brand/favicon.ico" sizes="any" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
       --bg: #07080B;
@@ -15,993 +15,1831 @@
       --bg-3: #161922;
       --orange: #FE5E02;
       --orange-dark: #FF7526;
-      --orange-tint: rgba(254, 94, 2, 0.14);
-      --border: rgba(255, 255, 255, 0.09);
-      --border-strong: rgba(255, 255, 255, 0.18);
+      --orange-tint: rgba(254, 94, 2, 0.12);
+      --border: rgba(255, 255, 255, 0.10);
+      --border-2: rgba(255, 255, 255, 0.18);
+      --ink: #FFFFFF;
+      --ink-2: #CBD5E1;
+      --mut: #94A3B8;
+      --font: "Be Vietnam Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     }
+
+    html.theme-light {
+      --bg: #F6F4EF;
+      --bg-2: #FFFFFF;
+      --bg-3: #EFECE6;
+      --border: rgba(10, 12, 16, 0.10);
+      --border-2: rgba(10, 12, 16, 0.20);
+      --ink: #0A0C10;
+      --ink-2: #334155;
+      --mut: #64748B;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: var(--bg);
-      color: #F8FAFC;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: 13.5px;
+      line-height: 1.55;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
       -webkit-font-smoothing: antialiased;
     }
-    .mono {
-      font-family: 'IBM Plex Mono', monospace;
+
+    a {
+      color: inherit;
+      text-decoration: none;
     }
-    .eyc-card {
-      background-color: var(--bg-2);
-      border: 1px solid var(--border);
-      border-radius: 14px;
+
+    /* TOPBAR — 100% AUTHENTIC EYC.ASIA HEADER */
+    .topbar {
+      height: 62px;
+      background: var(--bg-2);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      flex-shrink: 0;
+      gap: 16px;
     }
-    .eyc-card-elevated {
-      background-color: var(--bg-3);
-      border: 1px solid var(--border-strong);
-      border-radius: 12px;
+
+    .brand-lockup {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      min-width: 0;
     }
-    .eyc-btn-primary {
-      background-color: var(--orange);
-      color: #07080B;
+
+    .eyc-logo-link {
+      display: inline-flex;
+      align-items: center;
+      color: var(--ink);
+      flex-shrink: 0;
+    }
+
+    .header__logo-svg {
+      display: block;
+      height: 34px;
+      width: auto;
+      color: var(--ink);
+    }
+
+    .brand-divider {
+      width: 1px;
+      height: 26px;
+      background: var(--border-2);
+      flex-shrink: 0;
+    }
+
+    .brand-meta {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .brand-legal {
+      font-size: 12px;
       font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .brand-sub {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      color: var(--mut);
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    /* 6-STEP EYC OPERATING PIPELINE BAR */
+    .eyc-pipeline {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--bg);
+      padding: 4px 6px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .eyc-step {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 9px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--mut);
+      border: 1px solid transparent;
       transition: all 0.2s ease;
+      white-space: nowrap;
     }
-    .eyc-btn-primary:hover {
-      background-color: var(--orange-dark);
-      box-shadow: 0 0 20px rgba(254, 94, 2, 0.45);
-      transform: translateY(-1px);
-    }
-    .eyc-btn-secondary {
-      background-color: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-strong);
-      color: #F8FAFC;
+
+    .eyc-step .step-num {
+      font-family: var(--mono);
+      font-size: 10px;
       font-weight: 600;
-      transition: all 0.2s ease;
+      color: var(--orange);
     }
-    .eyc-btn-secondary:hover {
+
+    .eyc-step.active {
+      background: var(--orange-tint);
+      color: var(--ink);
       border-color: var(--orange);
-      color: #FFFFFF;
+      font-weight: 600;
     }
-    .office-blueprint {
-      background-color: #090B10;
-      background-image:
-        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-      background-size: 36px 36px;
+
+    .eyc-step.done {
+      color: var(--ink-2);
+      border-color: var(--border);
     }
-    ::-webkit-scrollbar { width: 5px; height: 5px; }
-    ::-webkit-scrollbar-track { background: #07080B; }
-    ::-webkit-scrollbar-thumb { background: #262B38; border-radius: 3px; }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .stat-chip {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--ink-2);
+      white-space: nowrap;
+    }
+
+    .stat-chip strong {
+      color: var(--orange);
+      font-weight: 600;
+    }
+
+    .btn {
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 7px 13px;
+      border-radius: 7px;
+      border: 1px solid var(--border-2);
+      background: var(--bg-3);
+      color: var(--ink);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+    }
+
+    .btn-primary {
+      background: var(--orange);
+      color: #07080B;
+      border-color: var(--orange);
+      font-weight: 700;
+    }
+
+    .btn-primary:hover {
+      background: var(--orange-dark);
+      border-color: var(--orange-dark);
+      color: #07080B;
+    }
+
+    /* LIVE EXECUTION STATUS BAR */
+    .execution-ribbon {
+      height: 34px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11.5px;
+      flex-shrink: 0;
+    }
+
+    .exec-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--mut);
+      flex-shrink: 0;
+    }
+
+    .status-dot.running {
+      background: var(--orange);
+      box-shadow: 0 0 10px var(--orange);
+    }
+
+    .exec-label {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      color: var(--orange);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      flex-shrink: 0;
+    }
+
+    .exec-text {
+      color: var(--ink-2);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* 4-COLUMN ENTERPRISE WORKBENCH */
+    .workbench {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 265px minmax(380px, 1fr) 430px 330px;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .col-pane {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      border-right: 1px solid var(--border);
+      background: var(--bg-2);
+    }
+
+    .col-pane:last-child {
+      border-right: none;
+    }
+
+    .col-pane.center-bg {
+      background: var(--bg);
+    }
+
+    .pane-head {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-shrink: 0;
+      background: var(--bg-2);
+    }
+
+    .pane-index {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mut);
+    }
+
+    .pane-index span {
+      color: var(--orange);
+    }
+
+    .pane-count {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      color: var(--ink-2);
+      padding: 2px 7px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+    }
+
+    /* COLUMN 1: 16 DEPARTMENTS ROSTER */
+    .roster-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 10px 20px;
+    }
+
+    .group-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--mut);
+      padding: 12px 6px 5px;
+    }
+
+    .dept-row {
+      padding: 9px 10px;
+      border-radius: 7px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin-bottom: 3px;
+      transition: all 0.15s ease;
+    }
+
+    .dept-row:hover {
+      background: var(--bg-3);
+      border-color: var(--border);
+    }
+
+    .dept-row.selected {
+      background: var(--orange-tint);
+      border-color: var(--orange);
+    }
+
+    .dept-num {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--orange);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      width: 26px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .dept-row.selected .dept-num {
+      background: var(--orange);
+      color: #07080B;
+      border-color: var(--orange);
+    }
+
+    .dept-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .dept-title {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .dept-sub {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--mut);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 2px;
+    }
+
+    .state-tag {
+      font-family: var(--mono);
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 1px 5px;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+      color: var(--mut);
+    }
+
+    .state-tag.pending {
+      border-color: var(--orange);
+      color: var(--orange);
+    }
+
+    .state-tag.done {
+      border-color: var(--border-2);
+      color: var(--ink);
+    }
+
+    /* COLUMN 2: 1-ON-1 INTERVIEW & TASK STUDIO */
+    .dept-banner {
+      padding: 14px 18px;
+      background: var(--bg-2);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .dept-banner-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .dept-banner-name {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    .dept-banner-role {
+      font-size: 12px;
+      color: var(--ink-2);
+      margin-top: 2px;
+    }
+
+    .weapon-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 6px;
+    }
+
+    .weapon-pill {
+      font-family: var(--mono);
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--mut);
+    }
+
+    .mode-switcher {
+      display: flex;
+      gap: 6px;
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+    }
+
+    .mode-btn {
+      flex: 1;
+      padding: 7px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--mut);
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s ease;
+    }
+
+    .mode-btn.active {
+      background: var(--orange);
+      color: #07080B;
+      border-color: var(--orange);
+      font-weight: 700;
+    }
+
+    .conversation-stream {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .msg-card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 13px 15px;
+    }
+
+    .msg-card.director {
+      border-left: 3px solid var(--orange);
+    }
+
+    .msg-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--mut);
+      margin-bottom: 6px;
+    }
+
+    .msg-head strong {
+      color: var(--ink);
+    }
+
+    .msg-text {
+      font-size: 13px;
+      color: var(--ink-2);
+      white-space: pre-wrap;
+      line-height: 1.6;
+    }
+
+    .composer-dock {
+      padding: 14px 18px;
+      background: var(--bg-2);
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .preset-strip {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 8px;
+    }
+
+    .preset-btn {
+      font-size: 11px;
+      padding: 4px 9px;
+      border-radius: 5px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--ink-2);
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .preset-btn:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+    }
+
+    .field-input, .field-textarea, .field-select {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border-2);
+      border-radius: 7px;
+      padding: 8px 11px;
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: 12.5px;
+      outline: none;
+    }
+
+    .field-input:focus, .field-textarea:focus, .field-select:focus {
+      border-color: var(--orange);
+    }
+
+    .field-textarea {
+      resize: vertical;
+      min-height: 62px;
+      line-height: 1.5;
+    }
+
+    .form-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 160px;
+      gap: 8px;
+    }
+
+    /* COLUMN 3: KHO SẢN PHẨM & TRUNG TÂM NGHIỆM THU (ALL DELIVERABLES HUB) */
+    .filter-tabs {
+      display: flex;
+      gap: 4px;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+
+    .filter-tab {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 5px 9px;
+      border-radius: 5px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--mut);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .filter-tab.active {
+      background: var(--orange-tint);
+      color: var(--orange);
+      border-color: var(--orange);
+    }
+
+    .deliverables-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .product-card {
+      background: var(--bg);
+      border: 1px solid var(--border-2);
+      border-radius: 9px;
+      padding: 13px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      transition: border-color 0.15s ease;
+    }
+
+    .product-card:hover {
+      border-color: var(--orange);
+    }
+
+    .product-card.pending-review {
+      border-left: 3px solid var(--orange);
+    }
+
+    .product-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .product-dept {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--orange);
+      text-transform: uppercase;
+    }
+
+    .product-id {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--mut);
+    }
+
+    .product-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.35;
+    }
+
+    .product-summary {
+      font-size: 12px;
+      color: var(--ink-2);
+      line-height: 1.5;
+    }
+
+    /* CLICKABLE PRODUCT LINKS BOX */
+    .product-links-box {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 9px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .links-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .link-btn {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 5px 9px;
+      border-radius: 5px;
+      border: 1px solid var(--border-2);
+      background: var(--bg-3);
+      color: var(--ink);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      text-decoration: none;
+    }
+
+    .link-btn:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+    }
+
+    .link-btn.primary-link {
+      background: var(--orange);
+      color: #07080B;
+      border-color: var(--orange);
+      font-weight: 700;
+    }
+
+    .link-btn.primary-link:hover {
+      background: var(--orange-dark);
+      color: #07080B;
+    }
+
+    .inline-media-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .inline-thumb {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #050608;
+    }
+
+    .approval-actions-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      padding-top: 6px;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    /* COLUMN 4: SYSTEM PROMPT & KAIZEN CONFIG */
+    .config-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .cfg-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .cfg-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--orange);
+    }
+
+    .prompt-editor {
+      width: 100%;
+      min-height: 135px;
+      background: var(--bg-2);
+      border: 1px solid var(--border-2);
+      border-radius: 6px;
+      padding: 9px;
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: 11.5px;
+      line-height: 1.5;
+      resize: vertical;
+      outline: none;
+    }
+
+    .prompt-editor:focus {
+      border-color: var(--orange);
+    }
+
+    .kaizen-item {
+      padding: 8px 10px;
+      border-radius: 6px;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-left: 2px solid var(--orange);
+      font-size: 11.5px;
+      color: var(--ink-2);
+    }
+
+    /* FULL-SCREEN PRODUCT INSPECTOR MODAL */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(5, 6, 8, 0.86);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-window {
+      width: 100%;
+      max-width: 1180px;
+      height: 90vh;
+      background: var(--bg-2);
+      border: 1px solid var(--border-2);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.85);
+    }
+
+    .modal-top {
+      padding: 12px 20px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .modal-iframe {
+      flex: 1;
+      width: 100%;
+      border: none;
+      background: #07080B;
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.14);
+      border-radius: 3px;
+    }
   </style>
 </head>
-<body class="min-h-screen flex flex-col selection:bg-[#FE5E02] selection:text-black">
+<body>
 
-  <!-- TOP HEADER: OFFICIAL EYC BRANDING & 6-STEP OPERATING PIPELINE -->
-  <header class="sticky top-0 z-50 border-b border-white/10 bg-[#07080B]/95 backdrop-blur-md px-6 py-3.5">
-    <div class="max-w-[1760px] mx-auto flex flex-wrap items-center justify-between gap-4">
-
-      <!-- EYC Identity -->
-      <div class="flex items-center gap-4">
-        <a href="https://eyc.asia/vi-vn/" target="_blank" class="flex items-center gap-3 group">
-          <div class="px-3 py-1.5 rounded-lg bg-[#FE5E02] text-[#07080B] font-extrabold tracking-tighter text-lg mono">
-            EYC
-          </div>
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="font-bold text-sm tracking-tight text-white">EVERYTHING YOU CONNECT</span>
-              <span class="text-[11px] mono px-2 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">eyc.asia</span>
-            </div>
-            <p class="text-xs text-slate-400">Hệ thống do con người chỉ huy. AI Agents phối hợp thực thi. • GĐ: Phan Phúc Nguyên</p>
-          </div>
-        </a>
+  <!-- TOPBAR: OFFICIAL EYC.ASIA LOGO & 6-STEP OPERATING MODEL -->
+  <header class="topbar">
+    <div class="brand-lockup">
+      <a class="eyc-logo-link" href="https://eyc.asia/vi-vn/" target="_blank" rel="noopener" title="EYC – Everything You Connect (https://eyc.asia)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 606.0 182.2" fill="none" class="header__logo-svg" width="122" height="36" role="img" aria-label="EYC - Everything You Connect">
+          <defs>
+            <linearGradient id="eycOrangeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#FF7A1A"/>
+              <stop offset="45%" stop-color="#FF5500"/>
+              <stop offset="100%" stop-color="#FF6A00"/>
+            </linearGradient>
+          </defs>
+          <g class="logo-mark">
+            <path fill="url(#eycOrangeGrad)" d="M94,4 93,4 93,52 93,57 93,61 92,72 92,75 91,78 91,79 90,86 89,86 89,88 88,89 88,94 85,101 84,102 84,103 83,105 83,106 82,108 82,109 81,111 80,113 79,114 79,116 78,118 77,118 76,122 74,124 72,129 69,133 69,134 63,143 58,150 56,152 49,160 38,171 33,176 31,178 32,178 62,178 67,172 71,165 76,157 84,140 84,139 86,136 86,134 88,130 88,129 89,128 91,120 92,118 92,117 94,112 94,111 95,109 95,107 96,106 96,104 97,102 97,100 98,98 98,95 99,94 99,92 100,90 100,87 101,85 102,81 102,80 102,77 103,75 103,73 103,72 104,72 104,73 104,74 104,75 105,76 106,81 107,88 108,90 108,92 108,94 109,96 110,100 110,103 111,105 112,107 112,108 112,110 113,113 114,116 115,118 115,119 115,120 116,124 117,125 117,126 118,128 120,132 120,133 120,135 123,140 123,141 124,143 124,144 126,147 126,148 128,151 128,152 131,158 132,158 132,159 133,160 136,166 140,172 143,176 145,178 175,178 176,178 175,177 169,172 162,165 155,157 152,153 151,152 149,150 149,149 144,143 137,132 134,126 133,124 132,122 130,119 129,118 127,114 122,102 122,100 122,99 121,97 120,96 120,95 118,87 116,77 116,74 115,70 115,64 114,41 114,6 114,4Z" />
+            <path fill="currentColor" fill-rule="evenodd" d="M84,48 83,49 82,50 82,51 81,52 80,54 78,56 76,59 69,66 62,71 59,73 58,74 57,74 54,76 53,77 44,81 43,81 42,81 41,82 39,83 37,83 36,84 28,86 27,86 25,87 23,87 21,88 20,88 18,89 17,90 17,92 17,96 17,108 17,109 17,110 18,110 19,110 20,110 22,109 24,108 26,107 27,107 28,106 29,106 30,106 31,105 36,102 37,102 38,101 39,101 45,97 46,97 46,96 48,95 52,92 60,85 66,80 68,77 74,69 74,68 76,66 76,65 78,64 78,61 79,61 80,60 80,59 80,58 82,54 82,53 84,51 84,49Z" />
+            <path fill="currentColor" fill-rule="evenodd" d="M124,47 124,48 124,49 124,50 125,51 125,53 126,54 127,57 128,58 128,59 129,60 129,61 130,62 130,63 134,68 134,69 135,70 136,72 138,74 139,75 140,76 141,78 143,80 150,87 157,93 158,93 160,95 166,99 168,100 169,101 170,101 171,102 177,105 181,107 185,108 186,109 188,110 190,110 190,109 190,90 190,89 188,88 186,88 184,87 182,87 181,86 179,86 177,85 176,85 175,84 172,84 171,83 169,83 167,82 166,82 164,81 163,80 160,79 158,78 154,76 152,75 151,74 150,73 146,71 144,69 143,68 138,64 134,61 129,55 128,53 127,52 126,51 125,49 124,48Z" />
+            <path fill="currentColor" fill-rule="evenodd" d="M90,47 89,48 89,50 88,51 87,56 86,57 86,59 85,60 84,65 82,68 82,69 81,71 81,72 79,76 78,77 78,78 76,81 75,82 75,83 74,84 70,90 66,96 60,103 52,111 51,112 49,113 42,119 38,122 32,125 31,126 21,131 20,132 16,133 13,134 12,134 10,135 5,137 4,137 4,138 4,161 4,162 5,162 6,162 7,161 9,161 10,160 12,160 13,159 15,159 18,157 29,151 37,146 38,145 39,145 41,143 43,142 44,141 52,134 58,127 66,118 71,111 76,103 79,96 79,95 80,94 81,91 82,89 82,88 83,86 83,85 84,84 84,82 85,80 85,78 86,78 86,76 86,73 87,72 87,70 88,68 88,66 89,62 89,55 90,49 90,48Z" />
+            <path fill="currentColor" fill-rule="evenodd" d="M118,46 118,49 118,54 118,55 118,56 119,57 119,59 120,63 120,66 121,73 122,76 122,78 123,80 124,82 124,83 124,84 128,93 132,102 133,105 136,109 137,112 140,116 141,117 141,118 147,124 156,134 162,140 163,140 166,142 170,146 178,151 179,152 180,152 189,156 190,157 192,158 194,159 195,159 196,160 198,160 199,161 200,161 202,162 203,162 204,161 204,142 204,138 204,137 202,137 200,136 199,136 198,135 194,134 187,131 184,129 180,128 175,125 174,124 172,123 170,121 167,120 166,119 162,116 154,109 149,104 144,99 138,90 134,86 134,85 132,81 130,77 127,72 126,69 124,65 123,63 122,61 120,55 119,49 118,46Z" />
+          </g>
+          <g class="logo-letters">
+            <path fill="currentColor" d="M240,28 239,29 238,30 238,131 239,133 240,134 241,134 276,134 332,134 333,134 334,133 334,132 335,129 334,121 335,117 334,115 334,114 333,113 331,112 275,112 268,112 266,112 264,111 264,110 264,101 264,92 265,91 266,91 328,91 330,90 331,88 331,72 330,70 328,69 266,69 264,68 264,66 264,51 266,49 324,49 327,49 328,49 330,48 332,46 334,42 335,38 337,31 337,30 336,28 335,28 334,28 242,28 241,28Z" />
+            <path fill="currentColor" d="M346,28 345,29 345,30 346,32 351,39 355,44 357,47 363,55 365,58 366,59 368,62 373,69 376,73 378,75 378,76 384,84 386,88 392,94 392,131 392,132 394,134 395,134 414,134 416,134 417,132 418,131 418,125 418,106 418,97 418,94 422,88 426,84 427,82 430,78 431,78 431,77 432,76 434,74 434,73 436,71 440,66 447,58 448,56 454,48 458,43 462,38 465,34 467,32 468,30 468,29 467,28 466,28 442,28 440,28 439,29 437,30 437,31 432,38 431,40 428,43 423,50 422,51 420,54 418,56 418,57 416,59 414,62 410,68 409,69 409,70 407,72 406,73 406,72 405,71 401,66 396,58 393,55 391,52 389,50 389,49 388,48 379,34 377,33 376,30 374,28 372,28 368,28 347,28Z" />
+            <path fill="currentColor" d="M516,25 511,26 508,26 507,27 506,27 503,28 502,28 501,29 499,29 498,30 496,30 492,32 486,36 482,39 477,44 474,48 470,53 468,57 468,58 466,62 466,63 465,65 464,69 464,72 463,74 463,77 463,86 463,89 464,92 464,94 464,95 465,96 465,98 466,99 466,101 467,102 467,103 469,108 470,108 470,109 471,110 473,114 477,118 480,121 485,125 489,128 493,130 500,133 502,134 504,134 506,135 509,136 518,137 526,137 532,136 535,136 539,134 540,134 542,134 544,133 546,132 550,130 555,128 560,124 563,122 568,116 573,110 575,105 578,100 578,99 579,97 578,96 577,95 566,95 565,95 561,95 553,95 552,95 550,96 547,102 544,105 540,108 537,110 534,111 532,112 530,112 527,113 522,113 516,113 514,112 512,112 510,111 509,111 506,110 503,108 502,107 501,106 498,103 493,97 493,96 492,95 492,94 491,92 490,90 489,83 489,78 490,75 490,73 491,71 492,69 492,67 495,62 496,60 499,58 502,55 506,52 508,51 509,50 510,50 512,50 517,48 519,48 526,48 529,49 531,50 532,50 537,51 538,52 540,53 541,54 543,56 547,59 549,62 551,64 552,64 577,64 578,64 578,62 578,61 577,58 574,53 568,44 566,41 562,38 557,34 556,34 556,33 552,32 547,29 546,29 545,28 540,27 538,26 527,25Z" />
+          </g>
+        </svg>
+      </a>
+      <div class="brand-divider"></div>
+      <div class="brand-meta">
+        <div class="brand-legal">CÔNG TY TNHH CÔNG NGHỆ VÀ TRÍ TUỆ NHÂN TẠO EYC</div>
+        <div class="brand-sub">GIÁM ĐỐC: PHAN PHÚC NGUYÊN • MST: 0319723892 • DUNS: 321425016</div>
       </div>
+    </div>
 
-      <!-- EYC 6-Step Operating Model Live Indicator -->
-      <div class="hidden 2xl:flex items-center gap-1.5 bg-[#0E1017] border border-white/10 rounded-xl px-3 py-1.5" id="eyc-6steps-bar">
-        <div id="step-pill-1" class="px-2.5 py-1 rounded-lg text-[11px] font-medium text-slate-400">01. Định hướng</div>
-        <span class="text-slate-600">→</span>
-        <div id="step-pill-2" class="px-2.5 py-1 rounded-lg text-[11px] font-medium text-slate-400">02. Ngữ cảnh</div>
-        <span class="text-slate-600">→</span>
-        <div id="step-pill-3" class="px-2.5 py-1 rounded-lg text-[11px] font-medium text-slate-400">03. Agents</div>
-        <span class="text-slate-600">→</span>
-        <div id="step-pill-4" class="px-2.5 py-1 rounded-lg text-[11px] font-medium text-slate-400">04. Hành động</div>
-        <span class="text-slate-600">→</span>
-        <div id="step-pill-5" class="px-2.5 py-1 rounded-lg text-[11px] font-medium text-slate-400">05. Kiểm tra</div>
-        <span class="text-slate-600">→</span>
-        <div id="step-pill-6" class="px-2.5 py-1 rounded-lg text-[11px] font-medium text-slate-400">06. Kết quả</div>
-      </div>
+    <!-- 6-STEP EYC OPERATING PIPELINE -->
+    <div class="eyc-pipeline" id="eycPipelineBar">
+      <div class="eyc-step" data-step="1"><span class="step-num">01</span> Định hướng</div>
+      <div class="eyc-step" data-step="2"><span class="step-num">02</span> Ngữ cảnh</div>
+      <div class="eyc-step" data-step="3"><span class="step-num">03</span> Agents</div>
+      <div class="eyc-step" data-step="4"><span class="step-num">04</span> Hành động</div>
+      <div class="eyc-step" data-step="5"><span class="step-num">05</span> Kiểm tra</div>
+      <div class="eyc-step" data-step="6"><span class="step-num">06</span> Kết quả</div>
+    </div>
 
-      <!-- Navigation Views & Clean Reset -->
-      <div class="flex items-center gap-2">
-        <div class="flex items-center bg-[#0E1017] p-1 rounded-xl border border-white/10">
-          <button onclick="switchMainView('studio')" id="view-btn-studio" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[#FE5E02] text-[#07080B]">
-            1. Phỏng Vấn & Giao Việc 1-1
-          </button>
-          <button onclick="switchMainView('map')" id="view-btn-map" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white">
-            2. Sơ Đồ 16 Phòng Ban
-          </button>
-          <button onclick="switchMainView('vault')" id="view-btn-vault" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white">
-            3. Kho Kết Quả & Bộ Não EYC
-          </button>
-        </div>
-        <button onclick="resetCleanEYC()" title="Xóa toàn bộ lịch sử test để làm lại từ đầu" class="px-3 py-2 rounded-xl eyc-btn-secondary text-xs">
-          Làm Mới Sạch
-        </button>
-      </div>
-
+    <div class="top-actions">
+      <div class="stat-chip">SẢN PHẨM: <strong id="totalProductsCount">0</strong></div>
+      <div class="stat-chip">CHỜ DUYỆT: <strong id="pendingReviewCount">0</strong></div>
+      <div class="stat-chip">KAIZEN: <strong id="totalKaizenCount">0</strong></div>
+      <button class="btn" onclick="toggleTheme()" id="themeBtn">NỀN SÁNG</button>
+      <button class="btn" onclick="resetCleanEYC()">XÓA TRẮNG DỮ LIỆU</button>
     </div>
   </header>
 
-  <!-- LIVE EXECUTION STATUS BAR (Only visible or highlighted when a task is running) -->
-  <div id="live-execution-strip" class="border-b border-white/10 bg-[#0E1017] px-6 py-2.5">
-    <div class="max-w-[1760px] mx-auto flex flex-wrap items-center justify-between gap-4">
-      <div class="flex items-center gap-3 min-w-0">
-        <span id="strip-dot" class="w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0"></span>
-        <span id="strip-status-text" class="text-xs text-slate-300 truncate">
-          Hệ thống EYC (eyc.asia) đã khởi tạo sạch 100%. Chọn từng nhân sự bên trái để phỏng vấn, chỉnh System Prompt và giao task thực tế.
-        </span>
-      </div>
-      <div class="flex items-center gap-3 shrink-0">
-        <div class="w-44 h-1.5 bg-white/10 rounded-full overflow-hidden">
-          <div id="strip-progress-bar" class="h-full bg-[#FE5E02] transition-all duration-300" style="width: 0%;"></div>
-        </div>
-        <span id="strip-pct" class="text-xs mono text-[#FE5E02] font-semibold">READY</span>
-      </div>
+  <!-- LIVE EXECUTION STATUS RIBBON -->
+  <div class="execution-ribbon">
+    <div class="exec-left">
+      <span class="status-dot" id="execDot"></span>
+      <span class="exec-label" id="execPercent">EYC SYSTEM // 100%</span>
+      <span class="exec-text" id="execStepText">Hệ thống EYC sẵn sàng vận hành. Chọn phòng ban để phỏng vấn hoặc giao nhiệm vụ thực tế.</span>
+    </div>
+    <div style="font-family:var(--mono);font-size:10.5px;color:var(--mut);">
+      68 NGUYỄN HUỆ, P. SÀI GÒN, TP.HCM • HTTPS://EYC.ASIA
     </div>
   </div>
 
-  <!-- ========================================================================= -->
-  <!-- VIEW 1: 1-ON-1 INTERVIEW, TASK EXECUTION & PROMPT OPTIMIZATION STUDIO     -->
-  <!-- ========================================================================= -->
-  <main id="main-view-studio" class="max-w-[1760px] w-full mx-auto flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 p-6">
+  <!-- 4-COLUMN ENTERPRISE WORKBENCH -->
+  <main class="workbench">
 
-    <!-- LEFT COLUMN (3 COLS): 16 EYC DEPARTMENTS DIRECTORY -->
-    <aside class="lg:col-span-3 flex flex-col gap-4">
-      <div class="eyc-card p-4 flex flex-col h-[calc(100vh-175px)]">
-        <div class="flex items-center justify-between pb-3 mb-3 border-b border-white/10">
-          <div>
-            <div class="text-[11px] mono uppercase tracking-wider text-[#FE5E02]">DANH BẠ NHÂN SỰ AI</div>
-            <h2 class="text-sm font-bold text-white">16 Phòng Ban EYC (eyc.asia)</h2>
-          </div>
-          <span class="text-xs mono text-slate-400" id="sidebar-completed-counter">0/16 Đã test</span>
-        </div>
-
-        <!-- Department List Scrollable -->
-        <div id="dept-directory-list" class="flex-1 overflow-y-auto space-y-4 pr-1"></div>
+    <!-- COLUMN 1: 16 EYC DEPARTMENTS -->
+    <section class="col-pane">
+      <div class="pane-head">
+        <div class="pane-index"><span>01</span> / DANH BẠ 16 PHÒNG BAN</div>
+        <div class="pane-count">16 ĐƠN VỊ</div>
       </div>
-    </aside>
+      <div class="roster-scroll" id="deptRosterContainer"></div>
+    </section>
 
-    <!-- CENTER COLUMN (6 COLS): INTERVIEW & TASK EXECUTION WORKBENCH -->
-    <section class="lg:col-span-6 flex flex-col gap-4">
-      <div class="eyc-card flex flex-col h-[calc(100vh-175px)] overflow-hidden">
-
-        <!-- Selected Department Header -->
-        <div class="p-5 border-b border-white/10 bg-[#12151E] flex flex-wrap items-start justify-between gap-4">
-          <div class="flex items-start gap-3.5">
-            <div id="studio-dept-code" class="w-11 h-11 rounded-xl bg-[#FE5E02]/15 border border-[#FE5E02]/40 text-[#FE5E02] font-bold text-base mono flex items-center justify-center shrink-0">
-              01
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <span id="studio-dept-group" class="text-[11px] mono uppercase tracking-wider text-slate-400">Ban Điều Hành</span>
-                <span id="studio-dept-badge" class="px-2 py-0.5 rounded text-[10px] font-semibold bg-white/5 text-slate-300 border border-white/10">Sẵn sàng</span>
-              </div>
-              <h2 id="studio-dept-name" class="text-lg font-bold text-white mt-0.5">CEO & Chief of Staff</h2>
-              <p id="studio-dept-role" class="text-xs text-slate-300 mt-0.5"></p>
-            </div>
+    <!-- COLUMN 2: 1-ON-1 INTERVIEW & TASK EXECUTION -->
+    <section class="col-pane center-bg">
+      <div class="dept-banner">
+        <div class="dept-banner-top">
+          <div>
+            <div class="pane-index" id="activeDeptGroup"><span>02</span> / PHÒNG LÀM VIỆC TRỰC TIẾP</div>
+            <div class="dept-banner-name" id="activeDeptName">01 — Ban Giám Đốc Điều Hành AI</div>
+            <div class="dept-banner-role" id="activeDeptRole">Hoạch định chiến lược EYC, phân rã OKRs và điều phối 16 bộ phận AI</div>
+            <div class="weapon-list" id="activeDeptWeapons"></div>
           </div>
-
-          <div class="flex items-center gap-2">
-            <div class="text-right px-3 py-1.5 rounded-lg bg-black/40 border border-white/10">
-              <div class="text-[10px] text-slate-400 uppercase mono">Điểm KPI</div>
-              <div id="studio-dept-kpi" class="text-sm font-bold text-emerald-400 mono">100%</div>
-            </div>
-            <div class="text-right px-3 py-1.5 rounded-lg bg-black/40 border border-white/10">
-              <div class="text-[10px] text-slate-400 uppercase mono">Task Đã Chạy</div>
-              <div id="studio-dept-tasks" class="text-sm font-bold text-white mono">0</div>
-            </div>
+          <div style="text-align:right;flex-shrink:0;">
+            <div class="pane-count" id="activeDeptStats">KPI: 100% • 0 SẢN PHẨM</div>
           </div>
         </div>
 
-        <!-- Quick Suggested Prompts (Interview vs Real Task for EYC) -->
-        <div class="px-5 py-3 border-b border-white/10 bg-[#0B0D13] flex flex-wrap items-center gap-2">
-          <span class="text-[11px] mono text-slate-400 mr-1">Gợi ý nhanh:</span>
-          <button onclick="fillSuggestedInterview()" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-slate-200 transition">
-            💬 Phỏng vấn quy trình & năng lực tại EYC
-          </button>
-          <button onclick="fillSuggestedTask()" class="px-2.5 py-1 rounded-lg bg-[#FE5E02]/15 hover:bg-[#FE5E02]/25 border border-[#FE5E02]/30 text-xs text-[#FFA05C] font-medium transition">
-            🚀 Giao Task thực tế cho eyc.asia / Early Years Circle
-          </button>
+        <div class="mode-switcher">
+          <button class="mode-btn active" id="modeBtnTask" onclick="setMode('TASK')">01 / GIAO VIỆC & XUẤT SẢN PHẨM THỰC TẾ</button>
+          <button class="mode-btn" id="modeBtnInterview" onclick="setMode('INTERVIEW')">02 / PHỎNG VẤN NHÂN SỰ 1-1</button>
+        </div>
+      </div>
+
+      <div class="conversation-stream" id="conversationStream"></div>
+
+      <!-- COMPOSER DOCK -->
+      <div class="composer-dock">
+        <div class="preset-strip" id="presetStrip"></div>
+
+        <!-- TASK DELEGATION FORM -->
+        <div id="taskFormBox" class="form-grid">
+          <div class="form-row-2">
+            <input type="text" class="field-input" id="taskTitleInput" placeholder="Tên nhiệm vụ / Hạng mục sản phẩm cần xuất bản..." />
+            <select class="field-select" id="productLineSelect">
+              <option value="EYC – Everything You Connect (eyc.asia)">Hệ Sinh Thái EYC (eyc.asia)</option>
+              <option value="Early Years Circle – Nền Tảng Mầm Non Cloud (eyc.asia)">Early Years Circle (Mầm Non)</option>
+              <option value="EYC AI Agents & Enterprise Automation">EYC AI Agents & Tự Động Hóa</option>
+            </select>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <textarea class="field-textarea" id="taskInstructionsInput" placeholder="Nhập yêu cầu chi tiết của Giám đốc Phan Phúc Nguyên (hoặc bấm chọn mẫu nhiệm vụ phía trên)..."></textarea>
+            <button class="btn btn-primary" style="padding:0 18px;height:auto;" id="submitTaskBtn" onclick="submitTaskExecution()">THỰC THI &<br>XUẤT SẢN PHẨM</button>
+          </div>
         </div>
 
-        <!-- Conversation, Task Deliverables & Approval Stream -->
-        <div id="studio-history-stream" class="flex-1 overflow-y-auto p-5 space-y-4"></div>
-
-        <!-- Bottom Action Composer (Mode Toggle: Interview vs Execute Task) -->
-        <form onsubmit="submitStudioComposer(event)" class="p-4 border-t border-white/10 bg-[#12151E] space-y-3">
-          <div class="flex flex-wrap items-center justify-between gap-2">
-            <div class="flex items-center gap-2">
-              <button type="button" onclick="setComposerMode('INTERVIEW')" id="mode-btn-interview" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-[#07080B]">
-                💬 Chế độ 1: Phỏng Vấn Nhân Sự
-              </button>
-              <button type="button" onclick="setComposerMode('TASK')" id="mode-btn-task" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-white/5 text-slate-300 border border-white/10 hover:text-white">
-                🚀 Chế độ 2: Giao Việc & Chạy Thực Tế
-              </button>
-            </div>
-            <span id="composer-mode-hint" class="text-[11px] text-slate-400">
-              Hỏi trực tiếp nhân sự về quy trình làm việc, công cụ và giải pháp cho eyc.asia
-            </span>
-          </div>
-
-          <!-- Optional Task Title row (shown in TASK mode) -->
-          <div id="composer-task-meta" class="hidden grid grid-cols-1 md:grid-cols-3 gap-2.5">
-            <div class="md:col-span-2">
-              <input id="input-task-title" type="text" placeholder="Tiêu đề Task (VD: Kiểm toán SEO & cụm chủ đề cho eyc.asia)" class="w-full rounded-lg bg-[#07080B] border border-white/15 px-3 py-2 text-xs text-white focus:border-[#FE5E02] outline-none" />
-            </div>
-            <div>
-              <input id="input-product-name" type="text" value="EYC – Everything You Connect (eyc.asia)" class="w-full rounded-lg bg-[#07080B] border border-white/15 px-3 py-2 text-xs text-slate-300 focus:border-[#FE5E02] outline-none" />
-            </div>
-          </div>
-
-          <div class="flex gap-2.5">
-            <textarea id="input-director-message" rows="2" required placeholder="Nhập câu hỏi phỏng vấn hoặc chỉ đạo công việc cho bộ phận này..." class="flex-1 rounded-xl bg-[#07080B] border border-white/15 px-3.5 py-2.5 text-xs text-white focus:border-[#FE5E02] outline-none resize-none"></textarea>
-            <button type="submit" id="btn-studio-submit" class="px-5 rounded-xl eyc-btn-primary text-xs shrink-0 flex items-center gap-1.5">
-              <span id="btn-studio-submit-label">Gửi Câu Hỏi</span>
-            </button>
-          </div>
-        </form>
-
+        <!-- INTERVIEW FORM -->
+        <div id="interviewFormBox" style="display:none;gap:8px;">
+          <textarea class="field-textarea" id="interviewInput" placeholder="Nhập câu hỏi phỏng vấn trực tiếp cho Trưởng bộ phận này..." onkeydown="if(event.key==='Enter' && !event.shiftKey){event.preventDefault();submitInterview();}"></textarea>
+          <button class="btn btn-primary" style="padding:0 18px;height:auto;" onclick="submitInterview()">GỬI CÂU HỎI</button>
+        </div>
       </div>
     </section>
 
-    <!-- RIGHT COLUMN (3 COLS): LIVE SYSTEM PROMPT EDITOR & KAIZEN RULES -->
-    <aside class="lg:col-span-3 flex flex-col gap-4">
-      <div class="eyc-card p-5 flex flex-col h-[calc(100vh-175px)] overflow-y-auto space-y-5">
-
-        <div>
-          <div class="text-[11px] mono uppercase tracking-wider text-[#FE5E02]">CẤU HÌNH NHÂN SỰ & KAIZEN</div>
-          <h3 class="text-sm font-bold text-white mt-0.5">Tinh Chỉnh System Prompt Trực Tiếp</h3>
-          <p class="text-xs text-slate-400 mt-1">Chỉnh sửa chỉ dẫn gốc hoặc bổ sung Luật Kaizen sau khi phỏng vấn/test task.</p>
-        </div>
-
-        <!-- Weapons Equipped -->
-        <div>
-          <label class="block text-[11px] mono uppercase text-slate-400 mb-1.5">Vũ Khí & Công Cụ Đang Kết Nối</label>
-          <div id="right-weapons-list" class="flex flex-wrap gap-1.5"></div>
-        </div>
-
-        <!-- Editable System Prompt Form -->
-        <form onsubmit="saveDepartmentPrompt(event)" class="space-y-3 flex-1 flex flex-col">
-          <div class="flex-1 flex flex-col">
-            <label class="block text-[11px] mono uppercase text-slate-400 mb-1.5">System Prompt Chuẩn EYC</label>
-            <textarea id="right-system-prompt" rows="7" class="w-full flex-1 rounded-xl bg-[#07080B] border border-white/15 p-3 text-xs text-slate-200 leading-relaxed focus:border-[#FE5E02] outline-none"></textarea>
-          </div>
-
-          <div>
-            <label class="block text-[11px] mono uppercase text-slate-400 mb-1.5">Thêm Luật Tự Học Kaizen Mới (Tùy chọn)</label>
-            <textarea id="right-new-kaizen" rows="2" placeholder="VD: Mọi nội dung xuất ra phải dẫn nguồn https://eyc.asia/vi-vn/ và nêu rõ 4 phân hệ Early Years Circle..." class="w-full rounded-xl bg-[#07080B] border border-white/15 p-2.5 text-xs text-white focus:border-[#FE5E02] outline-none"></textarea>
-          </div>
-
-          <button type="submit" class="w-full py-2.5 rounded-xl eyc-btn-primary text-xs">
-            💾 Lưu System Prompt & Áp Dụng Kaizen
-          </button>
-        </form>
-
-        <!-- Active Kaizen Patches for this Department -->
-        <div class="pt-3 border-t border-white/10">
-          <div class="text-[11px] mono uppercase text-slate-400 mb-2">Luật Kaizen Đang Áp Dụng Tại Phòng Này</div>
-          <div id="right-kaizen-list" class="space-y-2 max-h-40 overflow-y-auto text-xs"></div>
-        </div>
-
+    <!-- COLUMN 3: KHO SẢN PHẨM & TRUNG TÂM NGHIỆM THU (ALL DELIVERABLES HUB) -->
+    <section class="col-pane">
+      <div class="pane-head">
+        <div class="pane-index"><span>03</span> / KHO SẢN PHẨM & DUYỆT NGHIỆM THU</div>
+        <div class="pane-count" id="deliverablesBoxCount">0 HỒ SƠ</div>
       </div>
-    </aside>
+
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="ALL" onclick="setProductFilter('ALL')">TẤT CẢ (<span id="fCountAll">0</span>)</button>
+        <button class="filter-tab" data-filter="PENDING" onclick="setProductFilter('PENDING')">CHỜ DUYỆT (<span id="fCountPending">0</span>)</button>
+        <button class="filter-tab" data-filter="DEPT" onclick="setProductFilter('DEPT')">PHÒNG ĐANG CHỌN (<span id="fCountDept">0</span>)</button>
+        <button class="filter-tab" data-filter="MEDIA" onclick="setProductFilter('MEDIA')">FILE MEDIA (<span id="fCountMedia">0</span>)</button>
+      </div>
+
+      <div class="deliverables-scroll" id="deliverablesVaultContainer"></div>
+    </section>
+
+    <!-- COLUMN 4: SYSTEM PROMPT & KAIZEN GOVERNANCE -->
+    <section class="col-pane">
+      <div class="pane-head">
+        <div class="pane-index"><span>04</span> / SYSTEM PROMPT & LUẬT KAIZEN</div>
+        <div class="pane-count" id="activeDeptCodeBadge">01</div>
+      </div>
+
+      <div class="config-scroll">
+        <div class="cfg-card">
+          <div class="cfg-label">04.1 / SYSTEM PROMPT CỦA BỘ PHẬN ĐANG CHỌN</div>
+          <textarea class="prompt-editor" id="systemPromptEditor" placeholder="System Prompt định hình vai trò và nguyên tắc của bộ phận..."></textarea>
+          <div class="cfg-label" style="margin-top:4px;">04.2 / BỔ SUNG LUẬT KAIZEN MỚI</div>
+          <input type="text" class="field-input" id="newKaizenInput" placeholder="VD: Mọi sản phẩm phải đính kèm số liệu thực tế..." />
+          <button class="btn btn-primary" style="width:100%;margin-top:4px;" onclick="savePromptAndKaizen()">LƯU SYSTEM PROMPT & LUẬT KAIZEN</button>
+        </div>
+
+        <div class="cfg-card">
+          <div class="cfg-label">04.3 / LUẬT KAIZEN ĐANG KHÓA TRONG HỆ THỐNG</div>
+          <div id="kaizenListContainer" style="display:flex;flex-direction:column;gap:8px;"></div>
+        </div>
+      </div>
+    </section>
 
   </main>
 
-  <!-- ========================================================================= -->
-  <!-- VIEW 2: CLEAN 2D ARCHITECTURAL MAP OF 16 EYC DEPARTMENTS                  -->
-  <!-- ========================================================================= -->
-  <main id="main-view-map" class="max-w-[1760px] w-full mx-auto flex-1 p-6 hidden">
-    <div class="eyc-card overflow-hidden">
-      <div class="p-5 border-b border-white/10 flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <div class="text-[11px] mono uppercase tracking-wider text-[#FE5E02]">KIẾN TRÚC VẬN HÀNH 16 PHÒNG BAN AI</div>
-          <h2 class="text-base font-bold text-white">Sơ Đồ Phối Hợp Thời Gian Thực — EYC (eyc.asia)</h2>
+  <!-- FULL-SCREEN PRODUCT INSPECTOR MODAL -->
+  <div class="modal-backdrop" id="productModal">
+    <div class="modal-window">
+      <div class="modal-top">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span class="pane-index"><span>HỒ SƠ SẢN PHẨM</span> / XEM TRỰC TIẾP & NGHIỆM THU</span>
+          <strong id="modalOrderTitle" style="font-size:13.5px;color:var(--ink);"></strong>
         </div>
-        <div class="flex items-center gap-3">
-          <button onclick="triggerCompanyWave()" class="px-4 py-2 rounded-xl eyc-btn-primary text-xs">
-            ⚡ Chạy Thử Chu Trình 6 Bước EYC Toàn Công Ty
-          </button>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 p-6 office-blueprint" id="clean-architecture-grid"></div>
-    </div>
-  </main>
-
-  <!-- ========================================================================= -->
-  <!-- VIEW 3: DELIVERABLES VAULT, TWENTY CRM & 3-TIER SECOND BRAIN              -->
-  <!-- ========================================================================= -->
-  <main id="main-view-vault" class="max-w-[1760px] w-full mx-auto flex-1 p-6 hidden space-y-6">
-
-    <!-- Corporate Profile Banner -->
-    <div class="eyc-card p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <div>
-        <div class="text-[11px] mono uppercase text-[#FE5E02]">PHÁP NHÂN & ĐỊNH VỊ</div>
-        <h3 class="text-base font-bold text-white mt-1">CÔNG TY TNHH CÔNG NGHỆ VÀ TRÍ TUỆ NHÂN TẠO EYC</h3>
-        <p class="text-xs text-slate-400 mt-1">Trụ sở: Tầng 2, 68 Nguyễn Huệ, Phường Sài Gòn, TP. Hồ Chí Minh</p>
-        <div class="mt-3 flex flex-wrap gap-2 text-xs mono text-slate-300">
-          <span class="px-2.5 py-1 rounded bg-white/5 border border-white/10">MST: 0319723892</span>
-          <span class="px-2.5 py-1 rounded bg-white/5 border border-white/10">DUNS: 321425016</span>
-          <span class="px-2.5 py-1 rounded bg-white/5 border border-white/10">+84 942 391 906</span>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <a class="btn" id="modalOpenNewTabLink" href="#" target="_blank" rel="noopener">MỞ TRONG TAB MỚI ↗</a>
+          <a class="btn" id="modalOpenJsonLink" href="#" target="_blank" rel="noopener">DỮ LIỆU .JSON ↗</a>
+          <button class="btn btn-primary" id="modalApproveBtn" onclick="modalApproveAction('APPROVE')">PHÊ DUYỆT NGHIỆM THU</button>
+          <button class="btn" id="modalRejectBtn" onclick="modalApproveAction('REJECT_KAIZEN')">TỪ CHỐI & GHI KAIZEN</button>
+          <button class="btn" onclick="closeProductModal()">ĐÓNG [ESC]</button>
         </div>
       </div>
-      <div>
-        <div class="text-[11px] mono uppercase text-[#FE5E02]">SẢN PHẨM CHỦ LỰC</div>
-        <h3 class="text-base font-bold text-white mt-1">Early Years Circle (Cloud EdTech Platform)</h3>
-        <p class="text-xs text-slate-400 mt-1">Nền tảng vận hành kết nối cho giáo dục mầm non với 4 phân hệ thống nhất: Teacher • Family • Admin • TV.</p>
-      </div>
-      <div>
-        <div class="text-[11px] mono uppercase text-[#FE5E02]">BỘ NÃO THỨ 2 (3 TẦNG)</div>
-        <h3 class="text-base font-bold text-white mt-1">SQLite FTS5 + Kaizen + LightRAG Graph</h3>
-        <p class="text-xs text-slate-400 mt-1" id="vault-brain-stats">Đang đồng bộ thực thể và quy tắc vận hành EYC.</p>
-      </div>
+      <iframe class="modal-iframe" id="modalIframe" src="about:blank"></iframe>
     </div>
-
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <!-- Media Deliverables -->
-      <div class="eyc-card p-5">
-        <h3 class="text-sm font-bold text-white border-b border-white/10 pb-3 mb-4">🎞️ Kho Sản Phẩm Media Đã Xuất (Media Vault)</h3>
-        <div id="vault-media-list" class="space-y-3 max-h-[480px] overflow-y-auto"></div>
-      </div>
-
-      <!-- Twenty CRM B2B Deals -->
-      <div class="eyc-card p-5">
-        <h3 class="text-sm font-bold text-white border-b border-white/10 pb-3 mb-4">🤝 Twenty CRM — Khách Hàng & Hợp Đồng B2B (#12)</h3>
-        <div id="vault-crm-list" class="space-y-3 max-h-[480px] overflow-y-auto"></div>
-      </div>
-
-      <!-- Knowledge Graph & Kaizen -->
-      <div class="eyc-card p-5">
-        <h3 class="text-sm font-bold text-white border-b border-white/10 pb-3 mb-4">🧠 Đồ Thị Tri Thức EYC & Luật Kaizen</h3>
-        <div id="vault-kg-list" class="space-y-2.5 max-h-[480px] overflow-y-auto"></div>
-      </div>
-    </div>
-
-  </main>
-
-  <!-- TOAST CONTAINER -->
-  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-md"></div>
+  </div>
 
   <script>
-    let STATE = null;
-    let SELECTED_DEPT_ID = '01_ceo';
-    let COMPOSER_MODE = 'INTERVIEW'; // 'INTERVIEW' or 'TASK'
-    let LAST_JOB_RUNNING = false;
+    let COMPANY_STATE = null;
+    let SELECTED_DEPT_ID = "01_ceo";
+    let INTERACTION_MODE = "TASK";
+    let PRODUCT_FILTER = "ALL";
+    let PROMPT_DIRTY = false;
+    let CURRENT_MODAL_ORDER_ID = "";
 
-    const SUGGESTED_PRESETS = {
-      '01_ceo': {
-        interview: 'Em hãy trình bày kế hoạch điều phối 16 phòng ban AI để phát triển thương hiệu EYC (eyc.asia) và sản phẩm Early Years Circle theo 6 bước chuẩn EYC?',
-        taskTitle: 'Lập Master Plan Q4 cho EYC & Early Years Circle',
-        taskDesc: 'Xây dựng kế hoạch 6 giai đoạn phát triển khách hàng B2B doanh nghiệp và hệ thống trường mầm non cho Early Years Circle.'
+    const DEPT_PRESETS = {
+      "01_ceo": {
+        tasks: [
+          {
+            title: "Lập Kế Hoạch Chiến Lược 6 Bước Cho Hệ Sinh Thái EYC & Early Years Circle",
+            instructions: "Xây dựng kế hoạch điều hành tổng thể cho https://eyc.asia và sản phẩm Early Years Circle (Teacher, Family, Admin, TV). Phân bổ mục tiêu doanh thu B2B và giao chỉ tiêu cụ thể cho 16 phòng ban."
+          },
+          {
+            title: "Thiết Lập Quy Trình Phê Duyệt Của Con Người (Human Approval Gate) Cho Doanh Nghiệp",
+            instructions: "Chuẩn hóa quy trình kiểm soát rủi ro và các điểm phê duyệt của Giám đốc Phan Phúc Nguyên ở bước 05 Kiểm tra trước khi xuất bản ra bên ngoài."
+          }
+        ],
+        interviews: [
+          "Hãy trình bày cách Ban Giám Đốc AI điều phối 16 phòng ban theo quy trình 6 bước chuẩn EYC.",
+          "Làm thế nào để đảm bảo con người luôn giữ quyền chỉ huy trong hệ thống EYC?"
+        ]
       },
-      '02_creative_director': {
-        interview: 'Em kiểm soát nhận diện thương hiệu Deep Tech của EYC (màu #07080B, cam #FE5E02, thông điệp Human-led systems) như thế nào trước khi duyệt nội dung?',
-        taskTitle: 'Duyệt Concept & Hook 3s cho chiến dịch Early Years Circle',
-        taskDesc: 'Định hình thông điệp chủ đạo tôn vinh sự kết nối giữa Giáo viên, Gia đình và Nhà trường trên một nền tảng Cloud duy nhất.'
+      "07_seo": {
+        tasks: [
+          {
+            title: "Kiểm Toán Kỹ Thuật SEO Trực Tiếp Trên https://eyc.asia/vi-vn/ & Xuất Bản Bài Pillar",
+            instructions: "Quét trực tiếp https://eyc.asia/vi-vn/, kiểm tra Title, Meta Description, H1-H3, tốc độ phản hồi và xuất bản bài viết Pillar 2.000+ từ cho cụm chủ đề AI Agents & Early Years Circle."
+          }
+        ],
+        interviews: [
+          "Báo cáo phương án xây dựng Topic Cluster cho 8 nhóm giải pháp trên eyc.asia mà không bị trùng lặp từ khóa."
+        ]
       },
-      '03_design': {
-        interview: 'Em thiết kế bộ ảnh Visual Studio cho 8 nhóm giải pháp công nghệ EYC và 4 phân hệ Early Years Circle theo quy chuẩn nào?',
-        taskTitle: 'Thiết kế Banner Studio 1080x1080 cho EYC – Everything You Connect',
-        taskDesc: 'Tạo ấn phẩm giới thiệu giải pháp AI Agents & Early Years Circle mang dấu bản quyền EYC.ASIA.'
+      "08_aio": {
+        tasks: [
+          {
+            title: "Tối Ưu Hóa AI Citation (ChatGPT, Perplexity, Claude) & Schema JSON-LD Cho eyc.asia",
+            instructions: "Kiểm tra thực thể Organization của CÔNG TY TNHH CÔNG NGHỆ VÀ TRÍ TUỆ NHÂN TẠO EYC (MST 0319723892, DUNS 321425016) và sinh khối trả lời 45 từ chuẩn AIO kèm mã Schema.org JSON-LD."
+          }
+        ],
+        interviews: [
+          "Làm sao để khi khách hàng hỏi ChatGPT hoặc Perplexity về nền tảng AI doanh nghiệp và phần mềm mầm non, AI trích dẫn trực tiếp eyc.asia?"
+        ]
       },
-      '04_content': {
-        interview: 'Em viết bài phân tích chuyên sâu E-E-A-T và kịch bản giới thiệu giải pháp AI & Tự động hóa của EYC như thế nào để không tạo nhiễu?',
-        taskTitle: 'Biên soạn nội dung E-E-A-T & Spintax cho giải pháp AI EYC',
-        taskDesc: 'Viết kịch bản và bộ biến thể nội dung giới thiệu nền tảng điều phối AI Agents có điểm phê duyệt của con người.'
+      "09_sao": {
+        tasks: [
+          {
+            title: "Triển Khai Giao Thức WebMCP & Tối Ưu Tìm Kiếm Mạng Xã Hội Cho EYC",
+            instructions: "Thiết lập chuẩn kết nối Agentic Discovery (WebMCP) và bộ từ khóa tìm kiếm trên LinkedIn, YouTube, TikTok cho giải pháp EYC và Early Years Circle."
+          }
+        ],
+        interviews: [
+          "Trình bày cách SAO và giao thức WebMCP giúp các AI Agents bên ngoài kết nối vào dịch vụ của eyc.asia."
+        ]
       },
-      '05_media_livestream': {
-        interview: 'Em sử dụng công nghệ giọng đọc AI và luồng phát sóng nào để thuyết minh các video giới thiệu sản phẩm của EYC?',
-        taskTitle: 'Thu âm thuyết minh AI Tiếng Việt giới thiệu EYC & Early Years Circle',
-        taskDesc: 'Tạo bản thu âm chuẩn giọng Neural Tiếng Việt giới thiệu 4 phân hệ Teacher, Family, Admin, TV.'
+      "02_creative_director": {
+        tasks: [
+          {
+            title: "Sản Xuất Bộ Tài Sản Truyền Thông Chuẩn Thương Hiệu EYC (Poster + Voice + Video 9:16)",
+            instructions: "Chỉ đạo sản xuất trọn bộ Poster .webp, Thuyết minh .mp3 và Video 9:16 .mp4 giới thiệu quy trình 6 bước EYC và Early Years Circle. Tuân thủ nghiêm ngặt màu thương hiệu #07080B và #FE5E02."
+          }
+        ],
+        interviews: [
+          "Bạn kiểm soát bộ nhận diện thương hiệu của eyc.asia như thế nào để không bị màu mè sai lệch?"
+        ]
       },
-      '06_video_editor': {
-        interview: 'Em ứng dụng 13 pipelines của OpenMontage và bộ chấm điểm chống slideshow (score_slideshow_risk) như thế nào khi dựng video cho EYC?',
-        taskTitle: 'Dựng Video 9:16 giới thiệu EYC qua pipeline OpenMontage clip-factory',
-        taskDesc: 'Kết xuất video dọc 1080x1920 kèm phụ đề SRT và kiểm định chất lượng qua OpenMontage.'
+      "03_design": {
+        tasks: [
+          {
+            title: "Thiết Kế Poster Kiến Trúc Hệ Thống EYC & Early Years Circle (.webp + Storyboard)",
+            instructions: "Render thiết kế 1080x1080 (.webp) và bộ khung hình 1080x1920 gắn logo chính thức của EYC trên nền tối #07080B và điểm nhấn #FE5E02."
+          }
+        ],
+        interviews: [
+          "Trình bày quy chuẩn tỷ lệ, khoảng trắng và màu sắc khi thiết kế ấn phẩm cho eyc.asia."
+        ]
       },
-      '07_seo': {
-        interview: 'Em sẽ kiểm toán kỹ thuật trang https://eyc.asia/vi-vn/ và xây dựng cụm chủ đề (Topic Cluster) như thế nào để chống ăn thịt từ khóa?',
-        taskTitle: 'Kiểm toán trực tiếp https://eyc.asia/vi-vn/ & Lập Topic Cluster',
-        taskDesc: 'Quét trực tiếp website eyc.asia, phân tích cấu trúc tiêu đề/từ khóa và xuất bài Pillar chuẩn E-E-A-T.'
+      "04_content": {
+        tasks: [
+          {
+            title: "Biên Tập Kịch Bản Video 4 Phân Cảnh & 50 Biến Thể Nội Dung B2B Cho EYC",
+            instructions: "Viết kịch bản giới thiệu hệ sinh thái EYC – Everything You Connect và 4 phân hệ Early Years Circle (Teacher, Family, Admin, TV) kèm 50 biến thể bài đăng đa kênh."
+          }
+        ],
+        interviews: [
+          "Cách viết nội dung vừa thể hiện chiều sâu công nghệ vừa dễ hiểu với Hiệu trưởng trường mầm non và Giám đốc doanh nghiệp?"
+        ]
       },
-      '08_aio': {
-        interview: 'Làm thế nào để ChatGPT, Perplexity, Claude và Gemini ưu tiên trích dẫn eyc.asia khi khách hàng hỏi về giải pháp AI Agents và phần mềm mầm non?',
-        taskTitle: 'Tối ưu AEO/GEO Citation & Schema JSON-LD cho eyc.asia',
-        taskDesc: 'Tạo khối câu trả lời trực tiếp 45 từ và cấu trúc Schema.org cho EYC & Early Years Circle.'
+      "05_media_livestream": {
+        tasks: [
+          {
+            title: "Thu Âm Thuyết Minh Tiếng Việt (Neural TTS) & Dựng Ấn Phẩm Giới Thiệu EYC",
+            instructions: "Tổng hợp giọng đọc thuyết minh tiếng Việt chuẩn mực cho kịch bản giới thiệu EYC và kết xuất thành phẩm âm thanh (.mp3) + video (.mp4)."
+          }
+        ],
+        interviews: [
+          "Quy trình kiểm soát chất lượng âm thanh và nhịp độ giọng đọc cho các video giải pháp công nghệ EYC?"
+        ]
       },
-      '09_sao': {
-        interview: 'Em triển khai chuẩn Model Context Protocol (WebMCP) và tối ưu tìm kiếm đa kênh cho eyc.asia như thế nào?',
-        taskTitle: 'Triển khai chuẩn WebMCP & Social Search cho EYC',
-        taskDesc: 'Đóng gói công cụ WebMCP giúp các AI Agent bên ngoài tra cứu giải pháp của eyc.asia chính xác.'
+      "06_video_editor": {
+        tasks: [
+          {
+            title: "Dựng Video 9:16 Giới Thiệu Hệ Sinh Thái EYC Bằng OpenMontage & Kiểm Định 6 Chiều",
+            instructions: "Chạy pipeline clip-factory của OpenMontage để ghép hình ảnh chuẩn thương hiệu EYC, thuyết minh tiếng Việt, phụ đề và chấm điểm QA 6 chiều (score_slideshow_risk)."
+          }
+        ],
+        interviews: [
+          "OpenMontage chấm điểm 6 chiều như thế nào để đảm bảo chất lượng video của EYC?"
+        ]
       },
-      '10_social': {
-        interview: 'Quy trình phân phối nội dung đa kênh của em đảm bảo Điểm phê duyệt của con người (Human Approval Gate) tại EYC ra sao?',
-        taskTitle: 'Lập lịch phân phối đa kênh cho chuỗi bài EYC Deep Tech',
-        taskDesc: 'Chuẩn bị kế hoạch đăng tải lên LinkedIn, Facebook và YouTube kèm cổng kiểm duyệt.'
+      "12_sale": {
+        tasks: [
+          {
+            title: "Khởi Tạo Hồ Sơ Đề Xuất Giải Pháp B2B & Đồng Bộ Hợp Đồng Trên Twenty CRM",
+            instructions: "Tạo hồ sơ khách hàng B2B (Hệ thống trường mầm non tư thục đăng ký triển khai Early Years Circle cho 5 cơ sở), lập báo giá và lưu vào Twenty CRM."
+          }
+        ],
+        interviews: [
+          "Quy trình quản lý phễu khách hàng B2B trên Twenty CRM từ lúc tiếp nhận nhu cầu đến khi ký hợp đồng?"
+        ]
       },
-      '11_ads': {
-        interview: 'Em kết nối dữ liệu tìm kiếm, nội dung và quảng cáo B2B thành một hệ thống báo cáo đo lường ROAS/CPL như thế nào?',
-        taskTitle: 'Tối ưu ngân sách chiến dịch B2B Lead Generation cho EYC',
-        taskDesc: 'Đánh giá hiệu suất chuyển đổi và đề xuất phân bổ ngân sách theo trần CPL.'
+      "13_cfo": {
+        tasks: [
+          {
+            title: "Kiểm Toán Báo Cáo Tài Chính P&L, Dòng Tiền & Hiệu Suất Đầu Tư (ROAS) Của EYC",
+            instructions: "Tổng hợp doanh thu hợp đồng B2B, chi phí vận hành, tính toán lợi nhuận ròng và đưa ra quyết định phân bổ ngân sách cho toàn công ty."
+          }
+        ],
+        interviews: [
+          "Các chỉ số tài chính cốt lõi nào được CFO theo dõi để bảo vệ biên lợi nhuận của EYC?"
+        ]
       },
-      '12_sale': {
-        interview: 'Khi có doanh nghiệp hoặc trường mầm non liên hệ tư vấn, em đồng bộ vào Twenty CRM và chăm sóc theo quy trình nào?',
-        taskTitle: 'Tiếp nhận & Đồng bộ đối tác B2B mới vào Twenty CRM',
-        taskDesc: 'Bóc tách thông tin liên hệ của trường mầm non/doanh nghiệp và tạo Deal trên bảng Kanban Twenty CRM.'
-      },
-      '13_cfo': {
-        interview: 'Em kiểm soát chi phí hạ tầng Cloud, R&D và đánh giá hiệu quả tài chính P&L cho các dự án của EYC như thế nào?',
-        taskTitle: 'Kiểm toán P&L & Đề xuất phân bổ ngân sách EYC',
-        taskDesc: 'Tổng hợp số liệu thu-chi, tính biên lợi nhuận ròng và đưa ra khuyến nghị tài chính.'
-      },
-      '14_accountant': {
-        interview: 'Em quản lý chứng từ, mã số thuế 0319723892 và nhật ký kiểm tra (Audit Log) cho EYC như thế nào?',
-        taskTitle: 'Đối soát chứng từ & Nhật ký kiểm toán EYC',
-        taskDesc: 'Rà soát toàn bộ giao dịch và xuất báo cáo đối soát minh bạch.'
-      },
-      '15_hr': {
-        interview: 'Em tuyển dụng chuyên gia từ kho 600+ kỹ năng và tự động vá System Prompt (Kaizen) cho 16 phòng ban EYC như thế nào?',
-        taskTitle: 'Rà soát năng lực 16 Phòng Ban & Kho 600+ Kỹ Năng AI',
-        taskDesc: 'Kiểm tra hồ sơ chuyên môn và mức độ sẵn sàng của toàn bộ 16 trưởng bộ phận AI tại EYC.'
-      },
-      '16_it': {
-        interview: 'Em giám sát 31 kho mã nguồn mở, máy chủ MCP và bảo mật 2FA đa lớp cho hạ tầng EYC ra sao?',
-        taskTitle: 'Kiểm tra sức khỏe hạ tầng 31 Submodules, MCP & Bảo mật 2FA',
-        taskDesc: 'Chạy chẩn đoán toàn diện hệ thống máy chủ, cơ sở dữ liệu và sinh mã xác thực 2FA TOTP.'
+      "16_it": {
+        tasks: [
+          {
+            title: "Kiểm Toán Hạ Tầng Cloud, 31 Kho Mã Nguồn Submodules & Bảo Mật Dữ Liệu EYC",
+            instructions: "Thực hiện kiểm tra trạng thái máy chủ, cơ sở dữ liệu SQLite WAL, 31 submodules công nghệ và xác thực bảo mật 2 lớp (TOTP 2FA)."
+          }
+        ],
+        interviews: [
+          "EYC bảo vệ dữ liệu doanh nghiệp và dữ liệu trẻ em trên Early Years Circle như thế nào?"
+        ]
       }
     };
 
-    function showToast(title, msg) {
-      const container = document.getElementById('toast-container');
-      const el = document.createElement('div');
-      el.className = 'p-4 rounded-xl bg-[#161922] border border-[#FE5E02] shadow-2xl text-xs transition-all';
-      el.innerHTML = `
-        <div class="font-bold text-[#FE5E02] uppercase mono mb-1">${title}</div>
-        <div class="text-slate-200 leading-relaxed">${msg}</div>
-      `;
-      container.appendChild(el);
-      setTimeout(() => el.remove(), 5500);
+    function getPresetsForDept(deptId) {
+      if (DEPT_PRESETS[deptId]) return DEPT_PRESETS[deptId];
+      return {
+        tasks: [
+          {
+            title: `Thực Thi Nhiệm Vụ Chuyên Môn Cho Hệ Sinh Thái EYC (${deptId})`,
+            instructions: "Áp dụng quy trình 6 bước chuẩn EYC để thực thi nhiệm vụ và xuất bản hồ sơ sản phẩm thực tế trình Giám đốc Phan Phúc Nguyên phê duyệt."
+          }
+        ],
+        interviews: [
+          "Hãy báo cáo vai trò, công cụ và quy trình 6 bước EYC mà bộ phận đang vận hành."
+        ]
+      };
     }
 
-    async function fetchCompanyState() {
+    function escapeHtml(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function toggleTheme() {
+      const root = document.documentElement;
+      const isLight = root.classList.toggle("theme-light");
+      document.getElementById("themeBtn").textContent = isLight ? "NỀN TỐI" : "NỀN SÁNG";
       try {
-        const res = await fetch('/api/company-state');
-        STATE = await res.json();
+        localStorage.setItem("eyc-ui-theme", isLight ? "light" : "dark");
+      } catch (e) {}
+    }
+
+    (function initTheme() {
+      try {
+        if (localStorage.getItem("eyc-ui-theme") === "light") {
+          document.documentElement.classList.add("theme-light");
+          window.addEventListener("DOMContentLoaded", () => {
+            const btn = document.getElementById("themeBtn");
+            if (btn) btn.textContent = "NỀN TỐI";
+          });
+        }
+      } catch (e) {}
+    })();
+
+    function setMode(mode) {
+      INTERACTION_MODE = mode;
+      document.getElementById("modeBtnTask").classList.toggle("active", mode === "TASK");
+      document.getElementById("modeBtnInterview").classList.toggle("active", mode === "INTERVIEW");
+      document.getElementById("taskFormBox").style.display = mode === "TASK" ? "flex" : "none";
+      document.getElementById("interviewFormBox").style.display = mode === "INTERVIEW" ? "flex" : "none";
+      renderPresets();
+    }
+
+    function setProductFilter(filter) {
+      PRODUCT_FILTER = filter;
+      document.querySelectorAll(".filter-tab").forEach(btn => {
+        btn.classList.toggle("active", btn.getAttribute("data-filter") === filter);
+      });
+      renderDeliverablesVault();
+    }
+
+    function selectDepartment(deptId) {
+      SELECTED_DEPT_ID = deptId;
+      PROMPT_DIRTY = false;
+      renderAll();
+      fillDefaultTaskPreset();
+    }
+
+    function fillDefaultTaskPreset() {
+      const p = getPresetsForDept(SELECTED_DEPT_ID);
+      if (p.tasks && p.tasks.length > 0) {
+        document.getElementById("taskTitleInput").value = p.tasks[0].title;
+        document.getElementById("taskInstructionsInput").value = p.tasks[0].instructions;
+      }
+    }
+
+    function renderPresets() {
+      const strip = document.getElementById("presetStrip");
+      const p = getPresetsForDept(SELECTED_DEPT_ID);
+      if (INTERACTION_MODE === "TASK") {
+        strip.innerHTML = (p.tasks || []).map((t, idx) =>
+          `<button class="preset-btn" onclick="applyTaskPreset(${idx})">Mẫu 0${idx + 1}: ${escapeHtml(t.title.slice(0, 52))}...</button>`
+        ).join("");
+      } else {
+        strip.innerHTML = (p.interviews || []).map((q, idx) =>
+          `<button class="preset-btn" onclick="applyInterviewPreset(${idx})">Câu hỏi 0${idx + 1}: ${escapeHtml(q.slice(0, 52))}...</button>`
+        ).join("");
+      }
+    }
+
+    function applyTaskPreset(idx) {
+      const p = getPresetsForDept(SELECTED_DEPT_ID);
+      const item = (p.tasks || [])[idx];
+      if (!item) return;
+      document.getElementById("taskTitleInput").value = item.title;
+      document.getElementById("taskInstructionsInput").value = item.instructions;
+    }
+
+    function applyInterviewPreset(idx) {
+      const p = getPresetsForDept(SELECTED_DEPT_ID);
+      const q = (p.interviews || [])[idx];
+      if (!q) return;
+      document.getElementById("interviewInput").value = q;
+      submitInterview();
+    }
+
+    async function fetchState() {
+      try {
+        const res = await fetch("/api/company-state");
+        if (!res.ok) return;
+        COMPANY_STATE = await res.json();
         renderAll();
-      } catch (err) {
-        console.error('Error fetching EYC state:', err);
+      } catch (e) {
+        console.error("Failed to fetch state:", e);
       }
     }
 
     function renderAll() {
-      if (!STATE) return;
-      renderTopExecutionStrip();
-      renderDepartmentDirectory();
-      renderStudioWorkbench();
-      renderCleanArchitectureMap();
-      renderVaultView();
-    }
+      if (!COMPANY_STATE) return;
+      const depts = COMPANY_STATE.departments || [];
+      const wos = COMPANY_STATE.work_orders || [];
+      const kaizen = COMPANY_STATE.kaizen_rules || [];
+      const activeJob = COMPANY_STATE.active_job || {};
 
-    function renderTopExecutionStrip() {
-      const job = STATE.active_job || {};
-      const dot = document.getElementById('strip-dot');
-      const text = document.getElementById('strip-status-text');
-      const bar = document.getElementById('strip-progress-bar');
-      const pct = document.getElementById('strip-pct');
+      // Top counters
+      const pendingWos = wos.filter(w => w.status === "WAITING_APPROVAL" || w.approval_status === "PENDING_APPROVAL");
+      document.getElementById("totalProductsCount").textContent = wos.length;
+      document.getElementById("pendingReviewCount").textContent = pendingWos.length;
+      document.getElementById("totalKaizenCount").textContent = kaizen.length;
 
-      // Highlight active step among 1..6
-      const activeStep = job.eyc_step_index || 0;
-      for (let i = 1; i <= 6; i++) {
-        const pill = document.getElementById(`step-pill-${i}`);
-        if (!pill) continue;
-        if (i === activeStep) {
-          pill.className = 'px-2.5 py-1 rounded-lg text-[11px] font-bold bg-[#FE5E02] text-[#07080B]';
-        } else if (i < activeStep) {
-          pill.className = 'px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
-        } else {
-          pill.className = 'px-2.5 py-1 rounded-lg text-[11px] font-medium text-slate-400';
-        }
-      }
+      // 6-step bar & execution ribbon
+      const activeStep = activeJob.eyc_step_index || 0;
+      document.querySelectorAll("#eycPipelineBar .eyc-step").forEach(el => {
+        const s = parseInt(el.getAttribute("data-step"), 10);
+        el.classList.toggle("active", s === activeStep);
+        el.classList.toggle("done", activeStep > s);
+      });
+      const dot = document.getElementById("execDot");
+      dot.classList.toggle("running", !!activeJob.running);
+      document.getElementById("execPercent").textContent = activeJob.running
+        ? `ĐANG THỰC THI BƯỚC 0${activeStep}/06 (${activeJob.progress_percent || 0}%)`
+        : "EYC SYSTEM // SẴN SÀNG";
+      document.getElementById("execStepText").textContent = activeJob.current_step || "";
 
-      if (job.running) {
-        dot.className = 'w-2.5 h-2.5 rounded-full bg-[#FE5E02] animate-ping shrink-0';
-        text.textContent = job.current_step || 'Đang thực thi...';
-        bar.style.width = `${job.progress_percent || 20}%`;
-        pct.textContent = `${job.progress_percent || 20}%`;
-        LAST_JOB_RUNNING = true;
-      } else {
-        dot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0';
-        text.textContent = job.current_step || 'Hệ thống EYC sẵn sàng.';
-        bar.style.width = job.progress_percent ? `${job.progress_percent}%` : '100%';
-        pct.textContent = job.progress_percent ? `${job.progress_percent}%` : 'READY';
-        if (LAST_JOB_RUNNING) {
-          LAST_JOB_RUNNING = false;
-          showToast('Hoàn tất thực thi EYC', job.current_step || 'Đã có kết quả mới.');
-        }
-      }
-    }
-
-    function statePillHtml(state) {
-      if (state === 'COMPLETED' || state === 'APPROVED_BY_DIRECTOR') {
-        return `<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">Đã duyệt</span>`;
-      }
-      if (state === 'WAITING_APPROVAL') {
-        return `<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-[#FE5E02]/20 text-[#FFA05C] border border-[#FE5E02]/40">Chờ duyệt</span>`;
-      }
-      if (state === 'WORKING') {
-        return `<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/40 animate-pulse">Đang chạy</span>`;
-      }
-      if (state === 'REVISION_REQUIRED') {
-        return `<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/40">Đã vá Kaizen</span>`;
-      }
-      return `<span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white/5 text-slate-400 border border-white/10">Sẵn sàng</span>`;
-    }
-
-    function renderDepartmentDirectory() {
-      const container = document.getElementById('dept-directory-list');
-      const depts = STATE.departments || [];
-      const testedCount = depts.filter(d => (d.interview_logs || []).length > 0 || d.tasks_completed > 0).length;
-      document.getElementById('sidebar-completed-counter').textContent = `${testedCount}/16 Đã tương tác`;
-
+      // Column 1: Roster grouped by EYC divisions
       const groups = {};
       depts.forEach(d => {
         if (!groups[d.group]) groups[d.group] = [];
         groups[d.group].push(d);
       });
 
-      container.innerHTML = Object.entries(groups).map(([gName, items]) => `
-        <div>
-          <div class="text-[10px] mono uppercase tracking-wider text-slate-400 mb-2 px-1">${gName}</div>
-          <div class="space-y-1.5">
-            ${items.map(d => {
-              const active = d.department_id === SELECTED_DEPT_ID;
-              const logsCnt = (d.interview_logs || []).length;
-              return `
-                <button onclick="selectDepartment('${d.department_id}')"
-                        class="w-full text-left p-2.5 rounded-xl border transition flex items-center justify-between gap-2 ${
-                          active
-                            ? 'bg-[#FE5E02]/15 border-[#FE5E02] text-white'
-                            : 'bg-[#07080B]/60 border-white/5 hover:border-white/20 text-slate-300'
-                        }">
-                  <div class="flex items-center gap-2.5 min-w-0">
-                    <span class="w-7 h-7 rounded-lg mono text-xs font-bold flex items-center justify-center shrink-0 ${
-                      active ? 'bg-[#FE5E02] text-[#07080B]' : 'bg-white/5 text-slate-300'
-                    }">${d.code}</span>
-                    <div class="min-w-0">
-                      <div class="text-xs font-semibold truncate">${d.short_label}</div>
-                      <div class="text-[10px] text-slate-400 truncate">${logsCnt} phiên • ${d.tasks_completed} task</div>
-                    </div>
-                  </div>
-                  ${statePillHtml(d.live_state)}
-                </button>
-              `;
-            }).join('')}
+      let rosterHtml = "";
+      Object.keys(groups).sort().forEach(gName => {
+        rosterHtml += `<div class="group-label">${escapeHtml(gName)}</div>`;
+        groups[gName].forEach(d => {
+          const isSelected = d.department_id === SELECTED_DEPT_ID;
+          const deptWos = d.department_work_orders || [];
+          const hasPending = deptWos.some(w => w.status === "WAITING_APPROVAL");
+          let stateBadge = `<span class="state-tag">SẴN SÀNG</span>`;
+          if (d.live_state === "WORKING") {
+            stateBadge = `<span class="state-tag pending">ĐANG CHẠY</span>`;
+          } else if (hasPending) {
+            stateBadge = `<span class="state-tag pending">CHỜ DUYỆT (${deptWos.length})</span>`;
+          } else if (deptWos.length > 0) {
+            stateBadge = `<span class="state-tag done">${deptWos.length} SẢN PHẨM</span>`;
+          }
+
+          rosterHtml += `
+            <div class="dept-row ${isSelected ? "selected" : ""}" onclick="selectDepartment('${d.department_id}')">
+              <div class="dept-num">${escapeHtml(d.code)}</div>
+              <div class="dept-body">
+                <div class="dept-title">${escapeHtml(d.short_label)}</div>
+                <div class="dept-sub">
+                  <span>KPI ${Math.round(d.kpi_score || 100)}%</span>
+                  ${stateBadge}
+                </div>
+              </div>
+            </div>
+          `;
+        });
+      });
+      document.getElementById("deptRosterContainer").innerHTML = rosterHtml;
+
+      // Active Department Details (Column 2 & Column 4)
+      const activeDept = depts.find(d => d.department_id === SELECTED_DEPT_ID) || depts[0];
+      if (activeDept) {
+        document.getElementById("activeDeptGroup").innerHTML = `<span>${escapeHtml(activeDept.code)}</span> / ${escapeHtml(activeDept.group)}`;
+        document.getElementById("activeDeptName").textContent = `${activeDept.code} — ${activeDept.name}`;
+        document.getElementById("activeDeptRole").textContent = activeDept.role;
+        document.getElementById("activeDeptStats").textContent = `KPI: ${Math.round(activeDept.kpi_score || 100)}% • ${(activeDept.department_work_orders || []).length} SẢN PHẨM`;
+        document.getElementById("activeDeptCodeBadge").textContent = activeDept.code;
+
+        document.getElementById("activeDeptWeapons").innerHTML = (activeDept.weapons || []).map(w =>
+          `<span class="weapon-pill">${escapeHtml(w)}</span>`
+        ).join("");
+
+        const promptEl = document.getElementById("systemPromptEditor");
+        if (!PROMPT_DIRTY && document.activeElement !== promptEl) {
+          promptEl.value = activeDept.system_prompt || "";
+        }
+
+        renderConversationStream(activeDept);
+        renderKaizenPanel(activeDept, kaizen);
+      }
+
+      renderPresets();
+      renderDeliverablesVault();
+    }
+
+    function renderConversationStream(dept) {
+      const container = document.getElementById("conversationStream");
+      const logs = dept.interview_logs || [];
+      const deptWos = dept.department_work_orders || [];
+
+      let htmlParts = [];
+
+      // Always show system introduction card at top
+      htmlParts.push(`
+        <div class="msg-card">
+          <div class="msg-head">
+            <strong>[${escapeHtml(dept.code)}] ${escapeHtml(dept.name)}</strong>
+            <span>SYSTEM PROMPT HIỆN HÀNH</span>
           </div>
+          <div class="msg-text">${escapeHtml(dept.system_prompt)}</div>
         </div>
-      `).join('');
-    }
+      `);
 
-    function selectDepartment(deptId) {
-      SELECTED_DEPT_ID = deptId;
-      renderAll();
-    }
-
-    function renderStudioWorkbench() {
-      const depts = STATE.departments || [];
-      const d = depts.find(x => x.department_id === SELECTED_DEPT_ID) || depts[0];
-      if (!d) return;
-
-      document.getElementById('studio-dept-code').textContent = d.code;
-      document.getElementById('studio-dept-group').textContent = `${d.group} • ${d.department_id}`;
-      document.getElementById('studio-dept-name').textContent = d.name;
-      document.getElementById('studio-dept-role').textContent = d.role;
-      document.getElementById('studio-dept-kpi').textContent = `${d.kpi_score}%`;
-      document.getElementById('studio-dept-tasks').textContent = `${d.tasks_completed}`;
-      document.getElementById('studio-dept-badge').outerHTML = `<span id="studio-dept-badge">${statePillHtml(d.live_state)}</span>`;
-
-      // Right Column: Weapons, Prompt & Kaizen Rules (only overwrite textarea if not currently focused)
-      document.getElementById('right-weapons-list').innerHTML = (d.weapons || []).map(w =>
-        `<span class="px-2.5 py-1 rounded-lg bg-[#07080B] border border-white/10 text-[11px] mono text-slate-300">${w}</span>`
-      ).join('');
-
-      const promptEl = document.getElementById('right-system-prompt');
-      if (document.activeElement !== promptEl) {
-        promptEl.value = d.system_prompt || '';
-      }
-
-      const kzList = document.getElementById('right-kaizen-list');
-      const rules = d.kaizen_rules || [];
-      if (rules.length === 0) {
-        kzList.innerHTML = `<div class="text-slate-500 text-xs italic">Chưa có luật Kaizen bổ sung. Bạn có thể thêm luật mới ở ô phía trên.</div>`;
-      } else {
-        kzList.innerHTML = rules.map(r => `
-          <div class="p-2.5 rounded-lg bg-[#07080B] border border-white/10 text-slate-200">
-            <div class="text-[10px] mono text-[#FE5E02] mb-0.5">${r.created_at_utc.slice(0, 19)}</div>
-            <div>${r.learned_rule}</div>
+      if (logs.length === 0 && deptWos.length === 0) {
+        htmlParts.push(`
+          <div class="msg-card" style="border-style:dashed;">
+            <div class="msg-head"><strong>HƯỚNG DẪN VẬN HÀNH BỘ PHẬN ${escapeHtml(dept.code)}</strong><span>SẴN SÀNG</span></div>
+            <div class="msg-text">1. Chọn mẫu nhiệm vụ bên dưới hoặc nhập chỉ đạo của Giám đốc Phan Phúc Nguyên rồi bấm "THỰC THI & XUẤT SẢN PHẨM".\n2. Ngay khi hoàn thành, hồ sơ sản phẩm sẽ hiển thị cả ở đây lẫn ở cột "03 / KHO SẢN PHẨM & DUYỆT NGHIỆM THU" bên phải kèm đường link mở xem toàn văn để nghiệm thu.</div>
           </div>
-        `).join('');
+        `);
       }
 
-      // Render Center Conversation & Task History Stream
-      const stream = document.getElementById('studio-history-stream');
-      const logs = d.interview_logs || [];
-      const wo = d.work_order || {};
+      logs.forEach(lg => {
+        const deliv = lg.deliverable || {};
+        const orderId = deliv.order_id || "";
+        const htmlUrl = deliv.deliverable_html_url || (orderId ? `/deliverables/${encodeURIComponent(orderId)}.html` : "");
+        const jsonUrl = deliv.deliverable_json_url || (orderId ? `/deliverables/${encodeURIComponent(orderId)}.json` : "");
 
-      if (logs.length === 0) {
-        const preset = SUGGESTED_PRESETS[d.department_id] || {};
-        stream.innerHTML = `
-          <div class="eyc-card-elevated p-6 text-center max-w-xl mx-auto my-8">
-            <div class="w-12 h-12 rounded-2xl bg-[#FE5E02]/15 border border-[#FE5E02]/40 text-[#FE5E02] mono font-bold text-lg flex items-center justify-center mx-auto mb-3">
-              ${d.code}
+        htmlParts.push(`
+          <div class="msg-card director">
+            <div class="msg-head">
+              <strong>GIÁM ĐỐC PHAN PHÚC NGUYÊN</strong>
+              <span>${escapeHtml(lg.interaction_mode)} • ${escapeHtml((lg.created_at_utc || "").slice(11, 19))} UTC</span>
             </div>
-            <h3 class="text-base font-bold text-white">${d.name}</h3>
-            <p class="text-xs text-slate-300 mt-1 leading-relaxed">${d.role}</p>
-            <div class="mt-4 p-3.5 rounded-xl bg-[#07080B] border border-white/10 text-left text-xs text-slate-300">
-              <div class="text-[10px] mono uppercase text-[#FE5E02] mb-1">System Prompt Đang Kích Hoạt:</div>
-              <div>${d.system_prompt}</div>
+            <div class="msg-text">${escapeHtml(lg.director_input)}</div>
+          </div>
+        `);
+
+        let linksHtml = "";
+        if (htmlUrl) {
+          linksHtml = `
+            <div class="product-links-box" style="margin-top:10px;">
+              <div class="links-row">
+                <button class="link-btn primary-link" onclick="openProductModal('${escapeHtml(orderId)}', '${escapeHtml(htmlUrl)}', '${escapeHtml(jsonUrl)}', '${escapeHtml(lg.director_input.slice(0, 60))}')">
+                  XEM TRỰC TIẾP HỒ SƠ SẢN PHẨM
+                </button>
+                <a class="link-btn" href="${escapeHtml(htmlUrl)}" target="_blank" rel="noopener">MỞ LINK SẢN PHẨM (TAB MỚI) ↗</a>
+                <a class="link-btn" href="${escapeHtml(jsonUrl)}" target="_blank" rel="noopener">FILE .JSON ↗</a>
+                ${deliv.banner_webp_url ? `<a class="link-btn" href="${escapeHtml(deliv.banner_webp_url)}" target="_blank" rel="noopener">POSTER .WEBP ↗</a>` : ""}
+                ${deliv.voiceover_mp3_url ? `<a class="link-btn" href="${escapeHtml(deliv.voiceover_mp3_url)}" target="_blank" rel="noopener">AUDIO .MP3 ↗</a>` : ""}
+                ${deliv.video_mp4_url ? `<a class="link-btn" href="${escapeHtml(deliv.video_mp4_url)}" target="_blank" rel="noopener">VIDEO .MP4 ↗</a>` : ""}
+              </div>
             </div>
-            <div class="mt-5 flex flex-wrap items-center justify-center gap-2.5">
-              <button onclick="fillSuggestedInterview()" class="px-4 py-2 rounded-xl eyc-btn-secondary text-xs">
-                💬 Bắt đầu Phỏng vấn Nhân sự này
-              </button>
-              <button onclick="fillSuggestedTask()" class="px-4 py-2 rounded-xl eyc-btn-primary text-xs">
-                🚀 Giao Task Thực Tế Đầu Tiên
-              </button>
+          `;
+        }
+
+        htmlParts.push(`
+          <div class="msg-card">
+            <div class="msg-head">
+              <strong>[${escapeHtml(dept.code)}] ${escapeHtml(dept.name)}</strong>
+              <span>${escapeHtml(lg.status)}</span>
             </div>
+            <div class="msg-text">${escapeHtml(lg.agent_response)}</div>
+            ${linksHtml}
+          </div>
+        `);
+      });
+
+      container.innerHTML = htmlParts.join("");
+    }
+
+    function renderDeliverablesVault() {
+      if (!COMPANY_STATE) return;
+      const wos = COMPANY_STATE.work_orders || [];
+      const mediaFiles = COMPANY_STATE.media_vault || [];
+      const depts = COMPANY_STATE.departments || [];
+
+      const pendingWos = wos.filter(w => w.status === "WAITING_APPROVAL" || w.approval_status === "PENDING_APPROVAL");
+      const deptWos = wos.filter(w => w.department_id === SELECTED_DEPT_ID);
+
+      document.getElementById("fCountAll").textContent = wos.length;
+      document.getElementById("fCountPending").textContent = pendingWos.length;
+      document.getElementById("fCountDept").textContent = deptWos.length;
+      document.getElementById("fCountMedia").textContent = mediaFiles.length;
+      document.getElementById("deliverablesBoxCount").textContent = `${wos.length} HỒ SƠ`;
+
+      const container = document.getElementById("deliverablesVaultContainer");
+
+      if (PRODUCT_FILTER === "MEDIA") {
+        if (mediaFiles.length === 0) {
+          container.innerHTML = `<div class="msg-card"><div class="msg-text" style="color:var(--mut);">Chưa có file Media (.webp, .mp3, .mp4) nào trong kho. Hãy giao việc cho khối Sáng tạo / Thiết kế / Dựng phim (02, 03, 04, 05, 06) để xuất bản.</div></div>`;
+          return;
+        }
+        container.innerHTML = mediaFiles.map(m => {
+          let preview = "";
+          if (m.ext === ".webp" || m.ext === ".png") {
+            preview = `<a href="${escapeHtml(m.url)}" target="_blank"><img src="${escapeHtml(m.url)}" class="inline-thumb" style="height:160px;object-fit:contain;" /></a>`;
+          } else if (m.ext === ".mp4") {
+            preview = `<video controls preload="metadata" src="${escapeHtml(m.url)}" class="inline-thumb" style="height:180px;"></video>`;
+          } else if (m.ext === ".mp3") {
+            preview = `<audio controls preload="metadata" src="${escapeHtml(m.url)}" style="width:100%;margin-top:6px;"></audio>`;
+          }
+          return `
+            <div class="product-card">
+              <div class="product-top">
+                <span class="product-dept">FILE MEDIA (${escapeHtml(m.ext.toUpperCase())})</span>
+                <span class="product-id">${Math.round((m.size_bytes || 0) / 1024)} KB</span>
+              </div>
+              <div class="product-title">${escapeHtml(m.filename)}</div>
+              ${preview}
+              <div class="links-row" style="margin-top:6px;">
+                <a class="link-btn primary-link" href="${escapeHtml(m.url)}" target="_blank" rel="noopener">MỞ FILE GỐC TRONG TAB MỚI ↗</a>
+              </div>
+            </div>
+          `;
+        }).join("");
+        return;
+      }
+
+      let filtered = wos;
+      if (PRODUCT_FILTER === "PENDING") filtered = pendingWos;
+      if (PRODUCT_FILTER === "DEPT") filtered = deptWos;
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="msg-card" style="border-style:dashed;">
+            <div class="msg-head"><strong>KHO SẢN PHẨM ĐANG TRỐNG (0 HỒ SƠ)</strong><span>EYC CLEAN STATE</span></div>
+            <div class="msg-text">Chưa có sản phẩm nào trong danh mục này. Hãy bấm nút "THỰC THI & XUẤT SẢN PHẨM" ở cột giữa để nhân sự AI sản xuất hồ sơ sản phẩm thực tế có link bấm xem và phê duyệt tại đây.</div>
           </div>
         `;
         return;
       }
 
-      stream.innerHTML = logs.map(item => {
-        const isTask = item.interaction_mode === 'TASK_EXECUTION';
-        const isOpt = item.interaction_mode === 'PROMPT_OPTIMIZATION';
-        const deliv = item.deliverable || {};
-        let delivHtml = '';
+      const nextDeptOptions = depts.map(d =>
+        `<option value="${escapeHtml(d.department_id)}">[${escapeHtml(d.code)}] ${escapeHtml(d.short_label)}</option>`
+      ).join("");
 
-        if (deliv.type === 'CREATIVE_MEDIA_VIDEO_BUNDLE') {
-          delivHtml = `
-            <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3 pt-3 border-t border-white/10">
-              <div>
-                <div class="text-[10px] mono uppercase text-slate-400 mb-1">Ảnh Thiết Kế Studio (.webp)</div>
-                <img src="${deliv.banner_webp_url}" class="w-full h-48 object-contain bg-black rounded-lg border border-white/10" />
-              </div>
-              <div>
-                <div class="text-[10px] mono uppercase text-slate-400 mb-1">Video Dựng Phim OpenMontage (.mp4 - ${deliv.video_duration_sec}s)</div>
-                <video src="${deliv.video_mp4_url}" controls class="w-full h-48 object-contain bg-black rounded-lg border border-white/10"></video>
-              </div>
-              <div class="md:col-span-2 flex flex-wrap items-center justify-between gap-2 bg-[#07080B] p-2.5 rounded-lg border border-white/10">
-                <span class="text-[11px] mono text-emerald-400">OpenMontage '${deliv.openmontage_pipeline}' QA Score: ${deliv.openmontage_risk_score}/5.0 (${deliv.openmontage_verdict})</span>
-                <audio src="${deliv.voiceover_mp3_url}" controls class="h-8"></audio>
-              </div>
-            </div>
-          `;
-        } else if (deliv.type === 'SEO_AIO_SAO_PACKAGE') {
-          delivHtml = `
-            <div class="mt-3 space-y-2 pt-3 border-t border-white/10 text-xs">
-              <div class="p-2.5 rounded-lg bg-[#07080B] border border-white/10">
-                <span class="mono text-[#FE5E02] font-semibold">Live Crawl:</span> ${deliv.live_crawl_eyc_asia?.url} — Tiêu đề: "${deliv.live_crawl_eyc_asia?.title}" (${deliv.live_crawl_eyc_asia?.word_count} từ)
-              </div>
-              <div class="p-2.5 rounded-lg bg-[#07080B] border border-white/10">
-                <div class="text-[10px] mono uppercase text-emerald-400 mb-1">Khối Câu Trả Lời Trực Tiếp 45 Từ (AIO Citation):</div>
-                <div class="text-slate-200">${deliv.aio_direct_answer_45w}</div>
-              </div>
-            </div>
-          `;
-        } else if (deliv.type === 'TWENTY_CRM_AND_GROWTH') {
-          delivHtml = `
-            <div class="mt-3 p-3 rounded-lg bg-[#07080B] border border-white/10 text-xs">
-              <div class="font-semibold text-emerald-400 mb-1">Đồng bộ Twenty CRM thành công:</div>
-              <div>People: ${deliv.twenty_crm_sync?.total_people_in_crm} • Deals WON: ${deliv.twenty_crm_sync?.campaign_opportunities_won} • Tasks: ${deliv.twenty_crm_sync?.campaign_tasks_dispatched}</div>
+      container.innerHTML = filtered.map(w => {
+        const deliv = w.deliverable_payload || {};
+        const htmlUrl = w.deliverable_html_url || deliv.deliverable_html_url || "";
+        const jsonUrl = w.deliverable_json_url || deliv.deliverable_json_url || "";
+        const isPending = w.status === "WAITING_APPROVAL" || w.approval_status === "PENDING_APPROVAL";
+        const isApproved = w.approval_status === "APPROVED_BY_DIRECTOR" || w.status === "COMPLETED";
+
+        let statusBadge = `<span class="state-tag pending">CHỜ GIÁM ĐỐC DUYỆT</span>`;
+        if (isApproved) {
+          statusBadge = `<span class="state-tag done">ĐÃ NGHIỆM THU</span>`;
+        } else if (w.status === "REVISION_REQUIRED") {
+          statusBadge = `<span class="state-tag pending">ĐÃ YÊU CẦU TỐI ƯU</span>`;
+        } else if (w.status === "WORKING") {
+          statusBadge = `<span class="state-tag pending">ĐANG SẢN XUẤT...</span>`;
+        }
+
+        let mediaPreviewHtml = "";
+        if (deliv.banner_webp_url || deliv.video_mp4_url) {
+          mediaPreviewHtml = `
+            <div class="inline-media-strip">
+              ${deliv.banner_webp_url ? `<a href="${escapeHtml(deliv.banner_webp_url)}" target="_blank" title="Bấm mở ảnh Poster .webp"><img src="${escapeHtml(deliv.banner_webp_url)}" class="inline-thumb" /></a>` : ""}
+              ${deliv.video_mp4_url ? `<video controls preload="metadata" src="${escapeHtml(deliv.video_mp4_url)}" class="inline-thumb"></video>` : ""}
             </div>
           `;
         }
 
-        const approvalBar = (isTask && wo.order_id) ? `
-          <div class="mt-3 pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-2">
-            <span class="text-[11px] mono text-slate-400">Điểm phê duyệt của con người (Bước 05 → 06):</span>
-            <div class="flex items-center gap-2">
-              <button onclick="approveCurrentTask('${wo.order_id}')" class="px-3 py-1.5 rounded-lg bg-emerald-500 text-black font-bold text-xs hover:bg-emerald-400">
-                ✅ Phê Duyệt Kết Quả
-              </button>
-              <button onclick="promptKaizenRevision('${wo.order_id}')" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 text-amber-300 border border-amber-500/30 font-semibold text-xs">
-                🔧 Yêu Cầu Tối Ưu & Vá Kaizen
-              </button>
-            </div>
-          </div>
-        ` : '';
-
         return `
-          <div class="space-y-2">
-            <!-- Director Message -->
-            <div class="flex justify-end">
-              <div class="max-w-[85%] rounded-2xl rounded-tr-sm bg-[#FE5E02]/15 border border-[#FE5E02]/40 px-4 py-2.5 text-xs text-white">
-                <div class="text-[10px] mono uppercase text-[#FFA05C] mb-0.5">
-                  Giám đốc Phan Phúc Nguyên • ${isTask ? 'GIAO TASK THỰC TẾ' : (isOpt ? 'TỐI ƯU PROMPT / KAIZEN' : 'PHỎNG VẤN TRỰC TIẾP')}
-                </div>
-                <div>${item.director_input}</div>
+          <div class="product-card ${isPending ? "pending-review" : ""}">
+            <div class="product-top">
+              <span class="product-dept">[${escapeHtml(w.department_code || "00")}] ${escapeHtml(w.department_short || w.department_name)}</span>
+              ${statusBadge}
+            </div>
+            <div class="product-id">MÃ HỒ SƠ: ${escapeHtml(w.order_id)} • ${escapeHtml((w.updated_at_utc || "").slice(11, 19))} UTC</div>
+            <div class="product-title">${escapeHtml(w.task_title)}</div>
+            <div class="product-summary">${escapeHtml(w.deliverable_summary)}</div>
+
+            ${mediaPreviewHtml}
+
+            <div class="product-links-box">
+              <div style="font-family:var(--mono);font-size:9.5px;color:var(--mut);text-transform:uppercase;letter-spacing:0.06em;">
+                LINK XEM SẢN PHẨM TRỰC TIẾP:
+              </div>
+              <div class="links-row">
+                ${htmlUrl ? `
+                  <button class="link-btn primary-link" onclick="openProductModal('${escapeHtml(w.order_id)}', '${escapeHtml(htmlUrl)}', '${escapeHtml(jsonUrl)}', '${escapeHtml(w.task_title)}')">
+                    MỞ XEM TOÀN VĂN SẢN PHẨM
+                  </button>
+                  <a class="link-btn" href="${escapeHtml(htmlUrl)}" target="_blank" rel="noopener">MỞ LINK TAB MỚI ↗</a>
+                ` : `<span style="font-size:11px;color:var(--mut);">Đang khởi tạo file hồ sơ...</span>`}
+                ${jsonUrl ? `<a class="link-btn" href="${escapeHtml(jsonUrl)}" target="_blank" rel="noopener">JSON ↗</a>` : ""}
+                ${deliv.banner_webp_url ? `<a class="link-btn" href="${escapeHtml(deliv.banner_webp_url)}" target="_blank" rel="noopener">ẢNH .WEBP ↗</a>` : ""}
+                ${deliv.voiceover_mp3_url ? `<a class="link-btn" href="${escapeHtml(deliv.voiceover_mp3_url)}" target="_blank" rel="noopener">AUDIO .MP3 ↗</a>` : ""}
+                ${deliv.video_mp4_url ? `<a class="link-btn" href="${escapeHtml(deliv.video_mp4_url)}" target="_blank" rel="noopener">VIDEO .MP4 ↗</a>` : ""}
               </div>
             </div>
 
-            <!-- Agent Response & Deliverable -->
-            <div class="flex justify-start">
-              <div class="w-full rounded-2xl rounded-tl-sm bg-[#161922] border border-white/10 p-4 text-xs text-slate-200 leading-relaxed">
-                <div class="flex items-center justify-between text-[10px] mono text-slate-400 mb-2">
-                  <span class="text-white font-semibold">${d.name} (${d.department_id})</span>
-                  <span>${item.created_at_utc.slice(0, 19)} UTC</span>
-                </div>
-                <div class="whitespace-pre-wrap">${item.agent_response}</div>
-                ${delivHtml}
-                ${approvalBar}
+            <div class="approval-actions-row">
+              <div style="display:flex;gap:6px;">
+                <button class="btn btn-primary" style="padding:5px 10px;font-size:11px;" onclick="approveWorkOrder('${escapeHtml(w.order_id)}', 'APPROVE')">
+                  PHÊ DUYỆT
+                </button>
+                <button class="btn" style="padding:5px 10px;font-size:11px;" onclick="approveWorkOrder('${escapeHtml(w.order_id)}', 'REJECT_KAIZEN')">
+                  TỐI ƯU & GHI KAIZEN
+                </button>
+              </div>
+              <div style="display:flex;align-items:center;gap:4px;">
+                <select class="field-select" style="padding:4px 6px;font-size:10.5px;width:130px;" id="handoff_${escapeHtml(w.order_id)}">
+                  ${nextDeptOptions}
+                </select>
+                <button class="btn" style="padding:5px 8px;font-size:10.5px;" onclick="handoffToNextDepartment('${escapeHtml(w.order_id)}', '${escapeHtml(w.task_title)}', '${escapeHtml(w.deliverable_summary)}')">
+                  CHUYỂN TIẾP →
+                </button>
               </div>
             </div>
           </div>
         `;
-      }).join('');
+      }).join("");
+    }
 
+    function renderKaizenPanel(dept, allKaizen) {
+      const container = document.getElementById("kaizenListContainer");
+      const deptRules = dept.kaizen_rules || [];
+      const rulesToShow = deptRules.length > 0 ? deptRules : allKaizen.slice(0, 6);
+      if (rulesToShow.length === 0) {
+        container.innerHTML = `<div style="font-size:11.5px;color:var(--mut);">Chưa có Luật Kaizen nào. Bạn có thể thêm trực tiếp ở ô trên hoặc bấm "TỐI ƯU & GHI KAIZEN" trên bất kỳ sản phẩm nào.</div>`;
+        return;
+      }
+      container.innerHTML = rulesToShow.map(r => `
+        <div class="kaizen-item">
+          <div style="font-family:var(--mono);font-size:9.5px;color:var(--orange);margin-bottom:3px;">
+            [${escapeHtml(r.source_department)}] • ${escapeHtml((r.created_at_utc || "").slice(0, 10))}
+          </div>
+          <div>${escapeHtml(r.learned_rule)}</div>
+        </div>
+      `).join("");
+    }
+
+    function openProductModal(orderId, htmlUrl, jsonUrl, title) {
+      CURRENT_MODAL_ORDER_ID = orderId;
+      document.getElementById("modalOrderTitle").textContent = `${orderId} — ${title}`;
+      document.getElementById("modalOpenNewTabLink").href = htmlUrl;
+      document.getElementById("modalOpenJsonLink").href = jsonUrl || htmlUrl;
+      document.getElementById("modalIframe").src = htmlUrl;
+      document.getElementById("productModal").classList.add("open");
+    }
+
+    function closeProductModal() {
+      document.getElementById("productModal").classList.remove("open");
+      document.getElementById("modalIframe").src = "about:blank";
+    }
+
+    window.addEventListener("keydown", e => {
+      if (e.key === "Escape") closeProductModal();
+    });
+
+    async function modalApproveAction(decision) {
+      if (!CURRENT_MODAL_ORDER_ID) return;
+      await approveWorkOrder(CURRENT_MODAL_ORDER_ID, decision);
+      closeProductModal();
+    }
+
+    async function submitTaskExecution() {
+      const title = document.getElementById("taskTitleInput").value.trim();
+      const instructions = document.getElementById("taskInstructionsInput").value.trim();
+      const productLine = document.getElementById("productLineSelect").value;
+      if (!title) {
+        alert("Vui lòng nhập tên nhiệm vụ cần giao.");
+        return;
+      }
+      const btn = document.getElementById("submitTaskBtn");
+      btn.disabled = true;
+      btn.textContent = "ĐANG CHẠY...";
+      try {
+        await fetch("/api/delegate-task", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            department_id: SELECTED_DEPT_ID,
+            task_title: title,
+            instructions: instructions || title,
+            campaign_id: "EYC_CORE",
+            product_name: productLine,
+            price_vnd: 25000000,
+            async_mode: true
+          })
+        });
+        await fetchState();
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = "THỰC THI &<br>XUẤT SẢN PHẨM";
+      }
+    }
+
+    async function submitInterview() {
+      const q = document.getElementById("interviewInput").value.trim();
+      if (!q) return;
+      document.getElementById("interviewInput").value = "";
+      await fetch("/api/interview-department", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          department_id: SELECTED_DEPT_ID,
+          question: q
+        })
+      });
+      await fetchState();
+      const stream = document.getElementById("conversationStream");
       stream.scrollTop = stream.scrollHeight;
     }
 
-    function setComposerMode(mode) {
-      COMPOSER_MODE = mode;
-      const btnInt = document.getElementById('mode-btn-interview');
-      const btnTask = document.getElementById('mode-btn-task');
-      const metaRow = document.getElementById('composer-task-meta');
-      const hint = document.getElementById('composer-mode-hint');
-      const submitLbl = document.getElementById('btn-studio-submit-label');
-
-      if (mode === 'INTERVIEW') {
-        btnInt.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-[#07080B]';
-        btnTask.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-white/5 text-slate-300 border border-white/10 hover:text-white';
-        metaRow.classList.add('hidden');
-        hint.textContent = 'Hỏi trực tiếp nhân sự về quy trình làm việc, công cụ và giải pháp cho eyc.asia';
-        submitLbl.textContent = 'Gửi Câu Hỏi';
+    async function approveWorkOrder(orderId, decision) {
+      let note = "";
+      if (decision !== "APPROVE") {
+        note = prompt("Nhập yêu cầu tối ưu / Luật Kaizen mới để khóa vào System Prompt của bộ phận này:", "Phải đính kèm đầy đủ số liệu thực tế và tuân thủ 100% chuẩn thương hiệu eyc.asia.");
+        if (note === null) return;
       } else {
-        btnTask.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-[#FE5E02] text-[#07080B]';
-        btnInt.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-white/5 text-slate-300 border border-white/10 hover:text-white';
-        metaRow.classList.remove('hidden');
-        hint.textContent = 'Giao nhiệm vụ thực tế để nhân sự vận hành công cụ và xuất sản phẩm thật';
-        submitLbl.textContent = '🚀 Phát Lệnh Thực Thi';
+        note = "Giám đốc Phan Phúc Nguyên đã kiểm tra sản phẩm và phê duyệt nghiệm thu.";
       }
+      await fetch("/api/approve-work-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          order_id: orderId,
+          decision: decision,
+          feedback_note: note
+        })
+      });
+      await fetchState();
     }
 
-    function fillSuggestedInterview() {
-      setComposerMode('INTERVIEW');
-      const p = SUGGESTED_PRESETS[SELECTED_DEPT_ID] || {};
-      document.getElementById('input-director-message').value = p.interview || 'Hãy báo cáo quy trình làm việc 6 bước EYC của bộ phận bạn.';
-      document.getElementById('input-director-message').focus();
+    async function handoffToNextDepartment(sourceOrderId, prevTitle, prevSummary) {
+      const sel = document.getElementById(`handoff_${sourceOrderId}`);
+      if (!sel) return;
+      const nextDeptId = sel.value;
+      SELECTED_DEPT_ID = nextDeptId;
+      setMode("TASK");
+      document.getElementById("taskTitleInput").value = `[Chuyển tiếp từ ${sourceOrderId}] Triển khai bước tiếp theo: ${prevTitle.slice(0, 55)}`;
+      document.getElementById("taskInstructionsInput").value = `Dựa trên kết quả bàn giao từ hồ sơ ${sourceOrderId} (${prevSummary}), hãy thực thi hạng mục chuyên môn tiếp theo của bộ phận theo chuẩn 6 bước EYC.`;
+      await submitTaskExecution();
     }
 
-    function fillSuggestedTask() {
-      setComposerMode('TASK');
-      const p = SUGGESTED_PRESETS[SELECTED_DEPT_ID] || {};
-      document.getElementById('input-task-title').value = p.taskTitle || `Nhiệm vụ thực thi EYC cho ${SELECTED_DEPT_ID}`;
-      document.getElementById('input-director-message').value = p.taskDesc || 'Thực thi nhiệm vụ theo chuẩn EYC (eyc.asia).';
-      document.getElementById('input-director-message').focus();
-    }
-
-    async function submitStudioComposer(e) {
-      e.preventDefault();
-      const msgEl = document.getElementById('input-director-message');
-      const text = msgEl.value.trim();
-      if (!text) return;
-
-      const btn = document.getElementById('btn-studio-submit');
-      btn.disabled = true;
-
-      try {
-        if (COMPOSER_MODE === 'INTERVIEW') {
-          await fetch('/api/interview-department', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              department_id: SELECTED_DEPT_ID,
-              question: text,
-            }),
-          });
-          msgEl.value = '';
-          await fetchCompanyState();
-        } else {
-          const title = document.getElementById('input-task-title').value.trim() || text.slice(0, 55);
-          const prod = document.getElementById('input-product-name').value.trim() || 'EYC – Everything You Connect (eyc.asia)';
-          await fetch('/api/delegate-task', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              department_id: SELECTED_DEPT_ID,
-              task_title: title,
-              instructions: text,
-              product_name: prod,
-              async_mode: true,
-            }),
-          });
-          msgEl.value = '';
-          LAST_JOB_RUNNING = true;
-          showToast('Đã phát lệnh thực thi', `Bộ phận ${SELECTED_DEPT_ID} đang thực thi "${title}"...`);
-          await fetchCompanyState();
-          for (let i = 1; i <= 18; i++) {
-            setTimeout(fetchCompanyState, i * 1000);
-          }
-        }
-      } finally {
-        btn.disabled = false;
-      }
-    }
-
-    async function saveDepartmentPrompt(e) {
-      e.preventDefault();
-      const sysPrompt = document.getElementById('right-system-prompt').value;
-      const newKaizen = document.getElementById('right-new-kaizen').value;
-      const res = await fetch('/api/update-prompt', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+    async function savePromptAndKaizen() {
+      const sysPrompt = document.getElementById("systemPromptEditor").value.trim();
+      const newRule = document.getElementById("newKaizenInput").value.trim();
+      await fetch("/api/update-prompt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           department_id: SELECTED_DEPT_ID,
           system_prompt: sysPrompt,
-          new_kaizen_rule: newKaizen,
-        }),
+          new_kaizen_rule: newRule
+        })
       });
-      const data = await res.json();
-      document.getElementById('right-new-kaizen').value = '';
-      showToast('Đã lưu cấu hình nhân sự', data.message || 'Cập nhật thành công.');
-      await fetchCompanyState();
-    }
-
-    async function approveCurrentTask(orderId) {
-      const res = await fetch('/api/approve-work-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          order_id: orderId,
-          decision: 'APPROVE',
-          feedback_note: 'Giám đốc Phan Phúc Nguyên đã nghiệm thu trên giao diện EYC.',
-        }),
-      });
-      const data = await res.json();
-      showToast('Đã phê duyệt (Bước 06)', data.message || 'Hoàn tất.');
-      await fetchCompanyState();
-    }
-
-    async function promptKaizenRevision(orderId) {
-      const note = prompt('Nhập chỉ đạo tối ưu / chỉnh sửa cho bộ phận này (Hệ thống sẽ tự động lưu thành Luật Kaizen & vá System Prompt):');
-      if (!note) return;
-      const res = await fetch('/api/approve-work-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          order_id: orderId,
-          decision: 'REJECT_KAIZEN',
-          feedback_note: note,
-        }),
-      });
-      const data = await res.json();
-      showToast('Đã ghi Luật Kaizen & Vá Prompt', data.message || note);
-      await fetchCompanyState();
-    }
-
-    function renderCleanArchitectureMap() {
-      const grid = document.getElementById('clean-architecture-grid');
-      const depts = STATE.departments || [];
-      const groups = {};
-      depts.forEach(d => {
-        if (!groups[d.group]) groups[d.group] = [];
-        groups[d.group].push(d);
-      });
-
-      grid.innerHTML = Object.entries(groups).map(([gName, items]) => `
-        <div class="eyc-card p-4 space-y-3">
-          <div class="text-xs font-bold text-[#FE5E02] mono uppercase border-b border-white/10 pb-2">${gName}</div>
-          <div class="space-y-2.5">
-            ${items.map(d => `
-              <div onclick="selectDepartment('${d.department_id}'); switchMainView('studio');"
-                   class="p-3.5 rounded-xl bg-[#07080B] border border-white/10 hover:border-[#FE5E02] cursor-pointer transition space-y-2">
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-2">
-                    <span class="w-6 h-6 rounded bg-[#FE5E02]/15 text-[#FE5E02] mono text-xs font-bold flex items-center justify-center">${d.code}</span>
-                    <span class="text-xs font-bold text-white">${d.short_label}</span>
-                  </div>
-                  ${statePillHtml(d.live_state)}
-                </div>
-                <p class="text-[11px] text-slate-400 line-clamp-2">${d.speech_bubble}</p>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function renderVaultView() {
-      const mediaEl = document.getElementById('vault-media-list');
-      const crmEl = document.getElementById('vault-crm-list');
-      const kgEl = document.getElementById('vault-kg-list');
-
-      const files = STATE.media_vault || [];
-      if (files.length === 0) {
-        mediaEl.innerHTML = `<div class="text-xs text-slate-500 italic">Kho Media đang sạch (0 file rác). Hãy giao việc cho khối Sáng tạo / Video (#03, #05, #06) để tạo sản phẩm thật.</div>`;
-      } else {
-        mediaEl.innerHTML = files.map(f => `
-          <div class="p-3 rounded-xl bg-[#07080B] border border-white/10 space-y-2">
-            ${f.ext === '.mp4' ? `<video src="${f.url}" controls class="w-full h-40 object-contain bg-black rounded-lg"></video>` : ''}
-            ${f.ext === '.webp' ? `<img src="${f.url}" class="w-full h-40 object-contain bg-black rounded-lg" />` : ''}
-            ${f.ext === '.mp3' ? `<audio src="${f.url}" controls class="w-full"></audio>` : ''}
-            <div class="flex items-center justify-between text-xs">
-              <a href="${f.url}" target="_blank" class="text-[#FE5E02] font-semibold hover:underline truncate">${f.filename}</a>
-              <span class="mono text-slate-400">${(f.size_bytes / 1024).toFixed(1)} KB</span>
-            </div>
-          </div>
-        `).join('');
-      }
-
-      const opps = (STATE.twenty_crm || {}).opportunities || [];
-      if (opps.length === 0) {
-        crmEl.innerHTML = `<div class="text-xs text-slate-500 italic">Twenty CRM đang sạch (0 dữ liệu demo). Hãy giao việc cho Phòng Sale B2B (#12) để tạo Deal thật.</div>`;
-      } else {
-        crmEl.innerHTML = opps.map(o => `
-          <div class="p-3 rounded-xl bg-[#07080B] border border-white/10 flex items-center justify-between text-xs">
-            <div>
-              <div class="font-bold text-white">${o.deal_name}</div>
-              <div class="text-[11px] text-slate-400 mono">Stage: ${o.stage} • ${o.probability_percent}%</div>
-            </div>
-            <span class="mono font-bold text-emerald-400">${new Intl.NumberFormat('vi-VN').format(o.amount_vnd)} đ</span>
-          </div>
-        `).join('');
-      }
-
-      const kg = STATE.knowledge_graph || { nodes: [], edges: [] };
-      const rules = STATE.kaizen_rules || [];
-      document.getElementById('vault-brain-stats').textContent = `${(kg.nodes || []).length} Thực thể EYC • ${(kg.edges || []).length} Liên kết • ${rules.length} Luật Kaizen`;
-
-      kgEl.innerHTML = (kg.nodes || []).map(n => `
-        <div class="p-2.5 rounded-xl bg-[#07080B] border border-white/10 text-xs">
-          <div class="flex items-center justify-between mb-0.5">
-            <span class="font-bold text-white">${n.name}</span>
-            <span class="text-[10px] mono px-2 py-0.5 rounded bg-[#FE5E02]/15 text-[#FE5E02]">${n.entity_type}</span>
-          </div>
-          <div class="text-slate-400 text-[11px]">${n.description}</div>
-        </div>
-      `).join('');
-    }
-
-    function switchMainView(view) {
-      ['studio', 'map', 'vault'].forEach(v => {
-        const mainEl = document.getElementById(`main-view-${v}`);
-        const btnEl = document.getElementById(`view-btn-${v}`);
-        if (v === view) {
-          mainEl.classList.remove('hidden');
-          btnEl.className = 'px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[#FE5E02] text-[#07080B]';
-        } else {
-          mainEl.classList.add('hidden');
-          btnEl.className = 'px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white';
-        }
-      });
-    }
-
-    async function triggerCompanyWave() {
-      await fetch('/api/simulate-wave', { method: 'POST' });
-      LAST_JOB_RUNNING = true;
-      for (let i = 1; i <= 8; i++) {
-        setTimeout(fetchCompanyState, i * 800);
-      }
+      document.getElementById("newKaizenInput").value = "";
+      PROMPT_DIRTY = false;
+      await fetchState();
     }
 
     async function resetCleanEYC() {
-      if (!confirm('Xóa toàn bộ lịch sử test và khôi phục trạng thái sạch chuẩn gốc EYC (eyc.asia)?')) return;
-      await fetch('/api/reset-clean', { method: 'POST' });
-      showToast('Đã làm mới sạch', 'Toàn bộ 16 phòng ban đã trở về trạng thái chuẩn gốc EYC (eyc.asia).');
-      await fetchCompanyState();
+      if (!confirm("Xác nhận xóa trắng toàn bộ lịch sử sản phẩm test để đưa hệ thống về trạng thái gốc của EYC (eyc.asia)?")) return;
+      await fetch("/api/reset-clean", { method: "POST" });
+      await fetchState();
     }
 
-    fetchCompanyState();
-    setInterval(fetchCompanyState, 2500);
+    document.getElementById("systemPromptEditor").addEventListener("input", () => {
+      PROMPT_DIRTY = true;
+    });
+
+    // Initial load & real-time polling
+    fetchState().then(() => {
+      fillDefaultTaskPreset();
+    });
+    setInterval(fetchState, 2000);
   </script>
 </body>
 </html>
