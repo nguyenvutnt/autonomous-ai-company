@@ -36,6 +36,7 @@ from ceo_hr_orchestrator import CEOExecutiveAgent, HRAgentDirector
 from creative_video_division import CreativeVideoStudioDivision
 from engine import CorporateSecondBrain, CORPORATE_DEPARTMENTS
 from finance_it_pipeline_division import CFOFinancialStrategistAgent, AccountantBookkeeperAgent, ITDevOpsSecurityAgent
+from install_eyc_comprehensive_brain import install_comprehensive_eyc_brain
 from seo_aio_sao_division import SearchGrowthDivision
 from setup_eyc_clean_slate import EYC_COMPANY_PROFILE, EYC_DEPARTMENT_PROMPTS, reset_and_setup_eyc
 from social_ads_sale_division import SocialAdsSaleDivision
@@ -792,7 +793,7 @@ class EYCCompanyController:
             for f in DELIVERABLES_DIR.iterdir():
                 if f.is_file():
                     f.unlink()
-        return reset_and_setup_eyc()
+        return install_comprehensive_eyc_brain()
 
     def get_full_company_state(self, campaign_id: str = "EYC_CORE") -> dict[str, Any]:
         with self.brain._connect() as conn:
@@ -821,7 +822,7 @@ class EYCCompanyController:
             ]
             kg_nodes = [
                 dict(r)
-                for r in conn.execute("SELECT * FROM kg_entities LIMIT 40;").fetchall()
+                for r in conn.execute("SELECT * FROM kg_entities LIMIT 50;").fetchall()
             ]
             node_name_map = {n["entity_id"]: n["name"] for n in kg_nodes}
             kg_edges = [
@@ -848,6 +849,21 @@ class EYCCompanyController:
                     "SELECT * FROM eyc_interview_logs ORDER BY created_at_utc DESC LIMIT 100;"
                 ).fetchall()
             ]
+
+            try:
+                all_skills_rows = [
+                    dict(r)
+                    for r in conn.execute(
+                        "SELECT * FROM department_installed_skills ORDER BY CASE WHEN skill_category = 'EYC_PLAYBOOK' THEN 0 ELSE 1 END, skill_id ASC;"
+                    ).fetchall()
+                ]
+            except Exception:
+                all_skills_rows = []
+
+            try:
+                total_memories_cnt = conn.execute("SELECT COUNT(*) FROM ai_memories;").fetchone()[0]
+            except Exception:
+                total_memories_cnt = 0
 
             try:
                 twenty_people = [
@@ -928,6 +944,12 @@ class EYCCompanyController:
             if src in kaizen_by_dept:
                 kaizen_by_dept[src].append(kz)
 
+        skills_by_dept: dict[str, list[dict[str, Any]]] = {k: [] for k in CORPORATE_DEPARTMENTS}
+        for sk in all_skills_rows:
+            did = sk["department_id"]
+            if did in skills_by_dept:
+                skills_by_dept[did].append(sk)
+
         with LIVE_EVENTS_LOCK:
             live_status_snapshot = dict(DEPT_LIVE_STATUS)
             events_snapshot = list(LIVE_EVENTS[:35])
@@ -945,6 +967,7 @@ class EYCCompanyController:
             weapons = [w.strip() for w in meta.get("weapons", "").split(",") if w.strip()]
             dept_logs = logs_by_dept.get(dept_id, [])
             dept_wos = [w for w in wo_rows if w["department_id"] == dept_id]
+            dept_skills = skills_by_dept.get(dept_id, [])
 
             departments_list.append(
                 {
@@ -962,6 +985,8 @@ class EYCCompanyController:
                     "kaizen_patches": roster.get("kaizen_prompt_patch", ""),
                     "kpi_score": roster.get("kpi_score", 100.0),
                     "tasks_completed": roster.get("tasks_completed", 0),
+                    "installed_skills_count": len(dept_skills),
+                    "installed_skills": dept_skills[:30],
                     "work_order": wo,
                     "department_work_orders": dept_wos,
                     "live_state": live.get("state", wo.get("status", "READY")),
@@ -993,6 +1018,14 @@ class EYCCompanyController:
             "company_profile": EYC_COMPANY_PROFILE,
             "campaign_id": campaign_id,
             "timestamp": _utc_now_iso(),
+            "brain_stats": {
+                "total_installed_skills": len(all_skills_rows),
+                "total_memories": total_memories_cnt,
+                "total_kaizen_rules": len(kaizen_rows),
+                "total_kg_entities": len(kg_nodes),
+                "total_kg_relations": len(kg_edges),
+                "db_path": "/root/ecosystem/second-brain/data/corporate_second_brain.db",
+            },
             "active_job": active_job_snapshot,
             "departments": departments_list,
             "work_orders": wo_rows,
@@ -1029,6 +1062,21 @@ class EYCCompanyController:
             ).fetchone()
             sys_prompt = roster["system_prompt_excerpt"] if roster else EYC_DEPARTMENT_PROMPTS.get(department_id, "")
             kaizen_patch = roster["kaizen_prompt_patch"] if roster else ""
+            try:
+                dept_skills = [
+                    dict(r)
+                    for r in conn.execute(
+                        "SELECT * FROM department_installed_skills WHERE department_id = ? ORDER BY CASE WHEN skill_category = 'EYC_PLAYBOOK' THEN 0 ELSE 1 END LIMIT 8;",
+                        (department_id,),
+                    ).fetchall()
+                ]
+                total_dept_skills = conn.execute(
+                    "SELECT COUNT(*) FROM department_installed_skills WHERE department_id = ?;",
+                    (department_id,),
+                ).fetchone()[0]
+            except Exception:
+                dept_skills = []
+                total_dept_skills = 0
 
         q_lower = question.lower()
 
@@ -1037,15 +1085,22 @@ class EYCCompanyController:
             f"• Câu hỏi của Giám đốc Phan Phúc Nguyên: \"{question}\"",
             f"• Nhiệm vụ cốt lõi tại EYC (eyc.asia): {sys_prompt}",
             f"• Nền tảng & công cụ vận hành: {meta['weapons']}",
+            f"• Tổng số Kỹ năng & Playbook đã cài đặt tại phòng ban: {total_dept_skills} skills",
             "",
             "01 / QUY TRÌNH 6 BƯỚC EYC ÁP DỤNG CHO YÊU CẦU NÀY:",
             "  01. Định hướng: Xác lập mục tiêu đầu ra đo lường được cho hệ sinh thái EYC (eyc.asia & Early Years Circle).",
-            "  02. Ngữ cảnh: Truy xuất Bộ Não Thứ 2 (Tầng 1 SQLite FTS5, Tầng 2 Kaizen, Tầng 3 Đồ thị thực thể EYC gồm 8 nhóm giải pháp & 4 phân hệ Teacher/Family/Admin/TV).",
+            "  02. Ngữ cảnh: Truy xuất Bộ Não Thứ 2 (131 trang tri thức eyc.asia, 16 Luật Kaizen, 23 thực thể công nghệ: Nalix .NET 10, Zalo API .NET, Quy trình 9 giai đoạn EYC, Early Years Circle).",
             f"  03. Agents: Kích hoạt chuyên gia {meta['profile_ref']} với điểm phê duyệt của con người (Human Approval Gate).",
             f"  04. Hành động: Thực thi tự động qua {meta['weapons']} và xuất hồ sơ sản phẩm có link nghiệm thu trực tiếp.",
             "  05. Kiểm tra: Trình Giám đốc xem trực tiếp toàn văn sản phẩm và bấm Phê Duyệt hoặc Yêu Cầu Tối Ưu.",
             "  06. Kết quả: Lưu trữ tài sản số vào Kho Sản Phẩm EYC & cập nhật chỉ số KPI.",
         ]
+
+        if dept_skills:
+            response_lines.append("")
+            response_lines.append(f"02 / BỘ SKILL & PLAYBOOK CÔNG NGHỆ EYC ĐANG NẠP ({total_dept_skills} KỸ NĂNG):")
+            for sk in dept_skills[:5]:
+                response_lines.append(f"  • [{sk['skill_category']}] {sk['skill_name']} ({sk['source_repo_or_url']})")
 
         if kaizen_patch:
             response_lines.extend(

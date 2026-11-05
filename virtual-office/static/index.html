@@ -963,6 +963,8 @@
     </div>
 
     <div class="top-actions">
+      <div class="stat-chip" title="Tổng số kỹ năng chuyên môn & Playbook EYC đã cài đặt">SKILLS: <strong id="totalSkillsCount">539</strong></div>
+      <div class="stat-chip" title="Tổng số trang kiến thức công nghệ eyc.asia & ký ức trong Bộ Não Thứ 2">TRI THỨC EYC: <strong id="totalMemoriesCount">131</strong></div>
       <div class="stat-chip">SẢN PHẨM: <strong id="totalProductsCount">0</strong></div>
       <div class="stat-chip">CHỜ DUYỆT: <strong id="pendingReviewCount">0</strong></div>
       <div class="stat-chip">KAIZEN: <strong id="totalKaizenCount">0</strong></div>
@@ -1082,6 +1084,11 @@
         <div class="cfg-card">
           <div class="cfg-label">04.3 / LUẬT KAIZEN ĐANG KHÓA TRONG HỆ THỐNG</div>
           <div id="kaizenListContainer" style="display:flex;flex-direction:column;gap:8px;"></div>
+        </div>
+
+        <div class="cfg-card">
+          <div class="cfg-label" id="skillsCardLabel">04.4 / BỘ SKILL & PLAYBOOK EYC ĐÃ CÀI ĐẶT</div>
+          <div id="installedSkillsContainer" style="display:flex;flex-direction:column;gap:7px;"></div>
         </div>
       </div>
     </section>
@@ -1379,12 +1386,19 @@
       const wos = COMPANY_STATE.work_orders || [];
       const kaizen = COMPANY_STATE.kaizen_rules || [];
       const activeJob = COMPANY_STATE.active_job || {};
+      const brainStats = COMPANY_STATE.brain_stats || {};
 
       // Top counters
       const pendingWos = wos.filter(w => w.status === "WAITING_APPROVAL" || w.approval_status === "PENDING_APPROVAL");
       document.getElementById("totalProductsCount").textContent = wos.length;
       document.getElementById("pendingReviewCount").textContent = pendingWos.length;
       document.getElementById("totalKaizenCount").textContent = kaizen.length;
+      if (document.getElementById("totalSkillsCount")) {
+        document.getElementById("totalSkillsCount").textContent = brainStats.total_installed_skills || 539;
+      }
+      if (document.getElementById("totalMemoriesCount")) {
+        document.getElementById("totalMemoriesCount").textContent = brainStats.total_memories || 131;
+      }
 
       // 6-step bar & execution ribbon
       const activeStep = activeJob.eyc_step_index || 0;
@@ -1445,7 +1459,7 @@
         document.getElementById("activeDeptGroup").innerHTML = `<span>${escapeHtml(activeDept.code)}</span> / ${escapeHtml(activeDept.group)}`;
         document.getElementById("activeDeptName").textContent = `${activeDept.code} — ${activeDept.name}`;
         document.getElementById("activeDeptRole").textContent = activeDept.role;
-        document.getElementById("activeDeptStats").textContent = `KPI: ${Math.round(activeDept.kpi_score || 100)}% • ${(activeDept.department_work_orders || []).length} SẢN PHẨM`;
+        document.getElementById("activeDeptStats").textContent = `SKILLS: ${activeDept.installed_skills_count || 0} • KPI: ${Math.round(activeDept.kpi_score || 100)}% • ${(activeDept.department_work_orders || []).length} SẢN PHẨM`;
         document.getElementById("activeDeptCodeBadge").textContent = activeDept.code;
 
         document.getElementById("activeDeptWeapons").innerHTML = (activeDept.weapons || []).map(w =>
@@ -1692,16 +1706,42 @@
       const rulesToShow = deptRules.length > 0 ? deptRules : allKaizen.slice(0, 6);
       if (rulesToShow.length === 0) {
         container.innerHTML = `<div style="font-size:11.5px;color:var(--mut);">Chưa có Luật Kaizen nào. Bạn có thể thêm trực tiếp ở ô trên hoặc bấm "TỐI ƯU & GHI KAIZEN" trên bất kỳ sản phẩm nào.</div>`;
-        return;
-      }
-      container.innerHTML = rulesToShow.map(r => `
-        <div class="kaizen-item">
-          <div style="font-family:var(--mono);font-size:9.5px;color:var(--orange);margin-bottom:3px;">
-            [${escapeHtml(r.source_department)}] • ${escapeHtml((r.created_at_utc || "").slice(0, 10))}
+      } else {
+        container.innerHTML = rulesToShow.map(r => `
+          <div class="kaizen-item">
+            <div style="font-family:var(--mono);font-size:9.5px;color:var(--orange);margin-bottom:3px;">
+              [${escapeHtml(r.source_department)}] • ${escapeHtml((r.created_at_utc || "").slice(0, 10))}
+            </div>
+            <div>${escapeHtml(r.learned_rule)}</div>
           </div>
-          <div>${escapeHtml(r.learned_rule)}</div>
-        </div>
-      `).join("");
+        `).join("");
+      }
+
+      const skillsContainer = document.getElementById("installedSkillsContainer");
+      const skillsLabel = document.getElementById("skillsCardLabel");
+      if (skillsLabel) {
+        skillsLabel.textContent = `04.4 / BỘ SKILL & PLAYBOOK ĐÃ CÀI (${dept.installed_skills_count || 0} SKILLS)`;
+      }
+      if (skillsContainer) {
+        const skills = dept.installed_skills || [];
+        if (skills.length === 0) {
+          skillsContainer.innerHTML = `<div style="font-size:11.5px;color:var(--mut);">Đang nạp danh sách kỹ năng...</div>`;
+        } else {
+          skillsContainer.innerHTML = skills.slice(0, 18).map(sk => {
+            const isUrl = (sk.source_repo_or_url || "").startsWith("http");
+            return `
+              <div style="padding:7px 9px;border-radius:6px;background:var(--bg-2);border:1px solid var(--border);font-size:11px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;">
+                  <span style="font-family:var(--mono);font-size:9.5px;color:var(--orange);font-weight:600;">${escapeHtml(sk.skill_category)}</span>
+                  ${isUrl ? `<a href="${escapeHtml(sk.source_repo_or_url)}" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:9.5px;color:var(--ink-2);text-decoration:underline;">EYC.ASIA ↗</a>` : `<span style="font-family:var(--mono);font-size:9px;color:var(--mut);">LOCAL REPO</span>`}
+                </div>
+                <div style="font-weight:600;color:var(--ink);margin-top:2px;">${escapeHtml(sk.skill_name)}</div>
+                <div style="color:var(--mut);font-size:10.5px;margin-top:2px;line-height:1.4;">${escapeHtml((sk.sop_summary || "").slice(0, 150))}</div>
+              </div>
+            `;
+          }).join("");
+        }
+      }
     }
 
     function openProductModal(orderId, htmlUrl, jsonUrl, title) {
