@@ -352,6 +352,39 @@ class SaleLeadCloserAgent:
             order_value_vnd REAL NOT NULL DEFAULT 0.0,
             created_at_utc TEXT NOT NULL
         );
+
+        -- Twenty CRM Native Schema Mirrors (People, Opportunities Kanban, Follow-up Tasks)
+        CREATE TABLE IF NOT EXISTS twenty_crm_people (
+            person_id TEXT PRIMARY KEY,
+            full_name TEXT NOT NULL,
+            phone TEXT NOT NULL,
+            email TEXT NOT NULL DEFAULT '',
+            source_channel TEXT NOT NULL,
+            external_uid TEXT NOT NULL,
+            created_at_utc TEXT NOT NULL
+        );
+
+        CREATE TABLE IF NOT EXISTS twenty_crm_opportunities (
+            opportunity_id TEXT PRIMARY KEY,
+            campaign_id TEXT NOT NULL,
+            person_id TEXT NOT NULL,
+            deal_name TEXT NOT NULL,
+            stage TEXT NOT NULL, -- 'NEW_LEAD', 'QUALIFIED', 'PROPOSAL_SENT', 'WON', 'LOST'
+            amount_vnd REAL NOT NULL,
+            probability_percent INTEGER NOT NULL,
+            close_date_utc TEXT NOT NULL,
+            updated_at_utc TEXT NOT NULL
+        );
+
+        CREATE TABLE IF NOT EXISTS twenty_crm_tasks (
+            task_id TEXT PRIMARY KEY,
+            opportunity_id TEXT NOT NULL,
+            person_id TEXT NOT NULL,
+            title TEXT NOT NULL,
+            status TEXT NOT NULL, -- 'TODO', 'IN_PROGRESS', 'DONE'
+            assignee_department TEXT NOT NULL DEFAULT '12_sale',
+            due_at_utc TEXT NOT NULL
+        );
         """
         with self.brain._connect() as conn:
             conn.executescript(sql)
@@ -439,6 +472,69 @@ class SaleLeadCloserAgent:
                     ),
                 )
 
+                # Sync into Twenty CRM Native Tables (Person -> Opportunity Kanban -> Follow-up Task)
+                person_id = f"tw_per_{phone_norm or uuid.uuid4().hex[:8]}"
+                opp_id = f"tw_opp_{lead_id}"
+                task_id = f"tw_tsk_{lead_id}"
+                opp_stage = "WON" if is_closed else "QUALIFIED"
+                opp_prob = 100 if is_closed else 60
+                task_title = (
+                    f"[Twenty CRM] Gửi mã vận đơn & video đóng gói cho {item.get('author_name', 'Khách')}"
+                    if is_closed
+                    else f"[Twenty CRM] Gọi/Zalo chốt đơn {product_name} trong 15 phút"
+                )
+                task_status = "DONE" if is_closed else "TODO"
+
+                conn.execute(
+                    """
+                    INSERT INTO twenty_crm_people (
+                        person_id, full_name, phone, email, source_channel, external_uid, created_at_utc
+                    )
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                    ON CONFLICT(person_id) DO UPDATE SET
+                        full_name = excluded.full_name,
+                        email = COALESCE(NULLIF(excluded.email, ''), twenty_crm_people.email);
+                    """,
+                    (
+                        person_id,
+                        item.get("author_name", "Khách hàng"),
+                        phone_norm,
+                        email_clean,
+                        item.get("channel", "Facebook/TikTok"),
+                        item.get("uid", "unknown"),
+                        now_iso,
+                    ),
+                )
+                conn.execute(
+                    """
+                    INSERT INTO twenty_crm_opportunities (
+                        opportunity_id, campaign_id, person_id, deal_name,
+                        stage, amount_vnd, probability_percent, close_date_utc, updated_at_utc
+                    )
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+                    """,
+                    (
+                        opp_id,
+                        campaign_id,
+                        person_id,
+                        f"{product_name} - {item.get('author_name', 'Khách hàng')}",
+                        opp_stage,
+                        float(price_vnd),
+                        opp_prob,
+                        now_iso,
+                        now_iso,
+                    ),
+                )
+                conn.execute(
+                    """
+                    INSERT INTO twenty_crm_tasks (
+                        task_id, opportunity_id, person_id, title, status, assignee_department, due_at_utc
+                    )
+                    VALUES (?, ?, ?, ?, ?, '12_sale', ?);
+                    """,
+                    (task_id, opp_id, person_id, task_title, task_status, now_iso),
+                )
+
                 extracted_leads.append(
                     {
                         "lead_id": lead_id,
@@ -453,6 +549,17 @@ class SaleLeadCloserAgent:
                     }
                 )
 
+        with self.brain._connect() as conn:
+            people_cnt = conn.execute("SELECT COUNT(*) as c FROM twenty_crm_people;").fetchone()["c"]
+            opp_won_cnt = conn.execute(
+                "SELECT COUNT(*) as c FROM twenty_crm_opportunities WHERE campaign_id = ? AND stage = 'WON';",
+                (campaign_id,),
+            ).fetchone()["c"]
+            tasks_cnt = conn.execute(
+                "SELECT COUNT(*) as c FROM twenty_crm_tasks WHERE opportunity_id IN (SELECT opportunity_id FROM twenty_crm_opportunities WHERE campaign_id = ?);",
+                (campaign_id,),
+            ).fetchone()["c"]
+
         if total_revenue_vnd > 0:
             self.brain.record_financial_transaction(
                 department="12_sale",
@@ -461,7 +568,7 @@ class SaleLeadCloserAgent:
                 amount_vnd=total_revenue_vnd,
                 leads_count=len(extracted_leads),
                 orders_count=closed_orders_count,
-                note=f"Auto-mined {len(extracted_leads)} hot leads & closed {closed_orders_count} orders via Zalo.Net + Chatwoot",
+                note=f"Auto-mined {len(extracted_leads)} hot leads & closed {closed_orders_count} orders via Zalo.Net + Chatwoot + Twenty CRM",
             )
 
         return {
@@ -471,6 +578,12 @@ class SaleLeadCloserAgent:
             "orders_closed": closed_orders_count,
             "revenue_generated_vnd": total_revenue_vnd,
             "leads": extracted_leads,
+            "twenty_crm_sync": {
+                "total_people_in_crm": int(people_cnt),
+                "campaign_opportunities_won": int(opp_won_cnt),
+                "campaign_tasks_dispatched": int(tasks_cnt),
+                "kanban_stage": "WON" if closed_orders_count > 0 else "QUALIFIED",
+            },
         }
 
 

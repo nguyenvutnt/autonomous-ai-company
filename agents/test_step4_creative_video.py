@@ -71,15 +71,20 @@ def run_step4_verification() -> None:
         f"Đã xuất '{audio['audio_path']}' (Giọng: {audio['voice']}, Thời lượng: {audio['duration_sec']}s, {audio['size_bytes']:,} bytes)."
     )
 
-    # 5. Verify Video Editor (#6) Final 9:16 MP4 + SRT + MD5 Fingerprint
+    # 5. Verify Video Editor (#6) Final 9:16 MP4 + SRT + MD5 Fingerprint + OpenMontage QA
     video = bundle["short_video_mp4"]
+    om_qa = bundle["openmontage_qa_report"]
     assert Path(video["video_mp4_path"]).exists() and video["size_bytes"] > 20000
     assert Path(video["subtitle_srt_path"]).exists()
+    assert om_qa["selected_pipeline"] == "clip-factory"
+    assert om_qa["slideshow_risk_verdict"] in ("strong", "acceptable")
     print(
-        f"✅ [Dựng Phim #6 - Xuất Video Shorts/Reels/TikTok 9:16 MP4]:\n"
+        f"✅ [Dựng Phim #6 - Xuất Video Shorts/Reels/TikTok 9:16 MP4 & OpenMontage QA]:\n"
         f"   • File MP4: '{video['video_mp4_path']}' ({video['resolution']}, {video['fps']}fps, {video['duration_sec']}s, {video['size_bytes']:,} bytes)\n"
         f"   • Phụ đề SRT: '{video['subtitle_srt_path']}'\n"
-        f"   • Mã băm chống quét trùng lặp (MD5): {video['md5_fingerprint']}"
+        f"   • Mã băm chống quét trùng lặp (MD5): {video['md5_fingerprint']}\n"
+        f"   • OpenMontage Pipeline: '{om_qa['selected_pipeline']}' ({om_qa['available_pipelines_count']} pipelines, Stages: {om_qa['pipeline_stages']})\n"
+        f"   • OpenMontage Anti-Slideshow Risk QA: Score = {om_qa['slideshow_risk_score']}/5.0 -> Verdict: {om_qa['slideshow_risk_verdict'].upper()}"
     )
 
     print("=" * 84)

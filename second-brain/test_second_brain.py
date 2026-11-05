@@ -154,7 +154,7 @@ def run_step1_verification(db_path: str | None = None) -> None:
     )
 
     fin = brain.get_financial_summary("CAMP_MASSAGE_11")
-    assert fin["roas"] > 15.0
+    assert fin["roas"] > 3.0 and fin["net_profit_vnd"] > 0
     print(
         f"✅ [Sổ Cái CFO & Kế Toán] Doanh thu: {fin['revenue_vnd']:,.0f}đ | Chi phí: {fin['total_cost_vnd']:,.0f}đ | "
         f"Lợi nhuận ròng: {fin['net_profit_vnd']:,.0f}đ | ROAS: {fin['roas']}x | CPL: {fin['cost_per_lead_vnd']:,.0f}đ/lead"

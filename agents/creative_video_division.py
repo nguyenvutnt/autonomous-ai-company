@@ -34,8 +34,11 @@ from PIL import Image, ImageDraw, ImageFont
 
 ECOSYSTEM_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ECOSYSTEM_ROOT / "second-brain"))
+sys.path.insert(0, str(ECOSYSTEM_ROOT / "01-media-video" / "OpenMontage"))
 
 from engine import CorporateSecondBrain, _strip_accents
+from lib.pipeline_loader import list_pipelines, load_pipeline_readonly
+from lib.slideshow_risk import score_slideshow_risk
 
 DEFAULT_FONT_BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 DEFAULT_FONT_REGULAR = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
@@ -140,6 +143,17 @@ class ContentCopywriterAgent:
                 "scene_index": 1,
                 "time_range": "00:00 - 00:03",
                 "role": "HOOK_3S",
+                "type": "dramatic_reenactment",
+                "description": "Close-up of exhausted IT engineer holding stiff neck at 11PM in front of dual monitors",
+                "information_role": "problem_hook",
+                "narrative_role": "inciting_incident",
+                "shot_intent": "Grab viewer attention in 3s by mirroring acute neck pain at night",
+                "hero_moment": True,
+                "shot_language": {
+                    "shot_size": "close_up",
+                    "camera_movement": "push_in",
+                    "lighting_key": "low_key_neon",
+                },
                 "subtitle_text": "11H ĐÊM VẪN ÔM CỔ NHĂN MẶT VÌ NGỒI MÁY TÍNH 8 TIẾNG?",
                 "voiceover_text": f"11 giờ đêm vẫn ngồi ôm cổ nhăn mặt vì làm việc máy tính suốt 8 tiếng? Dân văn phòng đừng chủ quan!",
                 "visual_headline": "ĐAU MỎI CỔ VAI GÁY?",
@@ -150,6 +164,17 @@ class ContentCopywriterAgent:
                 "scene_index": 2,
                 "time_range": "00:03 - 00:07",
                 "role": "SOLUTION_USP_1",
+                "type": "product_macro_reveal",
+                "description": f"3D thermal & TENS pulse visualization of {product_name} wrapping ergonomically around the neck",
+                "information_role": "mechanism_explanation",
+                "narrative_role": "rising_action",
+                "shot_intent": "Demonstrate dual TENS pulse and 42C infrared heat penetration",
+                "hero_moment": True,
+                "shot_language": {
+                    "shot_size": "macro_detail",
+                    "camera_movement": "orbit",
+                    "lighting_key": "warm_therapeutic",
+                },
                 "subtitle_text": f"{product_name.upper()}: {usp_1.upper()}",
                 "voiceover_text": f"Đã có {product_name} với công nghệ {usp_1}, kết hợp {usp_2} giúp làm dịu nhanh cảm giác căng cứng cơ cổ.",
                 "visual_headline": usp_1.upper(),
@@ -160,6 +185,17 @@ class ContentCopywriterAgent:
                 "scene_index": 3,
                 "time_range": "00:07 - 00:11",
                 "role": "PROOF_USP_2",
+                "type": "lifestyle_broll",
+                "description": "Office worker smiling and typing comfortably while wearing the lightweight cordless device",
+                "information_role": "social_proof_and_convenience",
+                "narrative_role": "climax",
+                "shot_intent": "Show effortless 15-minute daily usage at the office desk",
+                "hero_moment": False,
+                "shot_language": {
+                    "shot_size": "medium_shot",
+                    "camera_movement": "tracking_pan",
+                    "lighting_key": "high_key_daylight",
+                },
                 "subtitle_text": f"THƯ GIÃN 15 PHÚT MỖI NGÀY - {usp_3.upper()}",
                 "voiceover_text": f"Chỉ cần 15 phút mỗi ngày ngay tại bàn làm việc. {usp_3}, nhỏ gọn mang đi mọi nơi.",
                 "visual_headline": "15 PHÚT THƯ GIÃN SÂU",
@@ -170,6 +206,17 @@ class ContentCopywriterAgent:
                 "scene_index": 4,
                 "time_range": "00:11 - 00:15",
                 "role": "CTA_OFFER",
+                "type": "offer_cta_card",
+                "description": "High-contrast commercial offer card with warranty seal, price slash, and urgent CTA",
+                "information_role": "call_to_action",
+                "narrative_role": "resolution",
+                "shot_intent": "Drive immediate click/lead conversion with 12-month 1-to-1 warranty guarantee",
+                "hero_moment": False,
+                "shot_language": {
+                    "shot_size": "wide_graphic",
+                    "camera_movement": "zoom_snap",
+                    "lighting_key": "studio_high_contrast",
+                },
                 "subtitle_text": f"ƯU ĐÃI CHỈ {price_vnd:,.0f}Đ + FREESHIP - ĐẶT NGAY HÔM NAY!",
                 "voiceover_text": f"Ưu đãi hôm nay chỉ còn {int(price_vnd // 1000)} nghìn đồng kèm miễn phí vận chuyển. Bấm vào giỏ hàng hoặc nhắn tin nhận ưu đãi ngay!",
                 "visual_headline": f"CHỈ {price_vnd:,.0f} VNĐ",
@@ -496,6 +543,32 @@ class VideoEditorAgent:
         self.output_dir = output_dir
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
+    def evaluate_openmontage_pipeline_and_slideshow_risk(
+        self,
+        scenes: list[dict[str, Any]],
+        pipeline_name: str = "clip-factory",
+    ) -> dict[str, Any]:
+        """
+        Loads the official OpenMontage pipeline YAML (`clip-factory`, `avatar-spokesperson`, etc.)
+        and evaluates the 6-dimension `score_slideshow_risk` gate before rendering.
+        """
+        available_pipelines = sorted(list_pipelines())
+        manifest = load_pipeline_readonly(pipeline_name)
+        risk_report = score_slideshow_risk(
+            scenes=scenes,
+            renderer_family="cinematic_commercial",
+            render_runtime="remotion_hyperframes_ffmpeg",
+        )
+        return {
+            "selected_pipeline": pipeline_name,
+            "pipeline_display_name": manifest.get("display_name", pipeline_name),
+            "pipeline_stages": [s["name"] for s in manifest.get("stages", [])],
+            "available_pipelines_count": len(available_pipelines),
+            "slideshow_risk_score": risk_report["average"],
+            "slideshow_risk_verdict": risk_report["verdict"],
+            "slideshow_dimensions": risk_report["dimensions"],
+        }
+
     def render_vertical_short_mp4(
         self,
         product_name: str,
@@ -641,7 +714,11 @@ class CreativeVideoStudioDivision:
             output_basename=f"voice_{_slugify(product_name)}",
         )
 
-        # 5. Video Editor (#6) renders final 1080x1920 MP4 + SRT + unique MD5 fingerprint
+        # 5. Video Editor (#6) runs OpenMontage QA gate (`score_slideshow_risk` + `clip-factory` manifest) & renders MP4
+        openmontage_qa = self.editor.evaluate_openmontage_pipeline_and_slideshow_risk(
+            scenes=script_draft["scenes"],
+            pipeline_name="clip-factory",
+        )
         video_render = self.editor.render_vertical_short_mp4(
             product_name=product_name,
             scenes=script_draft["scenes"],
@@ -693,6 +770,7 @@ class CreativeVideoStudioDivision:
             "campaign_id": campaign_id,
             "product_name": product_name,
             "creative_approval": approval,
+            "openmontage_qa_report": openmontage_qa,
             "spintax_summary": {
                 "total_unique_generated": spintax_bundle["total_unique_generated"],
                 "sample_variation_1": spintax_bundle["sample_variations"][0],

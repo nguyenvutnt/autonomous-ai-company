@@ -139,17 +139,22 @@ def run_step5_verification() -> None:
         f"   • Đã kích hoạt {len(ads_rep['viral_seeding_actions'])} luồng Seeding & Auto Up Tin hội nhóm."
     )
 
-    # 4. Verify Sale Lead Mining (Obfuscated VN Phones) & Zalo.Net / Chatwoot Auto-Closing (#12)
+    # 4. Verify Sale Lead Mining (Obfuscated VN Phones) & Zalo.Net / Chatwoot / Twenty CRM Auto-Closing (#12)
     sale_rep = report["sale_lead_and_closing_report"]
+    tw_crm = sale_rep["twenty_crm_sync"]
     assert sale_rep["hot_leads_extracted"] == 4
     assert sale_rep["orders_closed"] == 4
     assert sale_rep["revenue_generated_vnd"] == 4 * 890000
+    assert tw_crm["total_people_in_crm"] >= 4
+    assert tw_crm["campaign_opportunities_won"] >= 4
+    assert tw_crm["campaign_tasks_dispatched"] >= 4
     phones = [l["phone_normalized"] for l in sale_rep["leads"]]
     assert "0987654321" in phones and "0912345678" in phones and "0903112233" in phones
     print(
-        f"✅ [Sale #12 - Quét SĐT Ẩn/Lách Luật & Chốt Đơn Tự Động (Zalo.Net + Chatwoot)]:\n"
+        f"✅ [Sale #12 - Quét SĐT Ẩn/Lách Luật & Chốt Đơn Tự Động (Zalo.Net + Chatwoot + Twenty CRM)]:\n"
         f"   • Quét {sale_rep['comments_scanned']} bình luận -> Bóc tách chuẩn xác {sale_rep['hot_leads_extracted']} SĐT/Email nóng: {phones}\n"
-        f"   • Tự động gửi tin nhắn Zalo.Net & đồng bộ Chatwoot -> Chốt thành công {sale_rep['orders_closed']} đơn ({sale_rep['revenue_generated_vnd']:,.0f} VNĐ)."
+        f"   • Tự động gửi tin nhắn Zalo.Net & đồng bộ Chatwoot -> Chốt thành công {sale_rep['orders_closed']} đơn ({sale_rep['revenue_generated_vnd']:,.0f} VNĐ).\n"
+        f"   • Twenty CRM Native Sync: {tw_crm['total_people_in_crm']} People | {tw_crm['campaign_opportunities_won']} Opportunities ({tw_crm['kanban_stage']}) | {tw_crm['campaign_tasks_dispatched']} Follow-up Tasks."
     )
 
     fin = report["updated_cfo_summary"]

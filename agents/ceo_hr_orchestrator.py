@@ -27,6 +27,8 @@ from engine import CORPORATE_DEPARTMENTS, CorporateSecondBrain, _strip_accents
 
 AGENCY_AGENTS_DIR = ECOSYSTEM_ROOT / "00-ai-company-agents" / "agency-agents"
 AGENCY_AGENTS_ZH_DIR = ECOSYSTEM_ROOT / "00-ai-company-agents" / "agency-agents-zh"
+OPENMONTAGE_SKILLS_DIR = ECOSYSTEM_ROOT / "01-media-video" / "OpenMontage" / ".agents" / "skills"
+TWENTY_SKILLS_DIR = ECOSYSTEM_ROOT / "04-distribution-livestream-crm" / "twenty" / "packages" / "twenty-agent-skills" / "skills"
 
 
 def _utc_now_iso() -> str:
@@ -104,7 +106,11 @@ class HRAgentDirector:
         results: list[dict[str, Any]] = []
         norm_kw = _strip_accents(keyword) if keyword else None
 
-        search_dirs = [d for d in [AGENCY_AGENTS_DIR, AGENCY_AGENTS_ZH_DIR] if d.exists()]
+        search_dirs = [
+            d
+            for d in [AGENCY_AGENTS_DIR, AGENCY_AGENTS_ZH_DIR, OPENMONTAGE_SKILLS_DIR, TWENTY_SKILLS_DIR]
+            if d.exists()
+        ]
         for base_dir in search_dirs:
             for md_path in sorted(base_dir.rglob("*.md")):
                 if md_path.name.upper() in {"README.MD", "CONTRIBUTING.MD", "CONTRIBUTING_ZH-CN.MD", "SECURITY.MD", "LICENSE"}:
