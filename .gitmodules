@@ -76,3 +76,9 @@
 [submodule "05-core-platforms/Zalo.Net"]
 	path = 05-core-platforms/Zalo.Net
 	url = https://github.com/ppn-systems/Zalo.Net.git
+[submodule "01-media-video/OpenMontage"]
+	path = 01-media-video/OpenMontage
+	url = https://github.com/calesthio/OpenMontage.git
+[submodule "04-distribution-livestream-crm/twenty"]
+	path = 04-distribution-livestream-crm/twenty
+	url = https://github.com/twentyhq/twenty.git

@@ -83,7 +83,7 @@ CORPORATE_DEPARTMENTS: dict[str, dict[str, str]] = {
         "name": "Nhân Sự Dựng Phim (Short Video Editor)",
         "role": "Tải video Douyin/TikTok không logo, Việt hóa, tự dựng Shorts/Reels, gắn sub karaoke",
         "profile_ref": "marketing/marketing-short-video-editing-coach.md",
-        "weapons": "MoneyPrinterTurbo, pyvideotrans, NarratoAI, Douyin_TikTok_Download_API",
+        "weapons": "OpenMontage (77k★), MoneyPrinterTurbo, pyvideotrans, NarratoAI, Douyin_TikTok_Download_API",
     },
     "07_seo": {
         "name": "Nhân Viên SEO (Google & Web Organic)",
@@ -119,7 +119,7 @@ CORPORATE_DEPARTMENTS: dict[str, dict[str, str]] = {
         "name": "Nhân Viên Sale & CSKH (Lead Hunter & Closer)",
         "role": "Quét UID/SĐT/Email từ đối thủ, tự động kết bạn Zalo/FB, bắn Inbox/Email & chốt đơn 24/7",
         "profile_ref": "sales/sales-outbound-strategist.md",
-        "weapons": "Facebook.Net Scanner, Zalo.Net, chatwoot, listmonk",
+        "weapons": "Twenty CRM (60k★), Facebook.Net Scanner, Zalo.Net, chatwoot, listmonk",
     },
     "13_cfo": {
         "name": "CFO (Giám Đốc Tài Chính)",
