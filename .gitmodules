@@ -1,0 +1,72 @@
+[submodule "00-ai-company-agents/ChatDev"]
+	path = 00-ai-company-agents/ChatDev
+	url = https://github.com/OpenBMB/ChatDev.git
+[submodule "00-ai-company-agents/CompanyOS"]
+	path = 00-ai-company-agents/CompanyOS
+	url = https://github.com/kortix-ai/CompanyOS.git
+[submodule "00-ai-company-agents/MetaGPT"]
+	path = 00-ai-company-agents/MetaGPT
+	url = https://github.com/FoundationAgents/MetaGPT.git
+[submodule "00-ai-company-agents/agency-agents"]
+	path = 00-ai-company-agents/agency-agents
+	url = https://github.com/msitarzewski/agency-agents.git
+[submodule "00-ai-company-agents/agency-agents-zh"]
+	path = 00-ai-company-agents/agency-agents-zh
+	url = https://github.com/jnMetaCode/agency-agents-zh.git
+[submodule "00-ai-company-agents/crewAI"]
+	path = 00-ai-company-agents/crewAI
+	url = https://github.com/crewAIInc/crewAI.git
+[submodule "01-media-video/ComfyUI"]
+	path = 01-media-video/ComfyUI
+	url = https://github.com/comfyanonymous/ComfyUI.git
+[submodule "01-media-video/Douyin_TikTok_Download_API"]
+	path = 01-media-video/Douyin_TikTok_Download_API
+	url = https://github.com/Evil0ctal/Douyin_TikTok_Download_API.git
+[submodule "01-media-video/LivePortrait"]
+	path = 01-media-video/LivePortrait
+	url = https://github.com/KwaiVGI/LivePortrait.git
+[submodule "01-media-video/MoneyPrinterTurbo"]
+	path = 01-media-video/MoneyPrinterTurbo
+	url = https://github.com/harry0703/MoneyPrinterTurbo.git
+[submodule "01-media-video/NarratoAI"]
+	path = 01-media-video/NarratoAI
+	url = https://github.com/linyqh/NarratoAI.git
+[submodule "01-media-video/pyvideotrans"]
+	path = 01-media-video/pyvideotrans
+	url = https://github.com/jianchang512/pyvideotrans.git
+[submodule "02-seo-research/crawl4ai"]
+	path = 02-seo-research/crawl4ai
+	url = https://github.com/unclecode/crawl4ai.git
+[submodule "02-seo-research/firecrawl"]
+	path = 02-seo-research/firecrawl
+	url = https://github.com/mendableai/firecrawl.git
+[submodule "02-seo-research/gpt-researcher"]
+	path = 02-seo-research/gpt-researcher
+	url = https://github.com/assafelovic/gpt-researcher.git
+[submodule "03-antidetect-browser/browser-use"]
+	path = 03-antidetect-browser/browser-use
+	url = https://github.com/browser-use/browser-use.git
+[submodule "03-antidetect-browser/camoufox"]
+	path = 03-antidetect-browser/camoufox
+	url = https://github.com/daijro/camoufox.git
+[submodule "03-antidetect-browser/skyvern"]
+	path = 03-antidetect-browser/skyvern
+	url = https://github.com/Skyvern-AI/skyvern.git
+[submodule "04-distribution-livestream-crm/chatwoot"]
+	path = 04-distribution-livestream-crm/chatwoot
+	url = https://github.com/chatwoot/chatwoot.git
+[submodule "04-distribution-livestream-crm/listmonk"]
+	path = 04-distribution-livestream-crm/listmonk
+	url = https://github.com/knadh/listmonk.git
+[submodule "04-distribution-livestream-crm/mediamtx"]
+	path = 04-distribution-livestream-crm/mediamtx
+	url = https://github.com/bluenviron/mediamtx.git
+[submodule "04-distribution-livestream-crm/n8n"]
+	path = 04-distribution-livestream-crm/n8n
+	url = https://github.com/n8n-io/n8n.git
+[submodule "04-distribution-livestream-crm/postiz-app"]
+	path = 04-distribution-livestream-crm/postiz-app
+	url = https://github.com/gitroomhq/postiz-app.git
+[submodule "04-distribution-livestream-crm/srs"]
+	path = 04-distribution-livestream-crm/srs
+	url = https://github.com/ossrs/srs.git
