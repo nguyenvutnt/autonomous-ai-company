@@ -22,6 +22,7 @@ from engine import (
     CorporateSecondBrain,
 )
 from ceo_hr_orchestrator import CEOExecutiveAgent, HRAgentDirector
+from creative_video_division import CreativeVideoStudioDivision
 from seo_aio_sao_division import SearchGrowthDivision
 
 mcp = FastMCP("corporate-second-brain")
@@ -29,6 +30,7 @@ brain = CorporateSecondBrain()
 hr_director = HRAgentDirector(brain)
 ceo_agent = CEOExecutiveAgent(brain, hr_director)
 search_division = SearchGrowthDivision(brain)
+creative_division = CreativeVideoStudioDivision(brain)
 
 
 @mcp.tool()
@@ -337,6 +339,40 @@ def search_generate_omni_package(
         usp_highlights=usps,
         target_persona=target_persona,
         competitor_url=competitor_url or None,
+    )
+    return json.dumps(res, ensure_ascii=False, indent=2)
+
+
+@mcp.tool()
+def creative_produce_campaign_bundle(
+    campaign_id: str,
+    product_name: str,
+    price_vnd: float,
+    usp_list_json: str,
+    target_persona: str,
+    spintax_count: int = 200,
+) -> str:
+    """
+    [Creative #2 + Design #3 + Content #4 + Media #5 + Video Editor #6]
+    Chạy dây chuyền sản xuất Đa Phương Tiện tự động:
+    1. Duyệt Hook 3s & kiểm duyệt chính sách quảng cáo (Creative Director #2).
+    2. Viết kịch bản 4 phân cảnh & sinh 200 bản biến thiên Spintax chống spam (Content #4).
+    3. Vẽ ảnh Studio Banner 1080x1080 (.webp) + 4 frame dọc 1080x1920 sub vàng nền đen (Design #3).
+    4. Tạo giọng đọc AI Tiếng Việt tự nhiên `edge-tts` (Media #5).
+    5. Dựng thành phẩm Video 9:16 (.mp4) + phụ đề (.srt) + đổi mã băm MD5 bằng FFmpeg (Video Editor #6).
+    """
+    try:
+        usps = json.loads(usp_list_json) if usp_list_json else []
+    except Exception:
+        usps = [u.strip() for u in usp_list_json.split(",") if u.strip()]
+
+    res = creative_division.produce_full_campaign_creative_bundle(
+        campaign_id=campaign_id,
+        product_name=product_name,
+        price_vnd=price_vnd,
+        usp_highlights=usps,
+        target_persona=target_persona,
+        spintax_count=spintax_count,
     )
     return json.dumps(res, ensure_ascii=False, indent=2)
 

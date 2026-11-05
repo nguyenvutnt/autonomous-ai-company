@@ -9,6 +9,14 @@ Step 2:
 from __future__ import annotations
 
 from .ceo_hr_orchestrator import CEOExecutiveAgent, HRAgentDirector
+from .creative_video_division import (
+    ContentCopywriterAgent,
+    CreativeDirectorAgent,
+    CreativeVideoStudioDivision,
+    DesignStudioAgent,
+    MediaLivestreamAgent,
+    VideoEditorAgent,
+)
 from .seo_aio_sao_division import (
     AIOCitationAgent,
     SAOSocialAgenticAgent,
@@ -23,4 +31,10 @@ __all__ = [
     "AIOCitationAgent",
     "SAOSocialAgenticAgent",
     "SearchGrowthDivision",
+    "CreativeDirectorAgent",
+    "ContentCopywriterAgent",
+    "DesignStudioAgent",
+    "MediaLivestreamAgent",
+    "VideoEditorAgent",
+    "CreativeVideoStudioDivision",
 ]
