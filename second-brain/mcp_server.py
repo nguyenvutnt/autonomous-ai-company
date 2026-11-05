@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "agents"))
 
 from mcp.server.fastmcp import FastMCP
 from engine import (
@@ -20,9 +21,12 @@ from engine import (
     MEMORY_CATEGORIES,
     CorporateSecondBrain,
 )
+from ceo_hr_orchestrator import CEOExecutiveAgent, HRAgentDirector
 
 mcp = FastMCP("corporate-second-brain")
 brain = CorporateSecondBrain()
+hr_director = HRAgentDirector(brain)
+ceo_agent = CEOExecutiveAgent(brain, hr_director)
 
 
 @mcp.tool()
@@ -214,6 +218,79 @@ def brain_get_department_briefing(
     res = brain.build_department_context_briefing(
         department_id=department_id,
         topic_or_product=topic_or_product or None,
+    )
+    return json.dumps(res, ensure_ascii=False, indent=2)
+
+
+@mcp.tool()
+def ceo_launch_campaign(
+    campaign_name: str,
+    product_name: str,
+    product_price_vnd: float,
+    target_revenue_vnd: float,
+    duration_days: int = 30,
+    max_ad_budget_ratio: float = 0.15,
+    estimated_close_rate: float = 0.25,
+    target_audience: str = "Khách hàng mục tiêu trên Facebook, Zalo, TikTok & Google",
+) -> str:
+    """
+    [CEO #1] Nhận mục tiêu doanh thu từ Founder -> Tự động tính toán Unit Economics ngược
+    (Số đơn, Số Lead, Ngân sách tối đa, ROAS mục tiêu, Định mức bài SEO/Video/Social/Livestream)
+    và phát lệnh giao việc (16 Work Orders) xuống toàn bộ 16 phòng ban.
+    """
+    res = ceo_agent.launch_strategic_campaign(
+        campaign_name=campaign_name,
+        product_name=product_name,
+        product_price_vnd=product_price_vnd,
+        target_revenue_vnd=target_revenue_vnd,
+        duration_days=duration_days,
+        max_ad_budget_ratio=max_ad_budget_ratio,
+        estimated_close_rate=estimated_close_rate,
+        target_audience=target_audience,
+    )
+    return json.dumps(res, ensure_ascii=False, indent=2)
+
+
+@mcp.tool()
+def ceo_board_report(campaign_id: str = "") -> str:
+    """
+    [CEO #1 + CFO #13 + HR #15] Xuất Báo cáo Giao ban Ban Giám Đốc theo thời gian thực:
+    Tổng hợp Doanh thu/ROAS, Bảng điểm KPI 16 phòng ban, Danh sách 16 Work Orders và Luật Kaizen mới nhất.
+    """
+    res = ceo_agent.get_executive_board_report(campaign_id=campaign_id or None)
+    return json.dumps(res, ensure_ascii=False, indent=2)
+
+
+@mcp.tool()
+def hr_scan_talent_pool(keyword: str = "", limit: int = 25) -> str:
+    """
+    [HR #15] Quét kho 600+ hồ sơ chuyên gia AI (`agency-agents` & `agency-agents-zh`)
+    theo từ khóa chuyên môn để tuyển dụng hoặc bổ sung kỹ năng cho phòng ban.
+    """
+    res = hr_director.scan_talent_pool(keyword=keyword or None, limit=limit)
+    return json.dumps(res, ensure_ascii=False, indent=2)
+
+
+@mcp.tool()
+def hr_evaluate_department_kpi(
+    department_id: str,
+    campaign_id: str,
+    kpi_achieved_json: str,
+    kpi_target_json: str,
+    notes: str = "",
+) -> str:
+    """
+    [HR #15] Chấm điểm KPI thực tế của phòng ban so với mục tiêu CEO giao,
+    tự động rút ra bài học Kaizen (WIN/LOSS) và vá trực tiếp vào System Prompt của Agent.
+    """
+    achieved = json.loads(kpi_achieved_json) if kpi_achieved_json else {}
+    target = json.loads(kpi_target_json) if kpi_target_json else {}
+    res = hr_director.evaluate_department_kpi_and_kaizen(
+        department_id=department_id,
+        campaign_id=campaign_id,
+        kpi_achieved=achieved,
+        kpi_target=target,
+        notes=notes,
     )
     return json.dumps(res, ensure_ascii=False, indent=2)
 
