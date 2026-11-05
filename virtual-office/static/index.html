@@ -111,6 +111,21 @@
     <!-- LEFT/CENTER 8 COLS: INTERACTIVE 2D VIRTUAL OFFICE FLOORPLAN + APPROVAL GATE -->
     <section class="xl:col-span-8 flex flex-col gap-5">
 
+      <!-- LIVE EXECUTION PROGRESS BANNER -->
+      <div id="live-job-banner" class="rounded-2xl border border-cyan-500/40 bg-slate-900/95 px-5 py-3.5 shadow-xl transition-all">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+          <div class="flex items-center gap-2">
+            <span id="job-spinner" class="w-3 h-3 rounded-full bg-emerald-400"></span>
+            <span id="job-title" class="text-xs font-extrabold uppercase tracking-wider text-cyan-300">TRẠNG THÁI DÂY CHUYỀN 16 PHÒNG BAN: SẴN SÀNG</span>
+          </div>
+          <span id="job-pct" class="text-xs font-bold mono text-amber-300 bg-amber-500/15 border border-amber-500/30 px-2 py-0.5 rounded">100%</span>
+        </div>
+        <div id="job-step" class="text-xs text-slate-200 font-medium mb-2">Nhấp vào nút "📋 Giao Việc Trực Tiếp" hoặc bất kỳ bàn làm việc nào để phát lệnh thực thi thời gian thực.</div>
+        <div class="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
+          <div id="job-bar" class="h-full bg-gradient-to-r from-cyan-400 via-blue-500 to-emerald-400 transition-all duration-500" style="width: 100%;"></div>
+        </div>
+      </div>
+
       <!-- 2D VIRTUAL OFFICE FLOORPLAN -->
       <div class="rounded-2xl border border-slate-800 bg-slate-950 overflow-hidden shadow-2xl">
         <div class="px-4 py-3 border-b border-slate-800 bg-slate-900/70 flex flex-wrap items-center justify-between gap-2">
@@ -343,9 +358,31 @@
     </div>
   </div>
 
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-md"></div>
+
   <script>
     let STATE = null;
     let SELECTED_DEPT_ID = '01_ceo';
+    let LAST_JOB_RUNNING = false;
+
+    function showToast(title, msg, color = 'cyan') {
+      const container = document.getElementById('toast-container');
+      const el = document.createElement('div');
+      const borderMap = {
+        cyan: 'border-cyan-400 bg-slate-900/95 text-cyan-200',
+        emerald: 'border-emerald-400 bg-slate-900/95 text-emerald-200',
+        amber: 'border-amber-400 bg-slate-900/95 text-amber-200',
+        rose: 'border-rose-400 bg-slate-900/95 text-rose-200'
+      };
+      el.className = `p-4 rounded-xl border-2 shadow-2xl transition-all ${borderMap[color] || borderMap.cyan}`;
+      el.innerHTML = `
+        <div class="text-xs font-extrabold uppercase mb-1">${title}</div>
+        <div class="text-xs text-slate-200 leading-relaxed">${msg}</div>
+      `;
+      container.appendChild(el);
+      setTimeout(() => { el.remove(); }, 6000);
+    }
 
     function fmtVND(n) {
       return new Intl.NumberFormat('vi-VN').format(Math.round(n || 0)) + ' đ';
@@ -385,6 +422,36 @@
       document.getElementById('kpi-roas').textContent = `${fin.actual_roas || 0}x • ${fin.cfo_directive || ''}`;
       const crm = STATE.twenty_crm || {};
       document.getElementById('kpi-crm').textContent = `${(crm.people || []).length} People • ${(crm.opportunities || []).length} WON Deals`;
+
+      // 1.5 Render Live Job Progress Banner
+      const job = STATE.active_job || {};
+      const jobBanner = document.getElementById('live-job-banner');
+      const jobSpinner = document.getElementById('job-spinner');
+      const jobTitle = document.getElementById('job-title');
+      const jobPct = document.getElementById('job-pct');
+      const jobStep = document.getElementById('job-step');
+      const jobBar = document.getElementById('job-bar');
+
+      if (job.running) {
+        jobBanner.className = 'rounded-2xl border-2 border-amber-400 bg-amber-950/20 px-5 py-3.5 shadow-2xl transition-all';
+        jobSpinner.className = 'w-3 h-3 rounded-full bg-amber-400 animate-ping';
+        jobTitle.textContent = `⚡ ĐANG THỰC THI LỆNH TẠI PHÒNG [${job.department_id}]: ${job.task_title}`;
+        jobPct.textContent = `${job.progress_percent || 25}%`;
+        jobStep.textContent = job.current_step || 'Đang xử lý...';
+        jobBar.style.width = `${job.progress_percent || 25}%`;
+        LAST_JOB_RUNNING = true;
+      } else {
+        jobBanner.className = 'rounded-2xl border border-emerald-500/40 bg-slate-900/95 px-5 py-3.5 shadow-xl transition-all';
+        jobSpinner.className = 'w-3 h-3 rounded-full bg-emerald-400';
+        jobTitle.textContent = job.task_title ? `✅ HOÀN TẤT LỆNH GẦN NHẤT: ${job.task_title}` : 'TRẠNG THÁI DÂY CHUYỀN 16 PHÒNG BAN: SẴN SÀNG';
+        jobPct.textContent = '100%';
+        jobStep.textContent = job.current_step || 'Hệ thống sẵn sàng nhận lệnh mới.';
+        jobBar.style.width = '100%';
+        if (LAST_JOB_RUNNING) {
+          LAST_JOB_RUNNING = false;
+          showToast('🎉 Đã Hoàn Tất Nhiệm Vụ!', job.current_step || 'Sản phẩm đã sẵn sàng chờ Giám Đốc duyệt.', 'emerald');
+        }
+      }
 
       // 2. Render 2D Virtual Office Floorplan
       renderOfficeFloorplan();
@@ -449,10 +516,11 @@
         }
 
         const bubbleText = (d.speech_bubble || '').slice(0, 48);
+        const pct = d.progress_percent !== undefined ? d.progress_percent : 100;
         return `
           <div onclick="selectDepartment('${d.department_id}')"
                style="left: calc(${d.x}% - 58px); top: calc(${d.y}% - 38px);"
-               class="avatar-node state-${d.live_state} absolute w-[116px] cursor-pointer rounded-xl bg-slate-900/95 border-2 ${isSelected ? 'border-cyan-400 ring-2 ring-cyan-400/40' : ringColor} p-2 shadow-xl">
+               class="avatar-node state-${d.live_state} absolute w-[122px] cursor-pointer rounded-xl bg-slate-900/95 border-2 ${isSelected ? 'border-cyan-400 ring-2 ring-cyan-400/40' : ringColor} p-2 shadow-xl">
             <!-- Speech bubble tooltip -->
             <div class="mb-1 px-1.5 py-0.5 rounded bg-slate-950/90 border border-slate-800 text-[9px] text-slate-300 truncate" title="${(d.speech_bubble || '').replace(/"/g, '&quot;')}">
               💬 ${bubbleText}...
@@ -469,6 +537,11 @@
                 <div class="text-[9px] text-slate-400 truncate">${d.name}</div>
               </div>
             </div>
+            ${d.live_state === 'WORKING' ? `
+              <div class="mt-1.5 w-full h-1.5 bg-slate-950 rounded-full overflow-hidden">
+                <div class="h-full bg-amber-400 transition-all duration-300" style="width:${pct}%"></div>
+              </div>
+            ` : ''}
           </div>
         `;
       }).join('');
@@ -511,10 +584,11 @@
       tbody.innerHTML = depts.map(d => {
         const wo = d.work_order || {};
         const orderId = wo.order_id || '';
-        const summary = wo.deliverable_summary || wo.objective || d.focus;
-        const feedback = wo.director_feedback ? `<div class="mt-1 text-[10px] text-amber-300">📌 Chỉ đạo GĐ: ${wo.director_feedback}</div>` : '';
+        const taskTitle = wo.task_title ? `<div class="text-cyan-300 font-bold mb-0.5">📌 ${wo.task_title}</div>` : '';
+        const summary = wo.deliverable_summary || wo.sop_instructions || d.focus;
+        const feedback = wo.director_feedback ? `<div class="mt-1 text-[10px] text-amber-300">💬 Chỉ đạo GĐ: ${wo.director_feedback}</div>` : '';
         return `
-          <tr class="hover:bg-slate-900/60 transition">
+          <tr id="wo-row-${d.department_id}" class="hover:bg-slate-900/60 transition ${d.department_id === SELECTED_DEPT_ID ? 'bg-cyan-950/30' : ''}">
             <td class="py-2.5 px-3 whitespace-nowrap">
               <button onclick="selectDepartment('${d.department_id}')" class="flex items-center gap-2 text-left hover:text-cyan-300">
                 <span class="text-base">${d.icon}</span>
@@ -525,6 +599,7 @@
               </button>
             </td>
             <td class="py-2.5 px-3 max-w-md">
+              ${taskTitle}
               <div class="text-slate-200 font-medium">${summary}</div>
               ${feedback}
             </td>
@@ -739,6 +814,7 @@
           instructions: document.getElementById('form-instructions').value,
           campaign_id: document.getElementById('form-campaign-id').value,
           price_vnd: Number(document.getElementById('form-price-vnd').value || 890000),
+          async_mode: true,
         };
         const res = await fetch('/api/delegate-task', {
           method: 'POST',
@@ -747,8 +823,13 @@
         });
         const data = await res.json();
         SELECTED_DEPT_ID = payload.department_id;
+        LAST_JOB_RUNNING = true;
         closeDelegateModal();
+        showToast('🚀 Đã Phát Lệnh Giao Việc!', data.execution_summary || `Phòng ${payload.department_id} đang bắt đầu thực thi...`, 'amber');
         await fetchCompanyState();
+        for (let i = 1; i <= 15; i++) {
+          setTimeout(fetchCompanyState, i * 1000);
+        }
       } finally {
         btn.disabled = false;
         btn.textContent = '🚀 Phát Lệnh & Thực Thi Ngay';
@@ -756,7 +837,7 @@
     }
 
     async function approveWorkOrder(orderId) {
-      await fetch('/api/approve-work-order', {
+      const res = await fetch('/api/approve-work-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -765,6 +846,8 @@
           feedback_note: 'Giám Đốc đã duyệt trực tiếp trên Trung Tâm Điều Hành.',
         }),
       });
+      const data = await res.json();
+      showToast('✅ Đã Phê Duyệt Work Order!', data.message || orderId, 'emerald');
       await fetchCompanyState();
     }
 
@@ -786,7 +869,7 @@
       e.preventDefault();
       const orderId = document.getElementById('kaizen-order-id').value;
       const note = document.getElementById('kaizen-feedback-note').value;
-      await fetch('/api/approve-work-order', {
+      const res = await fetch('/api/approve-work-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -795,7 +878,9 @@
           feedback_note: note,
         }),
       });
+      const data = await res.json();
       closeKaizenModal();
+      showToast('🔄 Đã Ghi Luật Kaizen & Vá System Prompt!', data.message || note, 'rose');
       await fetchCompanyState();
     }
 
