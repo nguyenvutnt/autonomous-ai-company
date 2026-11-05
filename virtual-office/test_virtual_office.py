@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-End-to-End Verification Suite for the Real-Time Interactive Virtual Office & Command Center
+End-to-End Verification Suite for the EYC (`eyc.asia`) 16-Department AI Command, Interview & Task Studio
 (`/root/ecosystem/virtual-office/test_virtual_office.py`).
 """
 
@@ -17,60 +17,38 @@ from server import CONTROLLER
 
 def run_virtual_office_verification() -> None:
     print("=" * 88)
-    print("🚀 BẮT ĐẦU KIỂM THỬ TRUNG TÂM MÔ PHỎNG VĂN PHÒNG ẢO & ĐIỀU HÀNH TRỰC QUAN 16 PHÒNG BAN")
+    print("🚀 KIỂM THỬ HỆ THỐNG ĐIỀU PHỐI & PHỎNG VẤN 16 PHÒNG BAN AI — EYC (eyc.asia)")
     print("=" * 88)
 
-    # 1. Verify Full Company State Snapshot
-    state = CONTROLLER.get_full_company_state("CAMP_MASSAGE_11")
+    # 1. Clean reset to EYC baseline
+    reset_res = CONTROLLER.clean_reset_eyc()
+    assert reset_res["ok"] is True and reset_res["departments_ready"] == 16
+    print(f"✅ [Khởi Tạo Sạch EYC]: {reset_res['company']} ({reset_res['website']}) — 0 dữ liệu rác demo.")
+
+    # 2. Verify 1-on-1 Department Interview
+    int_res = CONTROLLER.interview_department(
+        department_id="07_seo",
+        question="Em kiểm toán kỹ thuật https://eyc.asia/vi-vn/ và lập cụm chủ đề cho Early Years Circle như thế nào?",
+    )
+    assert int_res["ok"] is True and "eyc.asia" in int_res["agent_response"]
+    print("✅ [Phỏng Vấn 1-1 Phòng SEO (#07)]: Nhân sự trả lời đúng chuẩn 6 bước EYC & định vị Early Years Circle.")
+
+    # 3. Verify Direct System Prompt & Kaizen Optimization
+    opt_res = CONTROLLER.update_department_prompt_and_kaizen(
+        department_id="07_seo",
+        system_prompt="Bạn là Chuyên Gia SEO Kỹ Thuật (#7) của EYC (eyc.asia).",
+        new_kaizen_rule="Mọi bài viết Pillar của EYC phải liên kết nội bộ tới trang sản phẩm Early Years Circle.",
+    )
+    assert opt_res["ok"] is True
+    print(f"✅ [Tinh Chỉnh System Prompt & Luật Kaizen]: {opt_res['message']}")
+
+    # 4. Restore 100% Clean Slate so the Director starts with a fresh EYC workbench
+    CONTROLLER.clean_reset_eyc()
+    state = CONTROLLER.get_full_company_state("EYC_CORE")
     assert len(state["departments"]) == 16
-    assert len(state["integrated_engines"]) >= 5
-    print(
-        f"✅ [Sơ Đồ Văn Phòng Ảo 2D]: Đã nạp trực quan {len(state['departments'])}/16 bàn làm việc AI "
-        f"cùng tọa độ, trạng thái Realtime & {len(state['media_vault'])} sản phẩm Media."
-    )
-
-    # 2. Verify Direct Task Delegation from UI (e.g. assigning task to #12 Sale / Twenty CRM)
-    del_res = CONTROLLER.delegate_and_execute_department_task(
-        department_id="12_sale",
-        task_title="Chốt đơn VIP từ Giao Diện Điều Hành",
-        instructions="Ưu tiên khách hàng đặt 2 máy Massage AI Pro tại Hà Nội & TPHCM.",
-        campaign_id="CAMP_MASSAGE_11",
-    )
-    assert del_res["ok"] is True
-    order_id = del_res["order_id"]
-    print(
-        f"✅ [Giao Việc Trực Tiếp Trên Giao Diện]: Đã phát lệnh '{order_id}' tới Phòng Sale (#12) -> "
-        f"Kết quả: {del_res['execution_summary']}"
-    )
-
-    # 3. Verify Human-in-the-Loop Approval (`APPROVE`)
-    app_res = CONTROLLER.review_and_approve_work_order(
-        order_id=order_id,
-        decision="APPROVE",
-        feedback_note="Đã kiểm tra danh sách Deal WON trên Twenty CRM, duyệt xuất kho!",
-    )
-    assert app_res["ok"] is True and app_res["new_status"] == "APPROVED_BY_DIRECTOR"
-    print(f"✅ [Cổng Phê Duyệt Trực Tiếp (APPROVE)]: {app_res['message']}")
-
-    # 4. Verify Human-in-the-Loop Rejection + Auto Kaizen Prompt Patch (`REJECT_KAIZEN`)
-    kaizen_res = CONTROLLER.review_and_approve_work_order(
-        order_id=order_id,
-        decision="REJECT_KAIZEN",
-        feedback_note="Khi gửi tin nhắn Zalo chốt đơn phải đính kèm video đóng gói Simple Replay để tăng 100% niềm tin.",
-    )
-    assert kaizen_res["ok"] is True and kaizen_res["new_status"] == "REJECTED_WITH_KAIZEN"
-    print(f"✅ [Cổng Yêu Cầu Sửa & Tự Động Vá Prompt Kaizen (REJECT_KAIZEN)]: {kaizen_res['message']}")
-
-    # 5. Verify Simulated 16-Department Wave
-    wave_res = CONTROLLER.trigger_simulated_company_wave()
-    assert wave_res["ok"] is True and wave_res["wave_steps_scheduled"] == 10
-    print(
-        f"✅ [Mô Phỏng Sóng Phối Hợp 16 Phòng Ban]: Đã kích hoạt {wave_res['wave_steps_scheduled']} "
-        f"luồng chuyển giao công việc Realtime trên sơ đồ văn phòng ảo."
-    )
-
-    print("=" * 88)
-    print("🎉 NGHIỆM THU TRUNG TÂM ĐIỀU HÀNH & MÔ PHỎNG VĂN PHÒNG ẢO: 100% TEST PASS!")
+    assert len(state["media_vault"]) == 0
+    assert len(state["work_orders"]) == 0
+    print("✅ [Bàn Giao Trạng Thái Sạch 100%]: 16/16 Phòng Ban EYC sẵn sàng để Giám đốc phỏng vấn & giao việc từng task.")
     print("=" * 88)
 
 

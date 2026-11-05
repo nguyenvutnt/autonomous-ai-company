@@ -1,404 +1,475 @@
 <!DOCTYPE html>
-<html lang="vi" class="dark">
+<html lang="vi">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🏢 Autonomous AI Company — Trung Tâm Mô Phỏng & Điều Hành 16 Phòng Ban Thời Gian Thực</title>
+  <title>EYC – Everything You Connect | Hệ Thống Điều Phối & Phỏng Vấn 16 Phòng Ban AI (eyc.asia)</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+    :root {
+      --bg: #07080B;
+      --bg-2: #0E1017;
+      --bg-3: #161922;
+      --orange: #FE5E02;
+      --orange-dark: #FF7526;
+      --orange-tint: rgba(254, 94, 2, 0.14);
+      --border: rgba(255, 255, 255, 0.09);
+      --border-strong: rgba(255, 255, 255, 0.18);
+    }
     body {
-      font-family: 'Inter', sans-serif;
-      background-color: #070B14;
-      color: #E2E8F0;
+      font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: #F8FAFC;
+      -webkit-font-smoothing: antialiased;
     }
-    .mono { font-family: 'JetBrains Mono', monospace; }
-    .office-grid {
-      background-color: #0B1120;
+    .mono {
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    .eyc-card {
+      background-color: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+    .eyc-card-elevated {
+      background-color: var(--bg-3);
+      border: 1px solid var(--border-strong);
+      border-radius: 12px;
+    }
+    .eyc-btn-primary {
+      background-color: var(--orange);
+      color: #07080B;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+    .eyc-btn-primary:hover {
+      background-color: var(--orange-dark);
+      box-shadow: 0 0 20px rgba(254, 94, 2, 0.45);
+      transform: translateY(-1px);
+    }
+    .eyc-btn-secondary {
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-strong);
+      color: #F8FAFC;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .eyc-btn-secondary:hover {
+      border-color: var(--orange);
+      color: #FFFFFF;
+    }
+    .office-blueprint {
+      background-color: #090B10;
       background-image:
-        linear-gradient(to right, rgba(56, 189, 248, 0.06) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(56, 189, 248, 0.06) 1px, transparent 1px);
-      background-size: 32px 32px;
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 36px 36px;
     }
-    @keyframes pulse-ring {
-      0% { transform: scale(0.92); box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.55); }
-      70% { transform: scale(1); box-shadow: 0 0 0 12px rgba(56, 189, 248, 0); }
-      100% { transform: scale(0.92); box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
-    }
-    @keyframes float-avatar {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-4px); }
-    }
-    @keyframes dash-flow {
-      to { stroke-dashoffset: -28; }
-    }
-    .avatar-node {
-      animation: float-avatar 3s ease-in-out infinite;
-      transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .avatar-node:hover {
-      transform: scale(1.08) translateY(-4px);
-      z-index: 40;
-    }
-    .state-WORKING {
-      animation: pulse-ring 2s infinite;
-    }
-    .flow-line {
-      stroke-dasharray: 7 7;
-      animation: dash-flow 0.9s linear infinite;
-    }
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #0F172A; }
-    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #07080B; }
+    ::-webkit-scrollbar-thumb { background: #262B38; border-radius: 3px; }
   </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col selection:bg-[#FE5E02] selection:text-black">
 
-  <!-- TOP EXECUTIVE BAR -->
-  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-50 px-6 py-3">
-    <div class="max-w-[1800px] mx-auto flex flex-wrap items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center text-xl shadow-lg shadow-amber-500/20">🏢</div>
-        <div>
-          <div class="flex items-center gap-2">
-            <h1 class="text-lg font-extrabold tracking-tight text-white">AUTONOMOUS AI COMPANY OS</h1>
-            <span class="px-2 py-0.5 text-[11px] font-bold rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center gap-1">
-              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> LIVE REALTIME
-            </span>
+  <!-- TOP HEADER: OFFICIAL EYC BRANDING & 6-STEP OPERATING PIPELINE -->
+  <header class="sticky top-0 z-50 border-b border-white/10 bg-[#07080B]/95 backdrop-blur-md px-6 py-3.5">
+    <div class="max-w-[1760px] mx-auto flex flex-wrap items-center justify-between gap-4">
+
+      <!-- EYC Identity -->
+      <div class="flex items-center gap-4">
+        <a href="https://eyc.asia/vi-vn/" target="_blank" class="flex items-center gap-3 group">
+          <div class="px-3 py-1.5 rounded-lg bg-[#FE5E02] text-[#07080B] font-extrabold tracking-tighter text-lg mono">
+            EYC
           </div>
-          <p class="text-xs text-slate-400">Mô Phỏng Văn Phòng Ảo 16 Phòng Ban • Paperclip Governance • OpenMontage Studio • Twenty CRM • Bộ Não 3 Tầng</p>
-        </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-sm tracking-tight text-white">EVERYTHING YOU CONNECT</span>
+              <span class="text-[11px] mono px-2 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">eyc.asia</span>
+            </div>
+            <p class="text-xs text-slate-400">Hệ thống do con người chỉ huy. AI Agents phối hợp thực thi. • GĐ: Phan Phúc Nguyên</p>
+          </div>
+        </a>
       </div>
 
-      <!-- KPI RIBBON -->
-      <div class="flex flex-wrap items-center gap-3" id="top-kpi-ribbon">
-        <div class="bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5">
-          <div class="text-[10px] uppercase text-slate-400">Doanh Thu Gộp (CFO #13)</div>
-          <div class="text-sm font-bold text-emerald-400 mono" id="kpi-rev">--</div>
-        </div>
-        <div class="bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5">
-          <div class="text-[10px] uppercase text-slate-400">Lợi Nhuận Ròng Sau Thuế</div>
-          <div class="text-sm font-bold text-cyan-400 mono" id="kpi-profit">--</div>
-        </div>
-        <div class="bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5">
-          <div class="text-[10px] uppercase text-slate-400">ROAS / Quyết Định CFO</div>
-          <div class="text-sm font-bold text-amber-400 mono" id="kpi-roas">--</div>
-        </div>
-        <div class="bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5">
-          <div class="text-[10px] uppercase text-slate-400">Twenty CRM (#12)</div>
-          <div class="text-sm font-bold text-purple-400 mono" id="kpi-crm">--</div>
-        </div>
+      <!-- EYC 6-Step Operating Model Live Indicator -->
+      <div class="hidden 2xl:flex items-center gap-1.5 bg-[#0E1017] border border-white/10 rounded-xl px-3 py-1.5" id="eyc-6steps-bar">
+        <div id="step-pill-1" class="px-2.5 py-1 rounded-lg text-[11px] font-medium text-slate-400">01. Định hướng</div>
+        <span class="text-slate-600">→</span>
+        <div id="step-pill-2" class="px-2.5 py-1 rounded-lg text-[11px] font-medium text-slate-400">02. Ngữ cảnh</div>
+        <span class="text-slate-600">→</span>
+        <div id="step-pill-3" class="px-2.5 py-1 rounded-lg text-[11px] font-medium text-slate-400">03. Agents</div>
+        <span class="text-slate-600">→</span>
+        <div id="step-pill-4" class="px-2.5 py-1 rounded-lg text-[11px] font-medium text-slate-400">04. Hành động</div>
+        <span class="text-slate-600">→</span>
+        <div id="step-pill-5" class="px-2.5 py-1 rounded-lg text-[11px] font-medium text-slate-400">05. Kiểm tra</div>
+        <span class="text-slate-600">→</span>
+        <div id="step-pill-6" class="px-2.5 py-1 rounded-lg text-[11px] font-medium text-slate-400">06. Kết quả</div>
       </div>
 
-      <!-- ACTION BUTTONS -->
+      <!-- Navigation Views & Clean Reset -->
       <div class="flex items-center gap-2">
-        <button onclick="triggerCompanyWave()" class="px-3.5 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold text-xs shadow-lg shadow-cyan-500/20 flex items-center gap-1.5">
-          <span>⚡</span> Chạy Mô Phỏng Sóng 16 Phòng Ban
-        </button>
-        <button onclick="openDelegateModal()" class="px-3.5 py-2 rounded-lg bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-bold text-xs shadow-lg shadow-amber-500/20 flex items-center gap-1.5">
-          <span>📋</span> Giao Việc Trực Tiếp
-        </button>
-        <button onclick="fetchCompanyState()" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700">
-          🔄 Làm mới
+        <div class="flex items-center bg-[#0E1017] p-1 rounded-xl border border-white/10">
+          <button onclick="switchMainView('studio')" id="view-btn-studio" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[#FE5E02] text-[#07080B]">
+            1. Phỏng Vấn & Giao Việc 1-1
+          </button>
+          <button onclick="switchMainView('map')" id="view-btn-map" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white">
+            2. Sơ Đồ 16 Phòng Ban
+          </button>
+          <button onclick="switchMainView('vault')" id="view-btn-vault" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white">
+            3. Kho Kết Quả & Bộ Não EYC
+          </button>
+        </div>
+        <button onclick="resetCleanEYC()" title="Xóa toàn bộ lịch sử test để làm lại từ đầu" class="px-3 py-2 rounded-xl eyc-btn-secondary text-xs">
+          Làm Mới Sạch
         </button>
       </div>
+
     </div>
   </header>
 
-  <!-- MAIN WORKSPACE GRID -->
-  <main class="max-w-[1800px] w-full mx-auto flex-1 grid grid-cols-1 xl:grid-cols-12 gap-5 p-5">
-
-    <!-- LEFT/CENTER 8 COLS: INTERACTIVE 2D VIRTUAL OFFICE FLOORPLAN + APPROVAL GATE -->
-    <section class="xl:col-span-8 flex flex-col gap-5">
-
-      <!-- LIVE EXECUTION PROGRESS BANNER -->
-      <div id="live-job-banner" class="rounded-2xl border border-cyan-500/40 bg-slate-900/95 px-5 py-3.5 shadow-xl transition-all">
-        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-          <div class="flex items-center gap-2">
-            <span id="job-spinner" class="w-3 h-3 rounded-full bg-emerald-400"></span>
-            <span id="job-title" class="text-xs font-extrabold uppercase tracking-wider text-cyan-300">TRẠNG THÁI DÂY CHUYỀN 16 PHÒNG BAN: SẴN SÀNG</span>
-          </div>
-          <span id="job-pct" class="text-xs font-bold mono text-amber-300 bg-amber-500/15 border border-amber-500/30 px-2 py-0.5 rounded">100%</span>
-        </div>
-        <div id="job-step" class="text-xs text-slate-200 font-medium mb-2">Nhấp vào nút "📋 Giao Việc Trực Tiếp" hoặc bất kỳ bàn làm việc nào để phát lệnh thực thi thời gian thực.</div>
-        <div class="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
-          <div id="job-bar" class="h-full bg-gradient-to-r from-cyan-400 via-blue-500 to-emerald-400 transition-all duration-500" style="width: 100%;"></div>
-        </div>
+  <!-- LIVE EXECUTION STATUS BAR (Only visible or highlighted when a task is running) -->
+  <div id="live-execution-strip" class="border-b border-white/10 bg-[#0E1017] px-6 py-2.5">
+    <div class="max-w-[1760px] mx-auto flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3 min-w-0">
+        <span id="strip-dot" class="w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0"></span>
+        <span id="strip-status-text" class="text-xs text-slate-300 truncate">
+          Hệ thống EYC (eyc.asia) đã khởi tạo sạch 100%. Chọn từng nhân sự bên trái để phỏng vấn, chỉnh System Prompt và giao task thực tế.
+        </span>
       </div>
+      <div class="flex items-center gap-3 shrink-0">
+        <div class="w-44 h-1.5 bg-white/10 rounded-full overflow-hidden">
+          <div id="strip-progress-bar" class="h-full bg-[#FE5E02] transition-all duration-300" style="width: 0%;"></div>
+        </div>
+        <span id="strip-pct" class="text-xs mono text-[#FE5E02] font-semibold">READY</span>
+      </div>
+    </div>
+  </div>
 
-      <!-- 2D VIRTUAL OFFICE FLOORPLAN -->
-      <div class="rounded-2xl border border-slate-800 bg-slate-950 overflow-hidden shadow-2xl">
-        <div class="px-4 py-3 border-b border-slate-800 bg-slate-900/70 flex flex-wrap items-center justify-between gap-2">
-          <div class="flex items-center gap-2">
-            <span class="text-base">🗺️</span>
-            <h2 class="text-sm font-bold text-white">SƠ ĐỒ MÔ PHỎNG VĂN PHÒNG ẢO 16 PHÒNG BAN (CLICK VÀO BÀN ĐỂ XEM & GIAO VIỆC)</h2>
+  <!-- ========================================================================= -->
+  <!-- VIEW 1: 1-ON-1 INTERVIEW, TASK EXECUTION & PROMPT OPTIMIZATION STUDIO     -->
+  <!-- ========================================================================= -->
+  <main id="main-view-studio" class="max-w-[1760px] w-full mx-auto flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 p-6">
+
+    <!-- LEFT COLUMN (3 COLS): 16 EYC DEPARTMENTS DIRECTORY -->
+    <aside class="lg:col-span-3 flex flex-col gap-4">
+      <div class="eyc-card p-4 flex flex-col h-[calc(100vh-175px)]">
+        <div class="flex items-center justify-between pb-3 mb-3 border-b border-white/10">
+          <div>
+            <div class="text-[11px] mono uppercase tracking-wider text-[#FE5E02]">DANH BẠ NHÂN SỰ AI</div>
+            <h2 class="text-sm font-bold text-white">16 Phòng Ban EYC (eyc.asia)</h2>
           </div>
-          <div class="flex items-center gap-3 text-[11px]">
-            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-cyan-400 inline-block"></span> Đang làm việc</span>
-            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block"></span> Chờ Giám Đốc duyệt</span>
-            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block"></span> Đã hoàn thành</span>
-            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block"></span> Yêu cầu sửa (Kaizen)</span>
-          </div>
+          <span class="text-xs mono text-slate-400" id="sidebar-completed-counter">0/16 Đã test</span>
         </div>
 
-        <!-- FLOORPLAN CANVAS -->
-        <div class="relative office-grid w-full h-[560px] select-none overflow-hidden" id="office-canvas">
-          <!-- ZONE BACKGROUNDS -->
-          <div class="absolute left-[3%] top-[5%] w-[34%] h-[25%] rounded-xl border border-amber-500/30 bg-amber-500/5 p-2.5">
-            <div class="text-[10px] font-bold uppercase tracking-wider text-amber-300/90">🏛️ Khu A: Ban Tổng Giám Đốc & Nhân Sự (Paperclip Governance)</div>
-          </div>
-          <div class="absolute left-[3%] top-[33%] w-[34%] h-[22%] rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-2.5">
-            <div class="text-[10px] font-bold uppercase tracking-wider text-emerald-300/90">💰 Khu B: Tài Chính CFO & Kiểm Toán Simple Replay</div>
-          </div>
-          <div class="absolute left-[3%] top-[58%] w-[34%] h-[36%] rounded-xl border border-indigo-500/30 bg-indigo-500/5 p-2.5">
-            <div class="text-[10px] font-bold uppercase tracking-wider text-indigo-300/90">🛡️ Khu C: Trung Tâm Hạ Tầng IT/2FA & Bộ Não Thứ 2 (3 Tầng)</div>
-            <!-- Central Brain Core Badge -->
-            <div class="mt-7 mx-auto w-[88%] rounded-xl border border-cyan-500/40 bg-slate-900/90 p-2.5 text-center shadow-inner">
-              <div class="text-xs font-extrabold text-cyan-300">🧠 3-TIER SECOND BRAIN CORE</div>
-              <div class="text-[10px] text-slate-400 mt-0.5">Tier 1: SQLite FTS5 • Tier 2: Kaizen • Tier 3: LightRAG Graph</div>
+        <!-- Department List Scrollable -->
+        <div id="dept-directory-list" class="flex-1 overflow-y-auto space-y-4 pr-1"></div>
+      </div>
+    </aside>
+
+    <!-- CENTER COLUMN (6 COLS): INTERVIEW & TASK EXECUTION WORKBENCH -->
+    <section class="lg:col-span-6 flex flex-col gap-4">
+      <div class="eyc-card flex flex-col h-[calc(100vh-175px)] overflow-hidden">
+
+        <!-- Selected Department Header -->
+        <div class="p-5 border-b border-white/10 bg-[#12151E] flex flex-wrap items-start justify-between gap-4">
+          <div class="flex items-start gap-3.5">
+            <div id="studio-dept-code" class="w-11 h-11 rounded-xl bg-[#FE5E02]/15 border border-[#FE5E02]/40 text-[#FE5E02] font-bold text-base mono flex items-center justify-center shrink-0">
+              01
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span id="studio-dept-group" class="text-[11px] mono uppercase tracking-wider text-slate-400">Ban Điều Hành</span>
+                <span id="studio-dept-badge" class="px-2 py-0.5 rounded text-[10px] font-semibold bg-white/5 text-slate-300 border border-white/10">Sẵn sàng</span>
+              </div>
+              <h2 id="studio-dept-name" class="text-lg font-bold text-white mt-0.5">CEO & Chief of Staff</h2>
+              <p id="studio-dept-role" class="text-xs text-slate-300 mt-0.5"></p>
             </div>
           </div>
 
-          <div class="absolute left-[40%] top-[5%] w-[57%] h-[25%] rounded-xl border border-blue-500/30 bg-blue-500/5 p-2.5">
-            <div class="text-[10px] font-bold uppercase tracking-wider text-blue-300/90">🔍 Khu D: Trung Tâm Thống Trị Tìm Kiếm (SEO #7 • AIO #8 • SAO/WebMCP #9)</div>
-          </div>
-
-          <div class="absolute left-[40%] top-[33%] w-[57%] h-[32%] rounded-xl border border-orange-500/30 bg-orange-500/5 p-2.5">
-            <div class="text-[10px] font-bold uppercase tracking-wider text-orange-300/90">🎬 Khu E: Xưởng Phim & Đồ Họa OpenMontage (#2 Creative • #3 Design • #4 Content • #5 Media • #6 Video)</div>
-          </div>
-
-          <div class="absolute left-[40%] top-[68%] w-[57%] h-[26%] rounded-xl border border-pink-500/30 bg-pink-500/5 p-2.5">
-            <div class="text-[10px] font-bold uppercase tracking-wider text-pink-300/90">🚀 Khu F: Phân Phối Đa Kênh Camoufox, Ads ROAS & Twenty CRM (#10 Social • #11 Ads • #12 Sale)</div>
-          </div>
-
-          <!-- SVG OVERLAY FOR ANIMATED INTER-DEPARTMENT DATA FLOWS -->
-          <svg id="office-svg-links" class="absolute inset-0 w-full h-full pointer-events-none z-10"></svg>
-
-          <!-- DYNAMIC DEPARTMENT DESK NODES -->
-          <div id="office-nodes-layer" class="absolute inset-0 z-20"></div>
-        </div>
-      </div>
-
-      <!-- INTERACTIVE WORK ORDERS & HUMAN-IN-THE-LOOP APPROVAL GATE -->
-      <div class="rounded-2xl border border-slate-800 bg-slate-950 overflow-hidden shadow-xl">
-        <div class="px-5 py-3.5 border-b border-slate-800 bg-slate-900/70 flex flex-wrap items-center justify-between gap-2">
-          <div>
-            <h3 class="text-sm font-bold text-white flex items-center gap-2">
-              <span>✅</span> CỔNG DUYỆT & GIAO VIỆC TRỰC TIẾP 16 PHÒNG BAN (HUMAN-IN-THE-LOOP APPROVAL GATE)
-            </h3>
-            <p class="text-xs text-slate-400">Bấm <strong>"Phê Duyệt"</strong> để nghiệm thu, hoặc <strong>"Yêu Cầu Sửa + Vá Kaizen"</strong> để HR (#15) tự động ghi luật vào System Prompt của phòng ban đó.</p>
-          </div>
-          <span class="text-xs mono text-amber-300 bg-amber-500/10 border border-amber-500/30 px-2.5 py-1 rounded-md" id="wo-count-badge">16 Work Orders</span>
-        </div>
-
-        <div class="overflow-x-auto max-h-[420px]">
-          <table class="w-full text-left border-collapse text-xs">
-            <thead class="bg-slate-900/90 text-slate-400 uppercase text-[10px] sticky top-0 z-10">
-              <tr>
-                <th class="py-2.5 px-3">Phòng Ban</th>
-                <th class="py-2.5 px-3">Nhiệm Vụ & Kết Quả Thực Thi (Deliverable)</th>
-                <th class="py-2.5 px-3">Trạng Thái</th>
-                <th class="py-2.5 px-3 text-right">Thao Tác Duyệt / Giao Việc</th>
-              </tr>
-            </thead>
-            <tbody id="work-orders-tbody" class="divide-y divide-slate-800/70"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- TWENTY CRM KANBAN & MEDIA VAULT PREVIEW TABS -->
-      <div class="rounded-2xl border border-slate-800 bg-slate-950 overflow-hidden shadow-xl">
-        <div class="px-5 py-3 border-b border-slate-800 bg-slate-900/70 flex flex-wrap items-center justify-between gap-2">
           <div class="flex items-center gap-2">
-            <button onclick="switchBottomTab('media')" id="tab-btn-media" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
-              🎞️ Kho Sản Phẩm Media Thực Tế (OpenMontage MP4 / WebP / TTS / Simple Replay)
-            </button>
-            <button onclick="switchBottomTab('crm')" id="tab-btn-crm" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">
-              🤝 Bảng Twenty CRM Kanban & Leads (#12 Sale)
-            </button>
-            <button onclick="switchBottomTab('brain')" id="tab-btn-brain" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">
-              🧠 Luật Tự Học Kaizen & Đồ Thị Tri Thức LightRAG
-            </button>
+            <div class="text-right px-3 py-1.5 rounded-lg bg-black/40 border border-white/10">
+              <div class="text-[10px] text-slate-400 uppercase mono">Điểm KPI</div>
+              <div id="studio-dept-kpi" class="text-sm font-bold text-emerald-400 mono">100%</div>
+            </div>
+            <div class="text-right px-3 py-1.5 rounded-lg bg-black/40 border border-white/10">
+              <div class="text-[10px] text-slate-400 uppercase mono">Task Đã Chạy</div>
+              <div id="studio-dept-tasks" class="text-sm font-bold text-white mono">0</div>
+            </div>
           </div>
         </div>
 
-        <!-- TAB 1: MEDIA VAULT -->
-        <div id="tab-panel-media" class="p-4 grid grid-cols-1 md:grid-cols-3 gap-4"></div>
-
-        <!-- TAB 2: TWENTY CRM KANBAN -->
-        <div id="tab-panel-crm" class="p-4 hidden">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="twenty-crm-container"></div>
+        <!-- Quick Suggested Prompts (Interview vs Real Task for EYC) -->
+        <div class="px-5 py-3 border-b border-white/10 bg-[#0B0D13] flex flex-wrap items-center gap-2">
+          <span class="text-[11px] mono text-slate-400 mr-1">Gợi ý nhanh:</span>
+          <button onclick="fillSuggestedInterview()" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-slate-200 transition">
+            💬 Phỏng vấn quy trình & năng lực tại EYC
+          </button>
+          <button onclick="fillSuggestedTask()" class="px-2.5 py-1 rounded-lg bg-[#FE5E02]/15 hover:bg-[#FE5E02]/25 border border-[#FE5E02]/30 text-xs text-[#FFA05C] font-medium transition">
+            🚀 Giao Task thực tế cho eyc.asia / Early Years Circle
+          </button>
         </div>
 
-        <!-- TAB 3: KAIZEN & KNOWLEDGE GRAPH -->
-        <div id="tab-panel-brain" class="p-4 hidden">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="brain-inspector-container"></div>
-        </div>
+        <!-- Conversation, Task Deliverables & Approval Stream -->
+        <div id="studio-history-stream" class="flex-1 overflow-y-auto p-5 space-y-4"></div>
+
+        <!-- Bottom Action Composer (Mode Toggle: Interview vs Execute Task) -->
+        <form onsubmit="submitStudioComposer(event)" class="p-4 border-t border-white/10 bg-[#12151E] space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="setComposerMode('INTERVIEW')" id="mode-btn-interview" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-[#07080B]">
+                💬 Chế độ 1: Phỏng Vấn Nhân Sự
+              </button>
+              <button type="button" onclick="setComposerMode('TASK')" id="mode-btn-task" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-white/5 text-slate-300 border border-white/10 hover:text-white">
+                🚀 Chế độ 2: Giao Việc & Chạy Thực Tế
+              </button>
+            </div>
+            <span id="composer-mode-hint" class="text-[11px] text-slate-400">
+              Hỏi trực tiếp nhân sự về quy trình làm việc, công cụ và giải pháp cho eyc.asia
+            </span>
+          </div>
+
+          <!-- Optional Task Title row (shown in TASK mode) -->
+          <div id="composer-task-meta" class="hidden grid grid-cols-1 md:grid-cols-3 gap-2.5">
+            <div class="md:col-span-2">
+              <input id="input-task-title" type="text" placeholder="Tiêu đề Task (VD: Kiểm toán SEO & cụm chủ đề cho eyc.asia)" class="w-full rounded-lg bg-[#07080B] border border-white/15 px-3 py-2 text-xs text-white focus:border-[#FE5E02] outline-none" />
+            </div>
+            <div>
+              <input id="input-product-name" type="text" value="EYC – Everything You Connect (eyc.asia)" class="w-full rounded-lg bg-[#07080B] border border-white/15 px-3 py-2 text-xs text-slate-300 focus:border-[#FE5E02] outline-none" />
+            </div>
+          </div>
+
+          <div class="flex gap-2.5">
+            <textarea id="input-director-message" rows="2" required placeholder="Nhập câu hỏi phỏng vấn hoặc chỉ đạo công việc cho bộ phận này..." class="flex-1 rounded-xl bg-[#07080B] border border-white/15 px-3.5 py-2.5 text-xs text-white focus:border-[#FE5E02] outline-none resize-none"></textarea>
+            <button type="submit" id="btn-studio-submit" class="px-5 rounded-xl eyc-btn-primary text-xs shrink-0 flex items-center gap-1.5">
+              <span id="btn-studio-submit-label">Gửi Câu Hỏi</span>
+            </button>
+          </div>
+        </form>
+
       </div>
-
     </section>
 
-    <!-- RIGHT 4 COLS: SELECTED DEPARTMENT INSPECTOR + REAL-TIME ACTIVITY STREAM -->
-    <aside class="xl:col-span-4 flex flex-col gap-5">
+    <!-- RIGHT COLUMN (3 COLS): LIVE SYSTEM PROMPT EDITOR & KAIZEN RULES -->
+    <aside class="lg:col-span-3 flex flex-col gap-4">
+      <div class="eyc-card p-5 flex flex-col h-[calc(100vh-175px)] overflow-y-auto space-y-5">
 
-      <!-- SELECTED DEPARTMENT COMMAND CARD -->
-      <div class="rounded-2xl border border-slate-800 bg-slate-950 p-5 shadow-xl" id="dept-inspector-card">
-        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-          <div class="flex items-center gap-3">
-            <div id="insp-icon" class="w-11 h-11 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-2xl">👑</div>
-            <div>
-              <span id="insp-zone" class="text-[10px] uppercase tracking-wider font-bold text-amber-400">Executive Suite</span>
-              <h3 id="insp-name" class="text-base font-bold text-white">Chọn 1 Phòng Ban trên Sơ Đồ</h3>
-            </div>
+        <div>
+          <div class="text-[11px] mono uppercase tracking-wider text-[#FE5E02]">CẤU HÌNH NHÂN SỰ & KAIZEN</div>
+          <h3 class="text-sm font-bold text-white mt-0.5">Tinh Chỉnh System Prompt Trực Tiếp</h3>
+          <p class="text-xs text-slate-400 mt-1">Chỉnh sửa chỉ dẫn gốc hoặc bổ sung Luật Kaizen sau khi phỏng vấn/test task.</p>
+        </div>
+
+        <!-- Weapons Equipped -->
+        <div>
+          <label class="block text-[11px] mono uppercase text-slate-400 mb-1.5">Vũ Khí & Công Cụ Đang Kết Nối</label>
+          <div id="right-weapons-list" class="flex flex-wrap gap-1.5"></div>
+        </div>
+
+        <!-- Editable System Prompt Form -->
+        <form onsubmit="saveDepartmentPrompt(event)" class="space-y-3 flex-1 flex flex-col">
+          <div class="flex-1 flex flex-col">
+            <label class="block text-[11px] mono uppercase text-slate-400 mb-1.5">System Prompt Chuẩn EYC</label>
+            <textarea id="right-system-prompt" rows="7" class="w-full flex-1 rounded-xl bg-[#07080B] border border-white/15 p-3 text-xs text-slate-200 leading-relaxed focus:border-[#FE5E02] outline-none"></textarea>
           </div>
-          <button onclick="openDelegateModalForSelected()" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs">
-            ⚡ Giao Việc Phòng Này
+
+          <div>
+            <label class="block text-[11px] mono uppercase text-slate-400 mb-1.5">Thêm Luật Tự Học Kaizen Mới (Tùy chọn)</label>
+            <textarea id="right-new-kaizen" rows="2" placeholder="VD: Mọi nội dung xuất ra phải dẫn nguồn https://eyc.asia/vi-vn/ và nêu rõ 4 phân hệ Early Years Circle..." class="w-full rounded-xl bg-[#07080B] border border-white/15 p-2.5 text-xs text-white focus:border-[#FE5E02] outline-none"></textarea>
+          </div>
+
+          <button type="submit" class="w-full py-2.5 rounded-xl eyc-btn-primary text-xs">
+            💾 Lưu System Prompt & Áp Dụng Kaizen
           </button>
+        </form>
+
+        <!-- Active Kaizen Patches for this Department -->
+        <div class="pt-3 border-t border-white/10">
+          <div class="text-[11px] mono uppercase text-slate-400 mb-2">Luật Kaizen Đang Áp Dụng Tại Phòng Này</div>
+          <div id="right-kaizen-list" class="space-y-2 max-h-40 overflow-y-auto text-xs"></div>
         </div>
 
-        <div class="mt-3 space-y-3 text-xs">
-          <div>
-            <div class="text-[10px] uppercase text-slate-400 font-semibold">Trạng Thái Hiện Tại & Báo Cáo</div>
-            <div id="insp-bubble" class="mt-1 p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-cyan-300 font-medium">
-              Nhấp vào bất kỳ bàn làm việc nào trên sơ đồ văn phòng để kiểm tra System Prompt, Vũ khí Open-Source, hoặc giao việc trực tiếp.
-            </div>
-          </div>
-
-          <div>
-            <div class="text-[10px] uppercase text-slate-400 font-semibold">Vũ Khí Open-Source Được Trang Bị</div>
-            <div id="insp-weapons" class="mt-1 flex flex-wrap gap-1.5"></div>
-          </div>
-
-          <div>
-            <div class="text-[10px] uppercase text-slate-400 font-semibold">System Prompt & Bản Vá Tự Học Kaizen (HR #15)</div>
-            <pre id="insp-prompt" class="mt-1 p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-[11px] text-slate-300 whitespace-pre-wrap max-h-40 overflow-y-auto mono"></pre>
-          </div>
-        </div>
       </div>
-
-      <!-- REAL-TIME INTER-DEPARTMENT EVENT STREAM -->
-      <div class="rounded-2xl border border-slate-800 bg-slate-950 flex-1 flex flex-col overflow-hidden shadow-xl">
-        <div class="px-4 py-3 border-b border-slate-800 bg-slate-900/70 flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-            <h3 class="text-xs font-bold uppercase tracking-wider text-white">LUỒNG PHỐI HỢP LIÊN PHÒNG BAN REALTIME</h3>
-          </div>
-          <span class="text-[11px] text-slate-400 mono" id="event-clock">--:--:--</span>
-        </div>
-        <div id="live-events-feed" class="p-3.5 space-y-2.5 overflow-y-auto max-h-[540px] text-xs"></div>
-      </div>
-
-      <!-- INTEGRATED OPEN-SOURCE ENGINES CARD -->
-      <div class="rounded-2xl border border-slate-800 bg-slate-950 p-4 shadow-xl">
-        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-2.5">⚙️ Lõi Mã Nguồn Mở Đang Vận Hành (31 Submodules)</h4>
-        <div id="engines-list" class="space-y-2 text-xs"></div>
-      </div>
-
     </aside>
+
   </main>
 
-  <!-- MODAL: DIRECT TASK DELEGATION -->
-  <div id="delegate-modal" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-        <h3 class="text-base font-bold text-white flex items-center gap-2">📋 Giao Việc & Chạy Thực Tế Cho Phòng Ban AI</h3>
-        <button onclick="closeDelegateModal()" class="text-slate-400 hover:text-white text-lg">✕</button>
-      </div>
-      <form onsubmit="submitDelegateTask(event)" class="mt-4 space-y-3.5 text-xs">
+  <!-- ========================================================================= -->
+  <!-- VIEW 2: CLEAN 2D ARCHITECTURAL MAP OF 16 EYC DEPARTMENTS                  -->
+  <!-- ========================================================================= -->
+  <main id="main-view-map" class="max-w-[1760px] w-full mx-auto flex-1 p-6 hidden">
+    <div class="eyc-card overflow-hidden">
+      <div class="p-5 border-b border-white/10 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <label class="block text-slate-300 font-semibold mb-1">Chọn Phòng Ban Nhận Lệnh:</label>
-          <select id="form-dept-id" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-white focus:border-cyan-400 outline-none"></select>
+          <div class="text-[11px] mono uppercase tracking-wider text-[#FE5E02]">KIẾN TRÚC VẬN HÀNH 16 PHÒNG BAN AI</div>
+          <h2 class="text-base font-bold text-white">Sơ Đồ Phối Hợp Thời Gian Thực — EYC (eyc.asia)</h2>
         </div>
-        <div>
-          <label class="block text-slate-300 font-semibold mb-1">Tiêu Đề Nhiệm Vụ (Task Title):</label>
-          <input id="form-task-title" type="text" required value="Tối ưu chiến dịch Máy Massage Cổ Vai Gáy AI Pro" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-white focus:border-cyan-400 outline-none" />
-        </div>
-        <div>
-          <label class="block text-slate-300 font-semibold mb-1">Chỉ Đạo Chi Tiết Từ Giám Đốc (Instructions / USP / Yêu Cầu):</label>
-          <textarea id="form-instructions" rows="3" required class="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-white focus:border-cyan-400 outline-none">Nhấn mạnh Hook 3s cảnh lập trình viên mỏi cổ lúc 11h đêm, chườm ấm 42 độ C và ưu đãi 890.000đ Freeship.</textarea>
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-slate-300 font-semibold mb-1">Mã Chiến Dịch:</label>
-            <input id="form-campaign-id" type="text" value="CAMP_MASSAGE_11" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-white mono" />
-          </div>
-          <div>
-            <label class="block text-slate-300 font-semibold mb-1">Giá Bán (VNĐ):</label>
-            <input id="form-price-vnd" type="number" value="890000" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-white mono" />
-          </div>
-        </div>
-        <div class="flex items-center justify-end gap-2 pt-2">
-          <button type="button" onclick="closeDelegateModal()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold">Hủy</button>
-          <button type="submit" id="btn-submit-delegate" class="px-4 py-2 rounded-lg bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-bold shadow-lg">
-            🚀 Phát Lệnh & Thực Thi Ngay
+        <div class="flex items-center gap-3">
+          <button onclick="triggerCompanyWave()" class="px-4 py-2 rounded-xl eyc-btn-primary text-xs">
+            ⚡ Chạy Thử Chu Trình 6 Bước EYC Toàn Công Ty
           </button>
         </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- MODAL: KAIZEN REJECTION / REVISION FEEDBACK -->
-  <div id="kaizen-modal" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-    <div class="bg-slate-900 border border-rose-500/40 rounded-2xl max-w-lg w-full p-6 shadow-2xl">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-        <h3 class="text-base font-bold text-rose-400 flex items-center gap-2">🔄 Yêu Cầu Sửa & Tự Động Vá Luật Kaizen (HR #15)</h3>
-        <button onclick="closeKaizenModal()" class="text-slate-400 hover:text-white text-lg">✕</button>
       </div>
-      <form onsubmit="submitKaizenRejection(event)" class="mt-4 space-y-3.5 text-xs">
-        <input type="hidden" id="kaizen-order-id" />
-        <p class="text-slate-300">Nhập nhận xét/yêu cầu chỉnh sửa của bạn. Hệ thống sẽ tự động lưu vào <strong>Tầng 2 (Kaizen Memory)</strong> và <strong>HR (#15)</strong> sẽ vá trực tiếp vào System Prompt của phòng ban này:</p>
-        <textarea id="kaizen-feedback-note" rows="3" required class="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-white focus:border-rose-400 outline-none" placeholder="VD: Đổi phụ đề sang chữ Vàng nền Đen cỡ lớn, thêm cam kết bảo hành 1 đổi 1 ngay giây thứ 3..."></textarea>
-        <div class="flex items-center justify-end gap-2 pt-2">
-          <button type="button" onclick="closeKaizenModal()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold">Đóng</button>
-          <button type="submit" class="px-4 py-2 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-bold shadow-lg">
-            ⚡ Ghi Luật Kaizen & Yêu Cầu Làm Lại
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
 
-  <!-- TOAST NOTIFICATION CONTAINER -->
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 p-6 office-blueprint" id="clean-architecture-grid"></div>
+    </div>
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- VIEW 3: DELIVERABLES VAULT, TWENTY CRM & 3-TIER SECOND BRAIN              -->
+  <!-- ========================================================================= -->
+  <main id="main-view-vault" class="max-w-[1760px] w-full mx-auto flex-1 p-6 hidden space-y-6">
+
+    <!-- Corporate Profile Banner -->
+    <div class="eyc-card p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div>
+        <div class="text-[11px] mono uppercase text-[#FE5E02]">PHÁP NHÂN & ĐỊNH VỊ</div>
+        <h3 class="text-base font-bold text-white mt-1">CÔNG TY TNHH CÔNG NGHỆ VÀ TRÍ TUỆ NHÂN TẠO EYC</h3>
+        <p class="text-xs text-slate-400 mt-1">Trụ sở: Tầng 2, 68 Nguyễn Huệ, Phường Sài Gòn, TP. Hồ Chí Minh</p>
+        <div class="mt-3 flex flex-wrap gap-2 text-xs mono text-slate-300">
+          <span class="px-2.5 py-1 rounded bg-white/5 border border-white/10">MST: 0319723892</span>
+          <span class="px-2.5 py-1 rounded bg-white/5 border border-white/10">DUNS: 321425016</span>
+          <span class="px-2.5 py-1 rounded bg-white/5 border border-white/10">+84 942 391 906</span>
+        </div>
+      </div>
+      <div>
+        <div class="text-[11px] mono uppercase text-[#FE5E02]">SẢN PHẨM CHỦ LỰC</div>
+        <h3 class="text-base font-bold text-white mt-1">Early Years Circle (Cloud EdTech Platform)</h3>
+        <p class="text-xs text-slate-400 mt-1">Nền tảng vận hành kết nối cho giáo dục mầm non với 4 phân hệ thống nhất: Teacher • Family • Admin • TV.</p>
+      </div>
+      <div>
+        <div class="text-[11px] mono uppercase text-[#FE5E02]">BỘ NÃO THỨ 2 (3 TẦNG)</div>
+        <h3 class="text-base font-bold text-white mt-1">SQLite FTS5 + Kaizen + LightRAG Graph</h3>
+        <p class="text-xs text-slate-400 mt-1" id="vault-brain-stats">Đang đồng bộ thực thể và quy tắc vận hành EYC.</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Media Deliverables -->
+      <div class="eyc-card p-5">
+        <h3 class="text-sm font-bold text-white border-b border-white/10 pb-3 mb-4">🎞️ Kho Sản Phẩm Media Đã Xuất (Media Vault)</h3>
+        <div id="vault-media-list" class="space-y-3 max-h-[480px] overflow-y-auto"></div>
+      </div>
+
+      <!-- Twenty CRM B2B Deals -->
+      <div class="eyc-card p-5">
+        <h3 class="text-sm font-bold text-white border-b border-white/10 pb-3 mb-4">🤝 Twenty CRM — Khách Hàng & Hợp Đồng B2B (#12)</h3>
+        <div id="vault-crm-list" class="space-y-3 max-h-[480px] overflow-y-auto"></div>
+      </div>
+
+      <!-- Knowledge Graph & Kaizen -->
+      <div class="eyc-card p-5">
+        <h3 class="text-sm font-bold text-white border-b border-white/10 pb-3 mb-4">🧠 Đồ Thị Tri Thức EYC & Luật Kaizen</h3>
+        <div id="vault-kg-list" class="space-y-2.5 max-h-[480px] overflow-y-auto"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- TOAST CONTAINER -->
   <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-md"></div>
 
   <script>
     let STATE = null;
     let SELECTED_DEPT_ID = '01_ceo';
+    let COMPOSER_MODE = 'INTERVIEW'; // 'INTERVIEW' or 'TASK'
     let LAST_JOB_RUNNING = false;
 
-    function showToast(title, msg, color = 'cyan') {
+    const SUGGESTED_PRESETS = {
+      '01_ceo': {
+        interview: 'Em hãy trình bày kế hoạch điều phối 16 phòng ban AI để phát triển thương hiệu EYC (eyc.asia) và sản phẩm Early Years Circle theo 6 bước chuẩn EYC?',
+        taskTitle: 'Lập Master Plan Q4 cho EYC & Early Years Circle',
+        taskDesc: 'Xây dựng kế hoạch 6 giai đoạn phát triển khách hàng B2B doanh nghiệp và hệ thống trường mầm non cho Early Years Circle.'
+      },
+      '02_creative_director': {
+        interview: 'Em kiểm soát nhận diện thương hiệu Deep Tech của EYC (màu #07080B, cam #FE5E02, thông điệp Human-led systems) như thế nào trước khi duyệt nội dung?',
+        taskTitle: 'Duyệt Concept & Hook 3s cho chiến dịch Early Years Circle',
+        taskDesc: 'Định hình thông điệp chủ đạo tôn vinh sự kết nối giữa Giáo viên, Gia đình và Nhà trường trên một nền tảng Cloud duy nhất.'
+      },
+      '03_design': {
+        interview: 'Em thiết kế bộ ảnh Visual Studio cho 8 nhóm giải pháp công nghệ EYC và 4 phân hệ Early Years Circle theo quy chuẩn nào?',
+        taskTitle: 'Thiết kế Banner Studio 1080x1080 cho EYC – Everything You Connect',
+        taskDesc: 'Tạo ấn phẩm giới thiệu giải pháp AI Agents & Early Years Circle mang dấu bản quyền EYC.ASIA.'
+      },
+      '04_content': {
+        interview: 'Em viết bài phân tích chuyên sâu E-E-A-T và kịch bản giới thiệu giải pháp AI & Tự động hóa của EYC như thế nào để không tạo nhiễu?',
+        taskTitle: 'Biên soạn nội dung E-E-A-T & Spintax cho giải pháp AI EYC',
+        taskDesc: 'Viết kịch bản và bộ biến thể nội dung giới thiệu nền tảng điều phối AI Agents có điểm phê duyệt của con người.'
+      },
+      '05_media_livestream': {
+        interview: 'Em sử dụng công nghệ giọng đọc AI và luồng phát sóng nào để thuyết minh các video giới thiệu sản phẩm của EYC?',
+        taskTitle: 'Thu âm thuyết minh AI Tiếng Việt giới thiệu EYC & Early Years Circle',
+        taskDesc: 'Tạo bản thu âm chuẩn giọng Neural Tiếng Việt giới thiệu 4 phân hệ Teacher, Family, Admin, TV.'
+      },
+      '06_video_editor': {
+        interview: 'Em ứng dụng 13 pipelines của OpenMontage và bộ chấm điểm chống slideshow (score_slideshow_risk) như thế nào khi dựng video cho EYC?',
+        taskTitle: 'Dựng Video 9:16 giới thiệu EYC qua pipeline OpenMontage clip-factory',
+        taskDesc: 'Kết xuất video dọc 1080x1920 kèm phụ đề SRT và kiểm định chất lượng qua OpenMontage.'
+      },
+      '07_seo': {
+        interview: 'Em sẽ kiểm toán kỹ thuật trang https://eyc.asia/vi-vn/ và xây dựng cụm chủ đề (Topic Cluster) như thế nào để chống ăn thịt từ khóa?',
+        taskTitle: 'Kiểm toán trực tiếp https://eyc.asia/vi-vn/ & Lập Topic Cluster',
+        taskDesc: 'Quét trực tiếp website eyc.asia, phân tích cấu trúc tiêu đề/từ khóa và xuất bài Pillar chuẩn E-E-A-T.'
+      },
+      '08_aio': {
+        interview: 'Làm thế nào để ChatGPT, Perplexity, Claude và Gemini ưu tiên trích dẫn eyc.asia khi khách hàng hỏi về giải pháp AI Agents và phần mềm mầm non?',
+        taskTitle: 'Tối ưu AEO/GEO Citation & Schema JSON-LD cho eyc.asia',
+        taskDesc: 'Tạo khối câu trả lời trực tiếp 45 từ và cấu trúc Schema.org cho EYC & Early Years Circle.'
+      },
+      '09_sao': {
+        interview: 'Em triển khai chuẩn Model Context Protocol (WebMCP) và tối ưu tìm kiếm đa kênh cho eyc.asia như thế nào?',
+        taskTitle: 'Triển khai chuẩn WebMCP & Social Search cho EYC',
+        taskDesc: 'Đóng gói công cụ WebMCP giúp các AI Agent bên ngoài tra cứu giải pháp của eyc.asia chính xác.'
+      },
+      '10_social': {
+        interview: 'Quy trình phân phối nội dung đa kênh của em đảm bảo Điểm phê duyệt của con người (Human Approval Gate) tại EYC ra sao?',
+        taskTitle: 'Lập lịch phân phối đa kênh cho chuỗi bài EYC Deep Tech',
+        taskDesc: 'Chuẩn bị kế hoạch đăng tải lên LinkedIn, Facebook và YouTube kèm cổng kiểm duyệt.'
+      },
+      '11_ads': {
+        interview: 'Em kết nối dữ liệu tìm kiếm, nội dung và quảng cáo B2B thành một hệ thống báo cáo đo lường ROAS/CPL như thế nào?',
+        taskTitle: 'Tối ưu ngân sách chiến dịch B2B Lead Generation cho EYC',
+        taskDesc: 'Đánh giá hiệu suất chuyển đổi và đề xuất phân bổ ngân sách theo trần CPL.'
+      },
+      '12_sale': {
+        interview: 'Khi có doanh nghiệp hoặc trường mầm non liên hệ tư vấn, em đồng bộ vào Twenty CRM và chăm sóc theo quy trình nào?',
+        taskTitle: 'Tiếp nhận & Đồng bộ đối tác B2B mới vào Twenty CRM',
+        taskDesc: 'Bóc tách thông tin liên hệ của trường mầm non/doanh nghiệp và tạo Deal trên bảng Kanban Twenty CRM.'
+      },
+      '13_cfo': {
+        interview: 'Em kiểm soát chi phí hạ tầng Cloud, R&D và đánh giá hiệu quả tài chính P&L cho các dự án của EYC như thế nào?',
+        taskTitle: 'Kiểm toán P&L & Đề xuất phân bổ ngân sách EYC',
+        taskDesc: 'Tổng hợp số liệu thu-chi, tính biên lợi nhuận ròng và đưa ra khuyến nghị tài chính.'
+      },
+      '14_accountant': {
+        interview: 'Em quản lý chứng từ, mã số thuế 0319723892 và nhật ký kiểm tra (Audit Log) cho EYC như thế nào?',
+        taskTitle: 'Đối soát chứng từ & Nhật ký kiểm toán EYC',
+        taskDesc: 'Rà soát toàn bộ giao dịch và xuất báo cáo đối soát minh bạch.'
+      },
+      '15_hr': {
+        interview: 'Em tuyển dụng chuyên gia từ kho 600+ kỹ năng và tự động vá System Prompt (Kaizen) cho 16 phòng ban EYC như thế nào?',
+        taskTitle: 'Rà soát năng lực 16 Phòng Ban & Kho 600+ Kỹ Năng AI',
+        taskDesc: 'Kiểm tra hồ sơ chuyên môn và mức độ sẵn sàng của toàn bộ 16 trưởng bộ phận AI tại EYC.'
+      },
+      '16_it': {
+        interview: 'Em giám sát 31 kho mã nguồn mở, máy chủ MCP và bảo mật 2FA đa lớp cho hạ tầng EYC ra sao?',
+        taskTitle: 'Kiểm tra sức khỏe hạ tầng 31 Submodules, MCP & Bảo mật 2FA',
+        taskDesc: 'Chạy chẩn đoán toàn diện hệ thống máy chủ, cơ sở dữ liệu và sinh mã xác thực 2FA TOTP.'
+      }
+    };
+
+    function showToast(title, msg) {
       const container = document.getElementById('toast-container');
       const el = document.createElement('div');
-      const borderMap = {
-        cyan: 'border-cyan-400 bg-slate-900/95 text-cyan-200',
-        emerald: 'border-emerald-400 bg-slate-900/95 text-emerald-200',
-        amber: 'border-amber-400 bg-slate-900/95 text-amber-200',
-        rose: 'border-rose-400 bg-slate-900/95 text-rose-200'
-      };
-      el.className = `p-4 rounded-xl border-2 shadow-2xl transition-all ${borderMap[color] || borderMap.cyan}`;
+      el.className = 'p-4 rounded-xl bg-[#161922] border border-[#FE5E02] shadow-2xl text-xs transition-all';
       el.innerHTML = `
-        <div class="text-xs font-extrabold uppercase mb-1">${title}</div>
-        <div class="text-xs text-slate-200 leading-relaxed">${msg}</div>
+        <div class="font-bold text-[#FE5E02] uppercase mono mb-1">${title}</div>
+        <div class="text-slate-200 leading-relaxed">${msg}</div>
       `;
       container.appendChild(el);
-      setTimeout(() => { el.remove(); }, 6000);
-    }
-
-    function fmtVND(n) {
-      return new Intl.NumberFormat('vi-VN').format(Math.round(n || 0)) + ' đ';
-    }
-
-    function statusBadge(st, approval) {
-      if (approval === 'APPROVED_BY_DIRECTOR' || st === 'COMPLETED') {
-        return `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">✅ ĐÃ DUYỆT</span>`;
-      }
-      if (approval === 'REJECTED_WITH_KAIZEN' || st === 'REVISION_REQUIRED') {
-        return `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40">🔄 CẦN SỬA (KAIZEN)</span>`;
-      }
-      if (st === 'WAITING_APPROVAL') {
-        return `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 animate-pulse">⏳ CHỜ DUYỆT</span>`;
-      }
-      return `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">⚡ ĐANG CHẠY</span>`;
+      setTimeout(() => el.remove(), 5500);
     }
 
     async function fetchCompanyState() {
@@ -406,469 +477,403 @@
         const res = await fetch('/api/company-state');
         STATE = await res.json();
         renderAll();
-      } catch (e) {
-        console.error('Error fetching state:', e);
+      } catch (err) {
+        console.error('Error fetching EYC state:', err);
       }
     }
 
     function renderAll() {
       if (!STATE) return;
-      document.getElementById('event-clock').textContent = new Date().toLocaleTimeString('vi-VN');
+      renderTopExecutionStrip();
+      renderDepartmentDirectory();
+      renderStudioWorkbench();
+      renderCleanArchitectureMap();
+      renderVaultView();
+    }
 
-      // 1. Top KPI Ribbon
-      const fin = STATE.financials || {};
-      document.getElementById('kpi-rev').textContent = `${fmtVND(fin.gross_revenue_vnd)} (${fin.total_orders || 0} đơn)`;
-      document.getElementById('kpi-profit').textContent = `${fmtVND(fin.net_operating_profit_vnd)} (${fin.net_margin_percent || 0}%)`;
-      document.getElementById('kpi-roas').textContent = `${fin.actual_roas || 0}x • ${fin.cfo_directive || ''}`;
-      const crm = STATE.twenty_crm || {};
-      document.getElementById('kpi-crm').textContent = `${(crm.people || []).length} People • ${(crm.opportunities || []).length} WON Deals`;
-
-      // 1.5 Render Live Job Progress Banner
+    function renderTopExecutionStrip() {
       const job = STATE.active_job || {};
-      const jobBanner = document.getElementById('live-job-banner');
-      const jobSpinner = document.getElementById('job-spinner');
-      const jobTitle = document.getElementById('job-title');
-      const jobPct = document.getElementById('job-pct');
-      const jobStep = document.getElementById('job-step');
-      const jobBar = document.getElementById('job-bar');
+      const dot = document.getElementById('strip-dot');
+      const text = document.getElementById('strip-status-text');
+      const bar = document.getElementById('strip-progress-bar');
+      const pct = document.getElementById('strip-pct');
 
-      if (job.running) {
-        jobBanner.className = 'rounded-2xl border-2 border-amber-400 bg-amber-950/20 px-5 py-3.5 shadow-2xl transition-all';
-        jobSpinner.className = 'w-3 h-3 rounded-full bg-amber-400 animate-ping';
-        jobTitle.textContent = `⚡ ĐANG THỰC THI LỆNH TẠI PHÒNG [${job.department_id}]: ${job.task_title}`;
-        jobPct.textContent = `${job.progress_percent || 25}%`;
-        jobStep.textContent = job.current_step || 'Đang xử lý...';
-        jobBar.style.width = `${job.progress_percent || 25}%`;
-        LAST_JOB_RUNNING = true;
-      } else {
-        jobBanner.className = 'rounded-2xl border border-emerald-500/40 bg-slate-900/95 px-5 py-3.5 shadow-xl transition-all';
-        jobSpinner.className = 'w-3 h-3 rounded-full bg-emerald-400';
-        jobTitle.textContent = job.task_title ? `✅ HOÀN TẤT LỆNH GẦN NHẤT: ${job.task_title}` : 'TRẠNG THÁI DÂY CHUYỀN 16 PHÒNG BAN: SẴN SÀNG';
-        jobPct.textContent = '100%';
-        jobStep.textContent = job.current_step || 'Hệ thống sẵn sàng nhận lệnh mới.';
-        jobBar.style.width = '100%';
-        if (LAST_JOB_RUNNING) {
-          LAST_JOB_RUNNING = false;
-          showToast('🎉 Đã Hoàn Tất Nhiệm Vụ!', job.current_step || 'Sản phẩm đã sẵn sàng chờ Giám Đốc duyệt.', 'emerald');
+      // Highlight active step among 1..6
+      const activeStep = job.eyc_step_index || 0;
+      for (let i = 1; i <= 6; i++) {
+        const pill = document.getElementById(`step-pill-${i}`);
+        if (!pill) continue;
+        if (i === activeStep) {
+          pill.className = 'px-2.5 py-1 rounded-lg text-[11px] font-bold bg-[#FE5E02] text-[#07080B]';
+        } else if (i < activeStep) {
+          pill.className = 'px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+        } else {
+          pill.className = 'px-2.5 py-1 rounded-lg text-[11px] font-medium text-slate-400';
         }
       }
 
-      // 2. Render 2D Virtual Office Floorplan
-      renderOfficeFloorplan();
-
-      // 3. Render Selected Department Inspector
-      renderDepartmentInspector(SELECTED_DEPT_ID);
-
-      // 4. Render Work Orders & Approval Gate Table
-      renderWorkOrdersTable();
-
-      // 5. Render Live Events Stream
-      renderLiveEvents();
-
-      // 6. Render Bottom Tabs (Media Vault, Twenty CRM, Second Brain)
-      renderMediaVault();
-      renderTwentyCRM();
-      renderBrainInspector();
-      renderIntegratedEngines();
-      populateDepartmentSelect();
+      if (job.running) {
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-[#FE5E02] animate-ping shrink-0';
+        text.textContent = job.current_step || 'Đang thực thi...';
+        bar.style.width = `${job.progress_percent || 20}%`;
+        pct.textContent = `${job.progress_percent || 20}%`;
+        LAST_JOB_RUNNING = true;
+      } else {
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0';
+        text.textContent = job.current_step || 'Hệ thống EYC sẵn sàng.';
+        bar.style.width = job.progress_percent ? `${job.progress_percent}%` : '100%';
+        pct.textContent = job.progress_percent ? `${job.progress_percent}%` : 'READY';
+        if (LAST_JOB_RUNNING) {
+          LAST_JOB_RUNNING = false;
+          showToast('Hoàn tất thực thi EYC', job.current_step || 'Đã có kết quả mới.');
+        }
+      }
     }
 
-    function renderOfficeFloorplan() {
-      const layer = document.getElementById('office-nodes-layer');
-      const svg = document.getElementById('office-svg-links');
+    function statePillHtml(state) {
+      if (state === 'COMPLETED' || state === 'APPROVED_BY_DIRECTOR') {
+        return `<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">Đã duyệt</span>`;
+      }
+      if (state === 'WAITING_APPROVAL') {
+        return `<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-[#FE5E02]/20 text-[#FFA05C] border border-[#FE5E02]/40">Chờ duyệt</span>`;
+      }
+      if (state === 'WORKING') {
+        return `<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/40 animate-pulse">Đang chạy</span>`;
+      }
+      if (state === 'REVISION_REQUIRED') {
+        return `<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/40">Đã vá Kaizen</span>`;
+      }
+      return `<span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white/5 text-slate-400 border border-white/10">Sẵn sàng</span>`;
+    }
+
+    function renderDepartmentDirectory() {
+      const container = document.getElementById('dept-directory-list');
       const depts = STATE.departments || [];
-      const deptMap = {};
-      depts.forEach(d => { deptMap[d.department_id] = d; });
+      const testedCount = depts.filter(d => (d.interview_logs || []).length > 0 || d.tasks_completed > 0).length;
+      document.getElementById('sidebar-completed-counter').textContent = `${testedCount}/16 Đã tương tác`;
 
-      // Draw animated SVG links for recent live events
-      let svgHtml = '';
-      const recentEvents = (STATE.live_events || []).slice(0, 6);
-      recentEvents.forEach((ev, idx) => {
-        const src = deptMap[ev.source_dept];
-        const dst = deptMap[ev.target_dept];
-        if (src && dst) {
-          const opacity = Math.max(0.25, 1 - idx * 0.14);
-          const color = idx === 0 ? '#38BDF8' : '#F59E0B';
-          svgHtml += `
-            <line x1="${src.x}%" y1="${src.y}%" x2="${dst.x}%" y2="${dst.y}%"
-                  stroke="${color}" stroke-width="${idx === 0 ? 3 : 2}" stroke-opacity="${opacity}"
-                  class="flow-line" />
-          `;
-        }
+      const groups = {};
+      depts.forEach(d => {
+        if (!groups[d.group]) groups[d.group] = [];
+        groups[d.group].push(d);
       });
-      svg.innerHTML = svgHtml;
 
-      // Render 16 Department Desks
-      layer.innerHTML = depts.map(d => {
-        const isSelected = d.department_id === SELECTED_DEPT_ID;
-        const wo = d.work_order || {};
-        let ringColor = 'border-slate-700';
-        let dotColor = 'bg-cyan-400';
-        if (wo.approval_status === 'APPROVED_BY_DIRECTOR' || d.live_state === 'COMPLETED') {
-          ringColor = 'border-emerald-500/80';
-          dotColor = 'bg-emerald-400';
-        } else if (wo.approval_status === 'REJECTED_WITH_KAIZEN' || d.live_state === 'REVISION_REQUIRED') {
-          ringColor = 'border-rose-500';
-          dotColor = 'bg-rose-500';
-        } else if (d.live_state === 'WAITING_APPROVAL' || wo.status === 'WAITING_APPROVAL') {
-          ringColor = 'border-amber-400';
-          dotColor = 'bg-amber-400';
-        }
-
-        const bubbleText = (d.speech_bubble || '').slice(0, 48);
-        const pct = d.progress_percent !== undefined ? d.progress_percent : 100;
-        return `
-          <div onclick="selectDepartment('${d.department_id}')"
-               style="left: calc(${d.x}% - 58px); top: calc(${d.y}% - 38px);"
-               class="avatar-node state-${d.live_state} absolute w-[122px] cursor-pointer rounded-xl bg-slate-900/95 border-2 ${isSelected ? 'border-cyan-400 ring-2 ring-cyan-400/40' : ringColor} p-2 shadow-xl">
-            <!-- Speech bubble tooltip -->
-            <div class="mb-1 px-1.5 py-0.5 rounded bg-slate-950/90 border border-slate-800 text-[9px] text-slate-300 truncate" title="${(d.speech_bubble || '').replace(/"/g, '&quot;')}">
-              💬 ${bubbleText}...
-            </div>
-            <div class="flex items-center gap-1.5">
-              <div class="w-7 h-7 rounded-lg flex items-center justify-center text-base shrink-0" style="background:${d.color}22; border:1px solid ${d.color}66;">
-                ${d.icon}
-              </div>
-              <div class="min-w-0 flex-1">
-                <div class="flex items-center justify-between">
-                  <span class="text-[10px] font-extrabold text-white truncate">${d.short_label}</span>
-                  <span class="w-2 h-2 rounded-full ${dotColor} shrink-0"></span>
-                </div>
-                <div class="text-[9px] text-slate-400 truncate">${d.name}</div>
-              </div>
-            </div>
-            ${d.live_state === 'WORKING' ? `
-              <div class="mt-1.5 w-full h-1.5 bg-slate-950 rounded-full overflow-hidden">
-                <div class="h-full bg-amber-400 transition-all duration-300" style="width:${pct}%"></div>
-              </div>
-            ` : ''}
+      container.innerHTML = Object.entries(groups).map(([gName, items]) => `
+        <div>
+          <div class="text-[10px] mono uppercase tracking-wider text-slate-400 mb-2 px-1">${gName}</div>
+          <div class="space-y-1.5">
+            ${items.map(d => {
+              const active = d.department_id === SELECTED_DEPT_ID;
+              const logsCnt = (d.interview_logs || []).length;
+              return `
+                <button onclick="selectDepartment('${d.department_id}')"
+                        class="w-full text-left p-2.5 rounded-xl border transition flex items-center justify-between gap-2 ${
+                          active
+                            ? 'bg-[#FE5E02]/15 border-[#FE5E02] text-white'
+                            : 'bg-[#07080B]/60 border-white/5 hover:border-white/20 text-slate-300'
+                        }">
+                  <div class="flex items-center gap-2.5 min-w-0">
+                    <span class="w-7 h-7 rounded-lg mono text-xs font-bold flex items-center justify-center shrink-0 ${
+                      active ? 'bg-[#FE5E02] text-[#07080B]' : 'bg-white/5 text-slate-300'
+                    }">${d.code}</span>
+                    <div class="min-w-0">
+                      <div class="text-xs font-semibold truncate">${d.short_label}</div>
+                      <div class="text-[10px] text-slate-400 truncate">${logsCnt} phiên • ${d.tasks_completed} task</div>
+                    </div>
+                  </div>
+                  ${statePillHtml(d.live_state)}
+                </button>
+              `;
+            }).join('')}
           </div>
-        `;
-      }).join('');
+        </div>
+      `).join('');
     }
 
     function selectDepartment(deptId) {
       SELECTED_DEPT_ID = deptId;
-      renderOfficeFloorplan();
-      renderDepartmentInspector(deptId);
+      renderAll();
     }
 
-    function renderDepartmentInspector(deptId) {
+    function renderStudioWorkbench() {
       const depts = STATE.departments || [];
-      const d = depts.find(x => x.department_id === deptId) || depts[0];
+      const d = depts.find(x => x.department_id === SELECTED_DEPT_ID) || depts[0];
       if (!d) return;
-      document.getElementById('insp-icon').textContent = d.icon;
-      document.getElementById('insp-zone').textContent = `${d.zone} • Mã: ${d.department_id}`;
-      document.getElementById('insp-name').textContent = d.name;
-      document.getElementById('insp-bubble').textContent = d.speech_bubble || d.focus;
 
-      const weaponsEl = document.getElementById('insp-weapons');
-      weaponsEl.innerHTML = (d.weapons || []).map(w =>
-        `<span class="px-2 py-0.5 rounded-md bg-slate-900 border border-slate-700 text-cyan-300 text-[10px] mono">${w}</span>`
+      document.getElementById('studio-dept-code').textContent = d.code;
+      document.getElementById('studio-dept-group').textContent = `${d.group} • ${d.department_id}`;
+      document.getElementById('studio-dept-name').textContent = d.name;
+      document.getElementById('studio-dept-role').textContent = d.role;
+      document.getElementById('studio-dept-kpi').textContent = `${d.kpi_score}%`;
+      document.getElementById('studio-dept-tasks').textContent = `${d.tasks_completed}`;
+      document.getElementById('studio-dept-badge').outerHTML = `<span id="studio-dept-badge">${statePillHtml(d.live_state)}</span>`;
+
+      // Right Column: Weapons, Prompt & Kaizen Rules (only overwrite textarea if not currently focused)
+      document.getElementById('right-weapons-list').innerHTML = (d.weapons || []).map(w =>
+        `<span class="px-2.5 py-1 rounded-lg bg-[#07080B] border border-white/10 text-[11px] mono text-slate-300">${w}</span>`
       ).join('');
 
-      const promptText = [
-        `[Vai trò]: ${d.role}`,
-        `[Trọng tâm]: ${d.focus}`,
-        `[System Prompt Gốc]:\n${d.system_prompt || 'Chuẩn SOP 16 Phòng Ban'}`,
-        d.kaizen_patches ? `\n[Bản Vá Tự Học Kaizen (HR #15)]:\n${d.kaizen_patches}` : ''
-      ].filter(Boolean).join('\n\n');
-      document.getElementById('insp-prompt').textContent = promptText;
-    }
+      const promptEl = document.getElementById('right-system-prompt');
+      if (document.activeElement !== promptEl) {
+        promptEl.value = d.system_prompt || '';
+      }
 
-    function renderWorkOrdersTable() {
-      const tbody = document.getElementById('work-orders-tbody');
-      const depts = STATE.departments || [];
-      document.getElementById('wo-count-badge').textContent = `${depts.length} Phòng Ban / Work Orders`;
-
-      tbody.innerHTML = depts.map(d => {
-        const wo = d.work_order || {};
-        const orderId = wo.order_id || '';
-        const taskTitle = wo.task_title ? `<div class="text-cyan-300 font-bold mb-0.5">📌 ${wo.task_title}</div>` : '';
-        const summary = wo.deliverable_summary || wo.sop_instructions || d.focus;
-        const feedback = wo.director_feedback ? `<div class="mt-1 text-[10px] text-amber-300">💬 Chỉ đạo GĐ: ${wo.director_feedback}</div>` : '';
-        return `
-          <tr id="wo-row-${d.department_id}" class="hover:bg-slate-900/60 transition ${d.department_id === SELECTED_DEPT_ID ? 'bg-cyan-950/30' : ''}">
-            <td class="py-2.5 px-3 whitespace-nowrap">
-              <button onclick="selectDepartment('${d.department_id}')" class="flex items-center gap-2 text-left hover:text-cyan-300">
-                <span class="text-base">${d.icon}</span>
-                <div>
-                  <div class="font-bold text-white">${d.short_label}</div>
-                  <div class="text-[10px] text-slate-400">${d.name}</div>
-                </div>
-              </button>
-            </td>
-            <td class="py-2.5 px-3 max-w-md">
-              ${taskTitle}
-              <div class="text-slate-200 font-medium">${summary}</div>
-              ${feedback}
-            </td>
-            <td class="py-2.5 px-3 whitespace-nowrap">
-              ${statusBadge(wo.status || d.live_state, wo.approval_status)}
-            </td>
-            <td class="py-2.5 px-3 text-right whitespace-nowrap space-x-1">
-              ${orderId ? `
-                <button onclick="approveWorkOrder('${orderId}')" class="px-2.5 py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-[11px]">
-                  ✅ Duyệt
-                </button>
-                <button onclick="openKaizenModal('${orderId}')" class="px-2.5 py-1 rounded bg-rose-600/80 hover:bg-rose-500 text-white font-semibold text-[11px]">
-                  🔄 Sửa + Kaizen
-                </button>
-              ` : ''}
-              <button onclick="openDelegateModal('${d.department_id}')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/30 font-semibold text-[11px]">
-                📋 Giao Việc
-              </button>
-            </td>
-          </tr>
-        `;
-      }).join('');
-    }
-
-    function renderLiveEvents() {
-      const feed = document.getElementById('live-events-feed');
-      const events = STATE.live_events || [];
-      feed.innerHTML = events.map(ev => `
-        <div class="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-slate-700 transition">
-          <div class="flex items-center justify-between text-[10px] text-slate-400 mb-1">
-            <span class="font-bold text-cyan-300 mono">${ev.source_dept} ➔ ${ev.target_dept}</span>
-            <span class="px-1.5 py-0.5 rounded bg-slate-800 text-amber-300 mono">${ev.action_type}</span>
+      const kzList = document.getElementById('right-kaizen-list');
+      const rules = d.kaizen_rules || [];
+      if (rules.length === 0) {
+        kzList.innerHTML = `<div class="text-slate-500 text-xs italic">Chưa có luật Kaizen bổ sung. Bạn có thể thêm luật mới ở ô phía trên.</div>`;
+      } else {
+        kzList.innerHTML = rules.map(r => `
+          <div class="p-2.5 rounded-lg bg-[#07080B] border border-white/10 text-slate-200">
+            <div class="text-[10px] mono text-[#FE5E02] mb-0.5">${r.created_at_utc.slice(0, 19)}</div>
+            <div>${r.learned_rule}</div>
           </div>
-          <div class="text-slate-200 leading-relaxed">${ev.message}</div>
-        </div>
-      `).join('');
-    }
+        `).join('');
+      }
 
-    function renderMediaVault() {
-      const container = document.getElementById('tab-panel-media');
-      const files = STATE.media_vault || [];
-      const featured = files.slice(0, 6);
-      container.innerHTML = featured.map(f => {
-        let previewHtml = '';
-        if (f.ext === '.mp4') {
-          previewHtml = `<video src="${f.url}" controls class="w-full h-44 object-contain bg-black rounded-lg border border-slate-800"></video>`;
-        } else if (f.ext === '.webp' || f.ext === '.png') {
-          previewHtml = `<img src="${f.url}" alt="${f.filename}" class="w-full h-44 object-contain bg-black rounded-lg border border-slate-800" />`;
-        } else if (f.ext === '.mp3') {
-          previewHtml = `<div class="h-44 flex flex-col items-center justify-center bg-slate-900 rounded-lg border border-slate-800 p-4">
-            <div class="text-3xl mb-2">🎙️</div>
-            <audio src="${f.url}" controls class="w-full"></audio>
-          </div>`;
-        } else {
-          previewHtml = `<div class="h-44 flex items-center justify-center bg-slate-900 rounded-lg border border-slate-800 text-slate-400 mono text-xs">${f.filename}</div>`;
+      // Render Center Conversation & Task History Stream
+      const stream = document.getElementById('studio-history-stream');
+      const logs = d.interview_logs || [];
+      const wo = d.work_order || {};
+
+      if (logs.length === 0) {
+        const preset = SUGGESTED_PRESETS[d.department_id] || {};
+        stream.innerHTML = `
+          <div class="eyc-card-elevated p-6 text-center max-w-xl mx-auto my-8">
+            <div class="w-12 h-12 rounded-2xl bg-[#FE5E02]/15 border border-[#FE5E02]/40 text-[#FE5E02] mono font-bold text-lg flex items-center justify-center mx-auto mb-3">
+              ${d.code}
+            </div>
+            <h3 class="text-base font-bold text-white">${d.name}</h3>
+            <p class="text-xs text-slate-300 mt-1 leading-relaxed">${d.role}</p>
+            <div class="mt-4 p-3.5 rounded-xl bg-[#07080B] border border-white/10 text-left text-xs text-slate-300">
+              <div class="text-[10px] mono uppercase text-[#FE5E02] mb-1">System Prompt Đang Kích Hoạt:</div>
+              <div>${d.system_prompt}</div>
+            </div>
+            <div class="mt-5 flex flex-wrap items-center justify-center gap-2.5">
+              <button onclick="fillSuggestedInterview()" class="px-4 py-2 rounded-xl eyc-btn-secondary text-xs">
+                💬 Bắt đầu Phỏng vấn Nhân sự này
+              </button>
+              <button onclick="fillSuggestedTask()" class="px-4 py-2 rounded-xl eyc-btn-primary text-xs">
+                🚀 Giao Task Thực Tế Đầu Tiên
+              </button>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      stream.innerHTML = logs.map(item => {
+        const isTask = item.interaction_mode === 'TASK_EXECUTION';
+        const isOpt = item.interaction_mode === 'PROMPT_OPTIMIZATION';
+        const deliv = item.deliverable || {};
+        let delivHtml = '';
+
+        if (deliv.type === 'CREATIVE_MEDIA_VIDEO_BUNDLE') {
+          delivHtml = `
+            <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3 pt-3 border-t border-white/10">
+              <div>
+                <div class="text-[10px] mono uppercase text-slate-400 mb-1">Ảnh Thiết Kế Studio (.webp)</div>
+                <img src="${deliv.banner_webp_url}" class="w-full h-48 object-contain bg-black rounded-lg border border-white/10" />
+              </div>
+              <div>
+                <div class="text-[10px] mono uppercase text-slate-400 mb-1">Video Dựng Phim OpenMontage (.mp4 - ${deliv.video_duration_sec}s)</div>
+                <video src="${deliv.video_mp4_url}" controls class="w-full h-48 object-contain bg-black rounded-lg border border-white/10"></video>
+              </div>
+              <div class="md:col-span-2 flex flex-wrap items-center justify-between gap-2 bg-[#07080B] p-2.5 rounded-lg border border-white/10">
+                <span class="text-[11px] mono text-emerald-400">OpenMontage '${deliv.openmontage_pipeline}' QA Score: ${deliv.openmontage_risk_score}/5.0 (${deliv.openmontage_verdict})</span>
+                <audio src="${deliv.voiceover_mp3_url}" controls class="h-8"></audio>
+              </div>
+            </div>
+          `;
+        } else if (deliv.type === 'SEO_AIO_SAO_PACKAGE') {
+          delivHtml = `
+            <div class="mt-3 space-y-2 pt-3 border-t border-white/10 text-xs">
+              <div class="p-2.5 rounded-lg bg-[#07080B] border border-white/10">
+                <span class="mono text-[#FE5E02] font-semibold">Live Crawl:</span> ${deliv.live_crawl_eyc_asia?.url} — Tiêu đề: "${deliv.live_crawl_eyc_asia?.title}" (${deliv.live_crawl_eyc_asia?.word_count} từ)
+              </div>
+              <div class="p-2.5 rounded-lg bg-[#07080B] border border-white/10">
+                <div class="text-[10px] mono uppercase text-emerald-400 mb-1">Khối Câu Trả Lời Trực Tiếp 45 Từ (AIO Citation):</div>
+                <div class="text-slate-200">${deliv.aio_direct_answer_45w}</div>
+              </div>
+            </div>
+          `;
+        } else if (deliv.type === 'TWENTY_CRM_AND_GROWTH') {
+          delivHtml = `
+            <div class="mt-3 p-3 rounded-lg bg-[#07080B] border border-white/10 text-xs">
+              <div class="font-semibold text-emerald-400 mb-1">Đồng bộ Twenty CRM thành công:</div>
+              <div>People: ${deliv.twenty_crm_sync?.total_people_in_crm} • Deals WON: ${deliv.twenty_crm_sync?.campaign_opportunities_won} • Tasks: ${deliv.twenty_crm_sync?.campaign_tasks_dispatched}</div>
+            </div>
+          `;
         }
+
+        const approvalBar = (isTask && wo.order_id) ? `
+          <div class="mt-3 pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-2">
+            <span class="text-[11px] mono text-slate-400">Điểm phê duyệt của con người (Bước 05 → 06):</span>
+            <div class="flex items-center gap-2">
+              <button onclick="approveCurrentTask('${wo.order_id}')" class="px-3 py-1.5 rounded-lg bg-emerald-500 text-black font-bold text-xs hover:bg-emerald-400">
+                ✅ Phê Duyệt Kết Quả
+              </button>
+              <button onclick="promptKaizenRevision('${wo.order_id}')" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 text-amber-300 border border-amber-500/30 font-semibold text-xs">
+                🔧 Yêu Cầu Tối Ưu & Vá Kaizen
+              </button>
+            </div>
+          </div>
+        ` : '';
+
         return `
-          <div class="p-3 rounded-xl bg-slate-900/70 border border-slate-800 flex flex-col justify-between">
-            ${previewHtml}
-            <div class="mt-2 flex items-center justify-between text-[11px]">
-              <a href="${f.url}" target="_blank" class="font-bold text-cyan-400 hover:underline truncate max-w-[70%]">${f.filename}</a>
-              <span class="text-slate-400 mono">${(f.size_bytes / 1024).toFixed(1)} KB</span>
+          <div class="space-y-2">
+            <!-- Director Message -->
+            <div class="flex justify-end">
+              <div class="max-w-[85%] rounded-2xl rounded-tr-sm bg-[#FE5E02]/15 border border-[#FE5E02]/40 px-4 py-2.5 text-xs text-white">
+                <div class="text-[10px] mono uppercase text-[#FFA05C] mb-0.5">
+                  Giám đốc Phan Phúc Nguyên • ${isTask ? 'GIAO TASK THỰC TẾ' : (isOpt ? 'TỐI ƯU PROMPT / KAIZEN' : 'PHỎNG VẤN TRỰC TIẾP')}
+                </div>
+                <div>${item.director_input}</div>
+              </div>
+            </div>
+
+            <!-- Agent Response & Deliverable -->
+            <div class="flex justify-start">
+              <div class="w-full rounded-2xl rounded-tl-sm bg-[#161922] border border-white/10 p-4 text-xs text-slate-200 leading-relaxed">
+                <div class="flex items-center justify-between text-[10px] mono text-slate-400 mb-2">
+                  <span class="text-white font-semibold">${d.name} (${d.department_id})</span>
+                  <span>${item.created_at_utc.slice(0, 19)} UTC</span>
+                </div>
+                <div class="whitespace-pre-wrap">${item.agent_response}</div>
+                ${delivHtml}
+                ${approvalBar}
+              </div>
             </div>
           </div>
         `;
       }).join('');
+
+      stream.scrollTop = stream.scrollHeight;
     }
 
-    function renderTwentyCRM() {
-      const container = document.getElementById('twenty-crm-container');
-      const crm = STATE.twenty_crm || {};
-      const opps = crm.opportunities || [];
-      const tasks = crm.tasks || [];
-      container.innerHTML = `
-        <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800">
-          <h4 class="text-xs font-bold uppercase text-emerald-400 mb-2">💰 Twenty CRM — Opportunities Kanban (Stage: WON)</h4>
-          <div class="space-y-2 max-h-60 overflow-y-auto">
-            ${opps.map(o => `
-              <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800 flex items-center justify-between text-xs">
-                <div>
-                  <div class="font-bold text-white">${o.deal_name}</div>
-                  <div class="text-[10px] text-slate-400 mono">Person ID: ${o.person_id} • Xác suất: ${o.probability_percent}%</div>
-                </div>
-                <div class="text-right">
-                  <div class="font-bold text-emerald-400 mono">${fmtVND(o.amount_vnd)}</div>
-                  <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[10px] font-bold">${o.stage}</span>
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-        <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800">
-          <h4 class="text-xs font-bold uppercase text-cyan-400 mb-2">📋 Twenty CRM — Follow-up Tasks (#12 Sale & #14 Kế Toán)</h4>
-          <div class="space-y-2 max-h-60 overflow-y-auto">
-            ${tasks.map(t => `
-              <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800 flex items-center justify-between text-xs">
-                <div class="pr-2">
-                  <div class="font-medium text-slate-200">${t.title}</div>
-                  <div class="text-[10px] text-slate-400 mono">Phụ trách: ${t.assignee_department}</div>
-                </div>
-                <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 text-[10px] font-bold">${t.status}</span>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      `;
-    }
+    function setComposerMode(mode) {
+      COMPOSER_MODE = mode;
+      const btnInt = document.getElementById('mode-btn-interview');
+      const btnTask = document.getElementById('mode-btn-task');
+      const metaRow = document.getElementById('composer-task-meta');
+      const hint = document.getElementById('composer-mode-hint');
+      const submitLbl = document.getElementById('btn-studio-submit-label');
 
-    function renderBrainInspector() {
-      const container = document.getElementById('brain-inspector-container');
-      const rules = STATE.kaizen_rules || [];
-      const kg = STATE.knowledge_graph || { nodes: [], edges: [] };
-      container.innerHTML = `
-        <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800">
-          <h4 class="text-xs font-bold uppercase text-amber-400 mb-2">⚡ Tầng 2: Luật Tự Học Kaizen Thực Chiến (${rules.length} Luật)</h4>
-          <div class="space-y-2 max-h-60 overflow-y-auto text-xs">
-            ${rules.map(r => `
-              <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800">
-                <div class="flex items-center justify-between text-[10px] text-slate-400 mb-1">
-                  <span class="text-amber-300 font-bold mono">${r.source_department} ➔ ${r.target_departments}</span>
-                  <span>Confidence: ${(r.confidence * 100).toFixed(0)}%</span>
-                </div>
-                <div class="text-slate-200">${r.learned_rule}</div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-        <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800">
-          <h4 class="text-xs font-bold uppercase text-purple-400 mb-2">🕸️ Tầng 3: Đồ Thị Tri Thức LightRAG (${(kg.nodes || []).length} Thực thể / ${(kg.edges || []).length} Quan hệ)</h4>
-          <div class="space-y-1.5 max-h-60 overflow-y-auto text-xs">
-            ${(kg.edges || []).map(e => `
-              <div class="p-2 rounded-lg bg-slate-950 border border-slate-800 text-[11px]">
-                <span class="font-bold text-cyan-300">${e.source_entity}</span>
-                <span class="px-1.5 py-0.5 mx-1 rounded bg-purple-500/20 text-purple-300 mono text-[10px]">${e.relation_type}</span>
-                <span class="font-bold text-emerald-300">${e.target_entity}</span>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      `;
-    }
-
-    function renderIntegratedEngines() {
-      const el = document.getElementById('engines-list');
-      el.innerHTML = (STATE.integrated_engines || []).map(eng => `
-        <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
-          <div>
-            <div class="font-bold text-white">${eng.name}</div>
-            <div class="text-[11px] text-slate-400">${eng.role}</div>
-          </div>
-          <span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30 font-bold mono text-[10px]">${eng.stars}</span>
-        </div>
-      `).join('');
-    }
-
-    function switchBottomTab(tab) {
-      ['media', 'crm', 'brain'].forEach(t => {
-        const panel = document.getElementById(`tab-panel-${t}`);
-        const btn = document.getElementById(`tab-btn-${t}`);
-        if (t === tab) {
-          panel.classList.remove('hidden');
-          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40';
-        } else {
-          panel.classList.add('hidden');
-          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700';
-        }
-      });
-    }
-
-    function populateDepartmentSelect() {
-      const sel = document.getElementById('form-dept-id');
-      if (sel.options.length > 0) return;
-      (STATE.departments || []).forEach(d => {
-        const opt = document.createElement('option');
-        opt.value = d.department_id;
-        opt.textContent = `${d.icon} ${d.short_label} — ${d.name}`;
-        sel.appendChild(opt);
-      });
-    }
-
-    function openDelegateModal(deptId) {
-      populateDepartmentSelect();
-      if (deptId) {
-        document.getElementById('form-dept-id').value = deptId;
-      } else if (SELECTED_DEPT_ID) {
-        document.getElementById('form-dept-id').value = SELECTED_DEPT_ID;
+      if (mode === 'INTERVIEW') {
+        btnInt.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-[#07080B]';
+        btnTask.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-white/5 text-slate-300 border border-white/10 hover:text-white';
+        metaRow.classList.add('hidden');
+        hint.textContent = 'Hỏi trực tiếp nhân sự về quy trình làm việc, công cụ và giải pháp cho eyc.asia';
+        submitLbl.textContent = 'Gửi Câu Hỏi';
+      } else {
+        btnTask.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-[#FE5E02] text-[#07080B]';
+        btnInt.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-white/5 text-slate-300 border border-white/10 hover:text-white';
+        metaRow.classList.remove('hidden');
+        hint.textContent = 'Giao nhiệm vụ thực tế để nhân sự vận hành công cụ và xuất sản phẩm thật';
+        submitLbl.textContent = '🚀 Phát Lệnh Thực Thi';
       }
-      const m = document.getElementById('delegate-modal');
-      m.classList.remove('hidden');
-      m.classList.add('flex');
     }
 
-    function openDelegateModalForSelected() {
-      openDelegateModal(SELECTED_DEPT_ID);
+    function fillSuggestedInterview() {
+      setComposerMode('INTERVIEW');
+      const p = SUGGESTED_PRESETS[SELECTED_DEPT_ID] || {};
+      document.getElementById('input-director-message').value = p.interview || 'Hãy báo cáo quy trình làm việc 6 bước EYC của bộ phận bạn.';
+      document.getElementById('input-director-message').focus();
     }
 
-    function closeDelegateModal() {
-      const m = document.getElementById('delegate-modal');
-      m.classList.add('hidden');
-      m.classList.remove('flex');
+    function fillSuggestedTask() {
+      setComposerMode('TASK');
+      const p = SUGGESTED_PRESETS[SELECTED_DEPT_ID] || {};
+      document.getElementById('input-task-title').value = p.taskTitle || `Nhiệm vụ thực thi EYC cho ${SELECTED_DEPT_ID}`;
+      document.getElementById('input-director-message').value = p.taskDesc || 'Thực thi nhiệm vụ theo chuẩn EYC (eyc.asia).';
+      document.getElementById('input-director-message').focus();
     }
 
-    async function submitDelegateTask(e) {
+    async function submitStudioComposer(e) {
       e.preventDefault();
-      const btn = document.getElementById('btn-submit-delegate');
+      const msgEl = document.getElementById('input-director-message');
+      const text = msgEl.value.trim();
+      if (!text) return;
+
+      const btn = document.getElementById('btn-studio-submit');
       btn.disabled = true;
-      btn.textContent = '⏳ Đang thực thi...';
+
       try {
-        const payload = {
-          department_id: document.getElementById('form-dept-id').value,
-          task_title: document.getElementById('form-task-title').value,
-          instructions: document.getElementById('form-instructions').value,
-          campaign_id: document.getElementById('form-campaign-id').value,
-          price_vnd: Number(document.getElementById('form-price-vnd').value || 890000),
-          async_mode: true,
-        };
-        const res = await fetch('/api/delegate-task', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-        const data = await res.json();
-        SELECTED_DEPT_ID = payload.department_id;
-        LAST_JOB_RUNNING = true;
-        closeDelegateModal();
-        showToast('🚀 Đã Phát Lệnh Giao Việc!', data.execution_summary || `Phòng ${payload.department_id} đang bắt đầu thực thi...`, 'amber');
-        await fetchCompanyState();
-        for (let i = 1; i <= 15; i++) {
-          setTimeout(fetchCompanyState, i * 1000);
+        if (COMPOSER_MODE === 'INTERVIEW') {
+          await fetch('/api/interview-department', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              department_id: SELECTED_DEPT_ID,
+              question: text,
+            }),
+          });
+          msgEl.value = '';
+          await fetchCompanyState();
+        } else {
+          const title = document.getElementById('input-task-title').value.trim() || text.slice(0, 55);
+          const prod = document.getElementById('input-product-name').value.trim() || 'EYC – Everything You Connect (eyc.asia)';
+          await fetch('/api/delegate-task', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              department_id: SELECTED_DEPT_ID,
+              task_title: title,
+              instructions: text,
+              product_name: prod,
+              async_mode: true,
+            }),
+          });
+          msgEl.value = '';
+          LAST_JOB_RUNNING = true;
+          showToast('Đã phát lệnh thực thi', `Bộ phận ${SELECTED_DEPT_ID} đang thực thi "${title}"...`);
+          await fetchCompanyState();
+          for (let i = 1; i <= 18; i++) {
+            setTimeout(fetchCompanyState, i * 1000);
+          }
         }
       } finally {
         btn.disabled = false;
-        btn.textContent = '🚀 Phát Lệnh & Thực Thi Ngay';
       }
     }
 
-    async function approveWorkOrder(orderId) {
+    async function saveDepartmentPrompt(e) {
+      e.preventDefault();
+      const sysPrompt = document.getElementById('right-system-prompt').value;
+      const newKaizen = document.getElementById('right-new-kaizen').value;
+      const res = await fetch('/api/update-prompt', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          department_id: SELECTED_DEPT_ID,
+          system_prompt: sysPrompt,
+          new_kaizen_rule: newKaizen,
+        }),
+      });
+      const data = await res.json();
+      document.getElementById('right-new-kaizen').value = '';
+      showToast('Đã lưu cấu hình nhân sự', data.message || 'Cập nhật thành công.');
+      await fetchCompanyState();
+    }
+
+    async function approveCurrentTask(orderId) {
       const res = await fetch('/api/approve-work-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           order_id: orderId,
           decision: 'APPROVE',
-          feedback_note: 'Giám Đốc đã duyệt trực tiếp trên Trung Tâm Điều Hành.',
+          feedback_note: 'Giám đốc Phan Phúc Nguyên đã nghiệm thu trên giao diện EYC.',
         }),
       });
       const data = await res.json();
-      showToast('✅ Đã Phê Duyệt Work Order!', data.message || orderId, 'emerald');
+      showToast('Đã phê duyệt (Bước 06)', data.message || 'Hoàn tất.');
       await fetchCompanyState();
     }
 
-    function openKaizenModal(orderId) {
-      document.getElementById('kaizen-order-id').value = orderId;
-      document.getElementById('kaizen-feedback-note').value = '';
-      const m = document.getElementById('kaizen-modal');
-      m.classList.remove('hidden');
-      m.classList.add('flex');
-    }
-
-    function closeKaizenModal() {
-      const m = document.getElementById('kaizen-modal');
-      m.classList.add('hidden');
-      m.classList.remove('flex');
-    }
-
-    async function submitKaizenRejection(e) {
-      e.preventDefault();
-      const orderId = document.getElementById('kaizen-order-id').value;
-      const note = document.getElementById('kaizen-feedback-note').value;
+    async function promptKaizenRevision(orderId) {
+      const note = prompt('Nhập chỉ đạo tối ưu / chỉnh sửa cho bộ phận này (Hệ thống sẽ tự động lưu thành Luật Kaizen & vá System Prompt):');
+      if (!note) return;
       const res = await fetch('/api/approve-work-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -879,16 +884,120 @@
         }),
       });
       const data = await res.json();
-      closeKaizenModal();
-      showToast('🔄 Đã Ghi Luật Kaizen & Vá System Prompt!', data.message || note, 'rose');
+      showToast('Đã ghi Luật Kaizen & Vá Prompt', data.message || note);
       await fetchCompanyState();
+    }
+
+    function renderCleanArchitectureMap() {
+      const grid = document.getElementById('clean-architecture-grid');
+      const depts = STATE.departments || [];
+      const groups = {};
+      depts.forEach(d => {
+        if (!groups[d.group]) groups[d.group] = [];
+        groups[d.group].push(d);
+      });
+
+      grid.innerHTML = Object.entries(groups).map(([gName, items]) => `
+        <div class="eyc-card p-4 space-y-3">
+          <div class="text-xs font-bold text-[#FE5E02] mono uppercase border-b border-white/10 pb-2">${gName}</div>
+          <div class="space-y-2.5">
+            ${items.map(d => `
+              <div onclick="selectDepartment('${d.department_id}'); switchMainView('studio');"
+                   class="p-3.5 rounded-xl bg-[#07080B] border border-white/10 hover:border-[#FE5E02] cursor-pointer transition space-y-2">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <span class="w-6 h-6 rounded bg-[#FE5E02]/15 text-[#FE5E02] mono text-xs font-bold flex items-center justify-center">${d.code}</span>
+                    <span class="text-xs font-bold text-white">${d.short_label}</span>
+                  </div>
+                  ${statePillHtml(d.live_state)}
+                </div>
+                <p class="text-[11px] text-slate-400 line-clamp-2">${d.speech_bubble}</p>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderVaultView() {
+      const mediaEl = document.getElementById('vault-media-list');
+      const crmEl = document.getElementById('vault-crm-list');
+      const kgEl = document.getElementById('vault-kg-list');
+
+      const files = STATE.media_vault || [];
+      if (files.length === 0) {
+        mediaEl.innerHTML = `<div class="text-xs text-slate-500 italic">Kho Media đang sạch (0 file rác). Hãy giao việc cho khối Sáng tạo / Video (#03, #05, #06) để tạo sản phẩm thật.</div>`;
+      } else {
+        mediaEl.innerHTML = files.map(f => `
+          <div class="p-3 rounded-xl bg-[#07080B] border border-white/10 space-y-2">
+            ${f.ext === '.mp4' ? `<video src="${f.url}" controls class="w-full h-40 object-contain bg-black rounded-lg"></video>` : ''}
+            ${f.ext === '.webp' ? `<img src="${f.url}" class="w-full h-40 object-contain bg-black rounded-lg" />` : ''}
+            ${f.ext === '.mp3' ? `<audio src="${f.url}" controls class="w-full"></audio>` : ''}
+            <div class="flex items-center justify-between text-xs">
+              <a href="${f.url}" target="_blank" class="text-[#FE5E02] font-semibold hover:underline truncate">${f.filename}</a>
+              <span class="mono text-slate-400">${(f.size_bytes / 1024).toFixed(1)} KB</span>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      const opps = (STATE.twenty_crm || {}).opportunities || [];
+      if (opps.length === 0) {
+        crmEl.innerHTML = `<div class="text-xs text-slate-500 italic">Twenty CRM đang sạch (0 dữ liệu demo). Hãy giao việc cho Phòng Sale B2B (#12) để tạo Deal thật.</div>`;
+      } else {
+        crmEl.innerHTML = opps.map(o => `
+          <div class="p-3 rounded-xl bg-[#07080B] border border-white/10 flex items-center justify-between text-xs">
+            <div>
+              <div class="font-bold text-white">${o.deal_name}</div>
+              <div class="text-[11px] text-slate-400 mono">Stage: ${o.stage} • ${o.probability_percent}%</div>
+            </div>
+            <span class="mono font-bold text-emerald-400">${new Intl.NumberFormat('vi-VN').format(o.amount_vnd)} đ</span>
+          </div>
+        `).join('');
+      }
+
+      const kg = STATE.knowledge_graph || { nodes: [], edges: [] };
+      const rules = STATE.kaizen_rules || [];
+      document.getElementById('vault-brain-stats').textContent = `${(kg.nodes || []).length} Thực thể EYC • ${(kg.edges || []).length} Liên kết • ${rules.length} Luật Kaizen`;
+
+      kgEl.innerHTML = (kg.nodes || []).map(n => `
+        <div class="p-2.5 rounded-xl bg-[#07080B] border border-white/10 text-xs">
+          <div class="flex items-center justify-between mb-0.5">
+            <span class="font-bold text-white">${n.name}</span>
+            <span class="text-[10px] mono px-2 py-0.5 rounded bg-[#FE5E02]/15 text-[#FE5E02]">${n.entity_type}</span>
+          </div>
+          <div class="text-slate-400 text-[11px]">${n.description}</div>
+        </div>
+      `).join('');
+    }
+
+    function switchMainView(view) {
+      ['studio', 'map', 'vault'].forEach(v => {
+        const mainEl = document.getElementById(`main-view-${v}`);
+        const btnEl = document.getElementById(`view-btn-${v}`);
+        if (v === view) {
+          mainEl.classList.remove('hidden');
+          btnEl.className = 'px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[#FE5E02] text-[#07080B]';
+        } else {
+          mainEl.classList.add('hidden');
+          btnEl.className = 'px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white';
+        }
+      });
     }
 
     async function triggerCompanyWave() {
       await fetch('/api/simulate-wave', { method: 'POST' });
-      for (let i = 0; i < 8; i++) {
-        setTimeout(fetchCompanyState, i * 750);
+      LAST_JOB_RUNNING = true;
+      for (let i = 1; i <= 8; i++) {
+        setTimeout(fetchCompanyState, i * 800);
       }
+    }
+
+    async function resetCleanEYC() {
+      if (!confirm('Xóa toàn bộ lịch sử test và khôi phục trạng thái sạch chuẩn gốc EYC (eyc.asia)?')) return;
+      await fetch('/api/reset-clean', { method: 'POST' });
+      showToast('Đã làm mới sạch', 'Toàn bộ 16 phòng ban đã trở về trạng thái chuẩn gốc EYC (eyc.asia).');
+      await fetchCompanyState();
     }
 
     fetchCompanyState();

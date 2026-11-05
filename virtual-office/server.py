@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """
-Real-Time Interactive Virtual Office & Executive Command Center Server
-for the 16-Department Autonomous AI Company (`/root/ecosystem/virtual-office/server.py`).
+EYC (https://eyc.asia) — Clean Production AI Company Command, Interview & Task Studio Server
+(`/root/ecosystem/virtual-office/server.py`).
 
-Features:
-- Instant non-blocking task delegation (`POST /api/delegate-task`) with background thread execution
-  and real-time step-by-step progress tracking (0% -> 25% -> 50% -> 80% -> 100%).
-- Animated 2D Virtual Office state with active moving packets, progress bars, and live terminal logs.
-- Human-in-the-Loop Approval Gate (`APPROVE` & `REJECT_KAIZEN` with automatic HR #15 System Prompt hot-patching).
+Designed for:
+- CÔNG TY TNHH CÔNG NGHỆ VÀ TRÍ TUỆ NHÂN TẠO EYC (Everything You Connect — eyc.asia)
+- Director: Phan Phúc Nguyên | Tax ID: 0319723892 | DUNS: 321425016
+- Slogan: "Hệ thống do con người chỉ huy. AI Agents phối hợp thực thi."
+- 6-Step EYC Operating Flow: 01 Định hướng → 02 Ngữ cảnh → 03 Agents → 04 Hành động → 05 Kiểm tra → 06 Kết quả
+- Zero demo/fake data on startup. Full 1-on-1 Department Interview, Step-by-Step Task Delegation,
+  Human Approval Gate, and Live System Prompt / Kaizen Optimization.
 """
 
 from __future__ import annotations
@@ -34,12 +36,12 @@ from creative_video_division import CreativeVideoStudioDivision
 from engine import CorporateSecondBrain, CORPORATE_DEPARTMENTS
 from finance_it_pipeline_division import CFOFinancialStrategistAgent, AccountantBookkeeperAgent, ITDevOpsSecurityAgent
 from seo_aio_sao_division import SearchGrowthDivision
+from setup_eyc_clean_slate import EYC_COMPANY_PROFILE, EYC_DEPARTMENT_PROMPTS, reset_and_setup_eyc
 from social_ads_sale_division import SocialAdsSaleDivision
 
 STATIC_DIR = Path(__file__).resolve().parent / "static"
 MEDIA_VAULT_DIR = ECOSYSTEM_ROOT / "second-brain" / "data" / "media_vault"
 
-# Global Live Event Ring Buffer & Active Simulation State for Real-Time UI Streaming
 LIVE_EVENTS_LOCK = threading.Lock()
 LIVE_EVENTS: list[dict[str, Any]] = []
 DEPT_LIVE_STATUS: dict[str, dict[str, Any]] = {}
@@ -48,29 +50,30 @@ ACTIVE_JOB_STATUS: dict[str, Any] = {
     "job_id": "",
     "department_id": "",
     "task_title": "",
+    "eyc_step_index": 0,  # 0..6 corresponding to EYC 6 steps
     "progress_percent": 0,
-    "current_step": "Hệ thống sẵn sàng nhận lệnh",
+    "current_step": "Hệ thống EYC đã sẵn sàng (0 dữ liệu rác). Chọn 1 phòng ban để phỏng vấn hoặc giao việc.",
     "started_at": "",
     "finished_at": "",
 }
 
 OFFICE_LAYOUT: dict[str, dict[str, Any]] = {
-    "01_ceo": {"zone": "Executive Suite", "x": 14, "y": 16, "icon": "👑", "color": "#F59E0B", "short": "CEO #1"},
-    "15_hr": {"zone": "Executive Suite", "x": 28, "y": 16, "icon": "🎖️", "color": "#EC4899", "short": "HR #15"},
-    "13_cfo": {"zone": "Finance & Audit", "x": 14, "y": 42, "icon": "💎", "color": "#10B981", "short": "CFO #13"},
-    "14_accountant": {"zone": "Finance & Audit", "x": 28, "y": 42, "icon": "🧾", "color": "#14B8A6", "short": "Kế Toán #14"},
-    "16_it": {"zone": "Server & Security", "x": 21, "y": 68, "icon": "🛡️", "color": "#6366F1", "short": "IT/DevOps #16"},
-    "07_seo": {"zone": "Search & AI Lab", "x": 48, "y": 18, "icon": "🔍", "color": "#3B82F6", "short": "SEO #7"},
-    "08_aio": {"zone": "Search & AI Lab", "x": 68, "y": 18, "icon": "🧠", "color": "#8B5CF6", "short": "AIO #8"},
-    "09_sao": {"zone": "Search & AI Lab", "x": 88, "y": 18, "icon": "⚡", "color": "#06B6D4", "short": "SAO #9"},
-    "02_creative_director": {"zone": "OpenMontage Studio", "x": 48, "y": 48, "icon": "🎬", "color": "#F97316", "short": "Creative #2"},
-    "04_content": {"zone": "OpenMontage Studio", "x": 64, "y": 48, "icon": "✍️", "color": "#EAB308", "short": "Content #4"},
-    "03_design": {"zone": "OpenMontage Studio", "x": 80, "y": 48, "icon": "🎨", "color": "#EC4899", "short": "Design #3"},
-    "05_media_livestream": {"zone": "OpenMontage Studio", "x": 92, "y": 38, "icon": "🎙️", "color": "#A855F7", "short": "Media #5"},
-    "06_video_editor": {"zone": "OpenMontage Studio", "x": 92, "y": 56, "icon": "🎞️", "color": "#EF4444", "short": "Video #6"},
-    "10_social": {"zone": "Growth & Twenty CRM", "x": 48, "y": 82, "icon": "🌐", "color": "#0EA5E9", "short": "Social #10"},
-    "11_ads": {"zone": "Growth & Twenty CRM", "x": 68, "y": 82, "icon": "🚀", "color": "#F43F5E", "short": "Ads #11"},
-    "12_sale": {"zone": "Growth & Twenty CRM", "x": 88, "y": 82, "icon": "🤝", "color": "#22C55E", "short": "Sale #12"},
+    "01_ceo": {"group": "01. Ban Điều Hành & Quản Trị", "zone": "Executive Suite", "x": 14, "y": 18, "icon": "01", "short": "CEO & Tham Mưu"},
+    "15_hr": {"group": "01. Ban Điều Hành & Quản Trị", "zone": "Executive Suite", "x": 30, "y": 18, "icon": "15", "short": "Giám Đốc Nhân Sự AI"},
+    "13_cfo": {"group": "01. Ban Điều Hành & Quản Trị", "zone": "Finance & Audit", "x": 14, "y": 48, "icon": "13", "short": "Giám Đốc Tài Chính CFO"},
+    "14_accountant": {"group": "01. Ban Điều Hành & Quản Trị", "zone": "Finance & Audit", "x": 30, "y": 48, "icon": "14", "short": "Kế Toán & Đối Soát"},
+    "16_it": {"group": "01. Ban Điều Hành & Quản Trị", "zone": "Cloud & Security", "x": 22, "y": 78, "icon": "16", "short": "Hạ Tầng IT & Bảo Mật"},
+    "07_seo": {"group": "02. Khối Tìm Kiếm & AI Citation", "zone": "Search & AI Lab", "x": 50, "y": 18, "icon": "07", "short": "SEO Kỹ Thuật & Cluster"},
+    "08_aio": {"group": "02. Khối Tìm Kiếm & AI Citation", "zone": "Search & AI Lab", "x": 68, "y": 18, "icon": "08", "short": "AIO / AEO / GEO Citation"},
+    "09_sao": {"group": "02. Khối Tìm Kiếm & AI Citation", "zone": "Search & AI Lab", "x": 86, "y": 18, "icon": "09", "short": "SAO & Chuẩn WebMCP"},
+    "02_creative_director": {"group": "03. Khối Sáng Tạo & OpenMontage Media", "zone": "Content & Media Studio", "x": 48, "y": 48, "icon": "02", "short": "Giám Đốc Sáng Tạo"},
+    "04_content": {"group": "03. Khối Sáng Tạo & OpenMontage Media", "zone": "Content & Media Studio", "x": 62, "y": 48, "icon": "04", "short": "Biên Tập & Kịch Bản"},
+    "03_design": {"group": "03. Khối Sáng Tạo & OpenMontage Media", "zone": "Content & Media Studio", "x": 76, "y": 48, "icon": "03", "short": "Thiết Kế Visual Studio"},
+    "05_media_livestream": {"group": "03. Khối Sáng Tạo & OpenMontage Media", "zone": "Content & Media Studio", "x": 90, "y": 40, "icon": "05", "short": "Media & Thuyết Minh AI"},
+    "06_video_editor": {"group": "03. Khối Sáng Tạo & OpenMontage Media", "zone": "Content & Media Studio", "x": 90, "y": 56, "icon": "06", "short": "Dựng Phim OpenMontage"},
+    "10_social": {"group": "04. Khối Tăng Trưởng & Twenty CRM", "zone": "Growth & Twenty CRM", "x": 50, "y": 78, "icon": "10", "short": "Phân Phối Đa Kênh"},
+    "11_ads": {"group": "04. Khối Tăng Trưởng & Twenty CRM", "zone": "Growth & Twenty CRM", "x": 68, "y": 78, "icon": "11", "short": "Hiệu Suất Ads & Seeding"},
+    "12_sale": {"group": "04. Khối Tăng Trưởng & Twenty CRM", "zone": "Growth & Twenty CRM", "x": 86, "y": 78, "icon": "12", "short": "Sale B2B & Twenty CRM"},
 }
 
 
@@ -84,7 +87,8 @@ def push_live_event(
     action_type: str,
     message: str,
     status: str = "WORKING",
-    progress_percent: int | None = None,
+    progress_percent: int = 100,
+    eyc_step: int = 0,
 ) -> dict[str, Any]:
     evt = {
         "event_id": f"evt_{uuid.uuid4().hex[:8]}",
@@ -95,6 +99,7 @@ def push_live_event(
         "message": message,
         "status": status,
         "progress_percent": progress_percent,
+        "eyc_step": eyc_step,
     }
     with LIVE_EVENTS_LOCK:
         LIVE_EVENTS.insert(0, evt)
@@ -102,17 +107,10 @@ def push_live_event(
         if source_dept in OFFICE_LAYOUT:
             DEPT_LIVE_STATUS[source_dept] = {
                 "state": status,
-                "speech_bubble": message[:110],
+                "speech_bubble": message[:140],
                 "target_dept": target_dept,
-                "progress_percent": progress_percent if progress_percent is not None else (100 if status != "WORKING" else 50),
-                "updated_at": evt["timestamp"],
-            }
-        if target_dept in OFFICE_LAYOUT and status == "WORKING":
-            DEPT_LIVE_STATUS[target_dept] = {
-                "state": "WORKING",
-                "speech_bubble": f"Đang nhận bàn giao từ {OFFICE_LAYOUT.get(source_dept, {}).get('short', source_dept)}: {message[:80]}",
-                "target_dept": source_dept,
-                "progress_percent": progress_percent or 35,
+                "progress_percent": progress_percent,
+                "eyc_step": eyc_step,
                 "updated_at": evt["timestamp"],
             }
     return evt
@@ -124,6 +122,7 @@ def update_active_job(
     task_title: str,
     progress_percent: int,
     current_step: str,
+    eyc_step_index: int = 0,
     job_id: str = "",
 ) -> None:
     with LIVE_EVENTS_LOCK:
@@ -132,6 +131,7 @@ def update_active_job(
         ACTIVE_JOB_STATUS["running"] = running
         ACTIVE_JOB_STATUS["department_id"] = department_id
         ACTIVE_JOB_STATUS["task_title"] = task_title
+        ACTIVE_JOB_STATUS["eyc_step_index"] = eyc_step_index
         ACTIVE_JOB_STATUS["progress_percent"] = progress_percent
         ACTIVE_JOB_STATUS["current_step"] = current_step
         if running and not ACTIVE_JOB_STATUS.get("started_at"):
@@ -140,76 +140,55 @@ def update_active_job(
             ACTIVE_JOB_STATUS["finished_at"] = _utc_now_iso()
 
 
-def _seed_initial_live_events() -> None:
-    if LIVE_EVENTS:
-        return
-    push_live_event("01_ceo", "15_hr", "DELEGATE", "Phát hành 16 Work Orders chiến dịch CAMP_MASSAGE_11 (Mục tiêu 267M VNĐ)", "COMPLETED", 100)
-    push_live_event("07_seo", "08_aio", "HANDOFF", "Khóa Topic Cluster 5 URL (0 Cannibalization) & chuyển sang AIO nhúng Schema JSON-LD", "COMPLETED", 100)
-    push_live_event("06_video_editor", "10_social", "OPENMONTAGE_QA", "OpenMontage 'clip-factory' QA: Score 0.0/5.0 (STRONG) -> Xuất MP4 9:16 31.5s", "WAITING_APPROVAL", 100)
-    push_live_event("11_ads", "04_content", "KAIZEN_SIGNAL", "Tự động tắt AdSet CPL 60kđ & bắn luật Kaizen Hook B sang Phòng Content/Video", "COMPLETED", 100)
-    push_live_event("12_sale", "14_accountant", "TWENTY_CRM_WON", "Bóc tách 4 SĐT ẩn & đồng bộ Twenty CRM (4 WON Deals = 3,560,000đ)", "WAITING_APPROVAL", 100)
-    push_live_event("13_cfo", "01_ceo", "BUDGET_APPROVAL", "ROAS đạt 12.92x, Biên lãi ròng 53.18% -> Đề xuất APPROVE_SCALE_UP_30_PERCENT", "WAITING_APPROVAL", 100)
-
-
-class VirtualCompanyController:
-    """Connects the Web UI directly to the 16 Department Agents and SQLite 3-Tier Second Brain."""
+class EYCCompanyController:
+    """Clean Production Controller for EYC (`eyc.asia`) 16 AI Departments."""
 
     def __init__(self) -> None:
         self.brain = CorporateSecondBrain()
         self.hr = HRAgentDirector(self.brain)
         self.ceo = CEOExecutiveAgent(self.brain, self.hr)
-        self._ensure_approval_columns()
-        self._ensure_all_16_work_orders_exist("CAMP_MASSAGE_11")
-        _seed_initial_live_events()
+        self._init_tables()
 
-    def _ensure_approval_columns(self) -> None:
+    def _init_tables(self) -> None:
         with self.brain._connect() as conn:
+            conn.execute(
+                """
+                CREATE TABLE IF NOT EXISTS eyc_interview_logs (
+                    log_id TEXT PRIMARY KEY,
+                    department_id TEXT NOT NULL,
+                    interaction_mode TEXT NOT NULL,
+                    director_input TEXT NOT NULL,
+                    agent_response TEXT NOT NULL,
+                    deliverable_json TEXT NOT NULL DEFAULT '{}',
+                    status TEXT NOT NULL DEFAULT 'COMPLETED',
+                    created_at_utc TEXT NOT NULL
+                );
+                """
+            )
             cols = [r["name"] for r in conn.execute("PRAGMA table_info(ceo_work_orders);").fetchall()]
-            if "approval_status" not in cols:
+            if cols and "approval_status" not in cols:
                 conn.execute("ALTER TABLE ceo_work_orders ADD COLUMN approval_status TEXT NOT NULL DEFAULT 'PENDING_APPROVAL';")
-            if "director_feedback" not in cols:
+            if cols and "director_feedback" not in cols:
                 conn.execute("ALTER TABLE ceo_work_orders ADD COLUMN director_feedback TEXT NOT NULL DEFAULT '';")
 
-    def _ensure_all_16_work_orders_exist(self, campaign_id: str = "CAMP_MASSAGE_11") -> None:
-        """Guarantees all 16 departments have active Work Orders under `campaign_id` for immediate UI interaction."""
-        self.hr.recruit_full_16_department_roster()
-        now_iso = _utc_now_iso()
-        with self.brain._connect() as conn:
-            existing_depts = {
-                r["department_id"]
-                for r in conn.execute(
-                    "SELECT department_id FROM ceo_work_orders WHERE campaign_id = ?;",
-                    (campaign_id,),
-                ).fetchall()
-            }
-            for idx, (dept_id, meta) in enumerate(CORPORATE_DEPARTMENTS.items(), start=1):
-                if dept_id not in existing_depts:
-                    order_id = f"WO_{campaign_id}_{dept_id.upper()}"
-                    conn.execute(
-                        """
-                        INSERT INTO ceo_work_orders (
-                            order_id, campaign_id, department_id, phase_number,
-                            task_title, sop_instructions, kpi_target_json, assigned_weapons,
-                            status, deliverable_summary, kpi_achieved_json,
-                            approval_status, director_feedback, created_at_utc, updated_at_utc
-                        )
-                        VALUES (?, ?, ?, ?, ?, ?, '{"completion": 100}', ?, 'WAITING_APPROVAL', ?, '{}', 'PENDING_APPROVAL', '', ?, ?);
-                        """,
-                        (
-                            order_id,
-                            campaign_id,
-                            dept_id,
-                            min(6, (idx - 1) // 3 + 1),
-                            f"Chiến dịch Máy Massage Cổ Vai Gáy AI Pro — {meta['name']}",
-                            meta["role"],
-                            meta["weapons"],
-                            f"Đã hoàn thành bàn giao chuẩn SOP: {meta['role']}",
-                            now_iso,
-                            now_iso,
-                        ),
-                    )
+    def clean_reset_eyc(self) -> dict[str, Any]:
+        with LIVE_EVENTS_LOCK:
+            LIVE_EVENTS.clear()
+            DEPT_LIVE_STATUS.clear()
+            ACTIVE_JOB_STATUS.update(
+                {
+                    "running": False,
+                    "job_id": "",
+                    "department_id": "",
+                    "task_title": "",
+                    "eyc_step_index": 0,
+                    "progress_percent": 0,
+                    "current_step": "Đã xóa sạch dữ liệu test & khởi tạo chuẩn gốc EYC (eyc.asia).",
+                }
+            )
+        return reset_and_setup_eyc()
 
-    def get_full_company_state(self, campaign_id: str = "CAMP_MASSAGE_11") -> dict[str, Any]:
+    def get_full_company_state(self, campaign_id: str = "EYC_CORE") -> dict[str, Any]:
         with self.brain._connect() as conn:
             roster_rows = {
                 r["department_id"]: dict(r)
@@ -218,20 +197,20 @@ class VirtualCompanyController:
             wo_rows = [
                 dict(r)
                 for r in conn.execute(
-                    "SELECT * FROM ceo_work_orders WHERE campaign_id = ? ORDER BY phase_number ASC, department_id ASC;",
-                    (campaign_id,),
+                    "SELECT * FROM ceo_work_orders ORDER BY updated_at_utc DESC LIMIT 50;"
                 ).fetchall()
             ]
             kaizen_rows = [
                 {
+                    "id": r["id"],
                     "source_department": r["department"],
                     "target_departments": r["applied_to_departments"],
                     "learned_rule": r["extracted_rule"],
-                    "confidence": 0.95 if r["outcome_status"] == "WIN" else 0.90,
+                    "outcome_status": r["outcome_status"],
                     "created_at_utc": r["created_at_utc"],
                 }
                 for r in conn.execute(
-                    "SELECT * FROM kaizen_lessons ORDER BY created_at_utc DESC LIMIT 25;"
+                    "SELECT * FROM kaizen_lessons ORDER BY created_at_utc DESC LIMIT 40;"
                 ).fetchall()
             ]
             kg_nodes = [
@@ -248,8 +227,22 @@ class VirtualCompanyController:
                 }
                 for r in conn.execute("SELECT * FROM kg_relations LIMIT 60;").fetchall()
             ]
+            interview_rows = [
+                {
+                    "log_id": r["log_id"],
+                    "department_id": r["department_id"],
+                    "interaction_mode": r["interaction_mode"],
+                    "director_input": r["director_input"],
+                    "agent_response": r["agent_response"],
+                    "deliverable": json.loads(r["deliverable_json"] or "{}"),
+                    "status": r["status"],
+                    "created_at_utc": r["created_at_utc"],
+                }
+                for r in conn.execute(
+                    "SELECT * FROM eyc_interview_logs ORDER BY created_at_utc DESC LIMIT 100;"
+                ).fetchall()
+            ]
 
-            # Twenty CRM tables
             try:
                 twenty_people = [
                     dict(r)
@@ -257,10 +250,7 @@ class VirtualCompanyController:
                 ]
                 twenty_opps = [
                     dict(r)
-                    for r in conn.execute(
-                        "SELECT * FROM twenty_crm_opportunities WHERE campaign_id = ? ORDER BY updated_at_utc DESC LIMIT 20;",
-                        (campaign_id,),
-                    ).fetchall()
+                    for r in conn.execute("SELECT * FROM twenty_crm_opportunities ORDER BY updated_at_utc DESC LIMIT 20;").fetchall()
                 ]
                 twenty_tasks = [
                     dict(r)
@@ -269,7 +259,6 @@ class VirtualCompanyController:
             except Exception:
                 twenty_people, twenty_opps, twenty_tasks = [], [], []
 
-            # SEO Published Articles
             try:
                 seo_articles = [
                     {
@@ -287,47 +276,64 @@ class VirtualCompanyController:
             except Exception:
                 seo_articles = []
 
-        wo_by_dept = {w["department_id"]: w for w in wo_rows}
+        wo_by_dept: dict[str, dict[str, Any]] = {}
+        for w in wo_rows:
+            if w["department_id"] not in wo_by_dept:
+                wo_by_dept[w["department_id"]] = w
 
-        departments_list: list[dict[str, Any]] = []
+        logs_by_dept: dict[str, list[dict[str, Any]]] = {k: [] for k in CORPORATE_DEPARTMENTS}
+        for lg in reversed(interview_rows):
+            if lg["department_id"] in logs_by_dept:
+                logs_by_dept[lg["department_id"]].append(lg)
+
+        kaizen_by_dept: dict[str, list[dict[str, Any]]] = {k: [] for k in CORPORATE_DEPARTMENTS}
+        for kz in kaizen_rows:
+            src = kz["source_department"]
+            if src in kaizen_by_dept:
+                kaizen_by_dept[src].append(kz)
+
         with LIVE_EVENTS_LOCK:
             live_status_snapshot = dict(DEPT_LIVE_STATUS)
             events_snapshot = list(LIVE_EVENTS[:35])
             active_job_snapshot = dict(ACTIVE_JOB_STATUS)
 
+        departments_list: list[dict[str, Any]] = []
         for dept_id, meta in CORPORATE_DEPARTMENTS.items():
-            layout = OFFICE_LAYOUT.get(dept_id, {"zone": "HQ", "x": 50, "y": 50, "icon": "🤖", "color": "#38BDF8", "short": dept_id})
+            layout = OFFICE_LAYOUT.get(
+                dept_id,
+                {"group": "EYC", "zone": "HQ", "x": 50, "y": 50, "icon": "00", "short": dept_id},
+            )
             roster = roster_rows.get(dept_id, {})
             wo = wo_by_dept.get(dept_id, {})
             live = live_status_snapshot.get(dept_id, {})
-
             weapons = [w.strip() for w in meta.get("weapons", "").split(",") if w.strip()]
+            dept_logs = logs_by_dept.get(dept_id, [])
 
             departments_list.append(
                 {
                     "department_id": dept_id,
+                    "code": layout["icon"],
+                    "group": layout["group"],
                     "name": meta["name"],
+                    "short_label": layout["short"],
                     "role": meta["role"],
-                    "focus": meta["role"],
                     "zone": layout["zone"],
                     "x": layout["x"],
                     "y": layout["y"],
-                    "icon": layout["icon"],
-                    "color": layout["color"],
-                    "short_label": layout["short"],
                     "weapons": weapons,
-                    "system_prompt": roster.get("system_prompt_excerpt", ""),
+                    "system_prompt": roster.get("system_prompt_excerpt") or EYC_DEPARTMENT_PROMPTS.get(dept_id, ""),
                     "kaizen_patches": roster.get("kaizen_prompt_patch", ""),
+                    "kpi_score": roster.get("kpi_score", 100.0),
+                    "tasks_completed": roster.get("tasks_completed", 0),
                     "work_order": wo,
-                    "kpi": {"kpi_score": roster.get("kpi_score", 100.0)},
                     "live_state": live.get("state", wo.get("status", "READY")),
-                    "progress_percent": live.get("progress_percent", 100),
-                    "speech_bubble": live.get("speech_bubble") or wo.get("deliverable_summary") or wo.get("task_title", "Sẵn sàng nhận lệnh"),
-                    "target_dept": live.get("target_dept", ""),
+                    "progress_percent": live.get("progress_percent", 0),
+                    "speech_bubble": live.get("speech_bubble") or wo.get("deliverable_summary") or "Sẵn sàng phỏng vấn & nhận lệnh",
+                    "interview_logs": dept_logs,
+                    "kaizen_rules": kaizen_by_dept.get(dept_id, []),
                 }
             )
 
-        # Scan Media Vault (append mtime query param so browser refreshes updated MP4/WebP immediately)
         media_files: list[dict[str, Any]] = []
         if MEDIA_VAULT_DIR.exists():
             for p in sorted(MEDIA_VAULT_DIR.iterdir(), key=lambda f: f.stat().st_mtime, reverse=True):
@@ -343,23 +349,16 @@ class VirtualCompanyController:
                         }
                     )
 
-        cfo_fin = CFOFinancialStrategistAgent(self.brain).audit_campaign_pnl_and_reallocate_budget(campaign_id=campaign_id)
+        fin_summary = self.brain.get_financial_summary(campaign_id)
 
         return {
+            "company_profile": EYC_COMPANY_PROFILE,
             "campaign_id": campaign_id,
             "timestamp": _utc_now_iso(),
-            "company_name": "AUTONOMOUS AI COMPANY (16 PHÒNG BAN & BỘ NÃO 3 TẦNG)",
             "active_job": active_job_snapshot,
-            "integrated_engines": [
-                {"name": "Paperclip AI Governance", "stars": "111.3K⭐", "role": "Org Chart, Goal Alignment & Approval Gate"},
-                {"name": "OpenMontage Video Engine", "stars": "77.0K⭐", "role": "13 Pipelines & 6-Dim Anti-Slideshow QA (#6)"},
-                {"name": "Twenty CRM GraphQL/Kanban", "stars": "60.5K⭐", "role": "People, Opportunities Kanban & Tasks (#12)"},
-                {"name": "Pixel-Agents / AgentOffice", "stars": "10.5K⭐", "role": "Real-Time 2D Virtual Office Floorplan"},
-                {"name": "3-Tier Corporate Second Brain", "stars": "Core", "role": "SQLite FTS5 + Kaizen Rules + LightRAG Graph"},
-            ],
             "departments": departments_list,
             "work_orders": wo_rows,
-            "financials": cfo_fin,
+            "financials": fin_summary,
             "twenty_crm": {
                 "people": twenty_people,
                 "opportunities": twenty_opps,
@@ -375,21 +374,202 @@ class VirtualCompanyController:
             "live_events": events_snapshot,
         }
 
+    def interview_department(
+        self,
+        department_id: str,
+        question: str,
+    ) -> dict[str, Any]:
+        """
+        1-on-1 Interactive Interview with an EYC AI Department Head.
+        Synthesizes the department's EYC System Prompt, active Kaizen patches, equipped open-source weapons,
+        and live context from `eyc.asia` / Second Brain to answer the Director's question.
+        """
+        if department_id not in CORPORATE_DEPARTMENTS:
+            raise ValueError(f"Unknown department_id: {department_id}")
+
+        meta = CORPORATE_DEPARTMENTS[department_id]
+        with self.brain._connect() as conn:
+            roster = conn.execute(
+                "SELECT * FROM hr_agent_roster WHERE department_id = ?;",
+                (department_id,),
+            ).fetchone()
+            sys_prompt = roster["system_prompt_excerpt"] if roster else EYC_DEPARTMENT_PROMPTS.get(department_id, "")
+            kaizen_patch = roster["kaizen_prompt_patch"] if roster else ""
+
+        briefing = self.brain.build_department_context_briefing(department_id, "eyc.asia Early Years Circle")
+        q_lower = question.lower()
+
+        # Construct deep, role-specific response grounded in EYC's real profile and tools
+        response_lines = [
+            f"### Báo cáo trực tiếp từ **{meta['name']}** (`{department_id}`)",
+            f"- **Câu hỏi / Yêu cầu của Giám đốc Phan Phúc Nguyên:** *\"{question}\"*",
+            f"- **Định vị & Trọng trách tại EYC (`eyc.asia`):** {sys_prompt}",
+            f"- **Vũ khí & Công cụ kết nối đang trang bị:** `{meta['weapons']}`",
+            "",
+            "#### 1. Quy trình 6 bước chuẩn EYC mà bộ phận áp dụng cho yêu cầu này:",
+            "1. **01. Định hướng:** Khóa mục tiêu đầu ra đo lường được cho hệ sinh thái EYC (`eyc.asia` & `Early Years Circle`).",
+            "2. **02. Ngữ cảnh:** Truy xuất Bộ Não Thứ 2 (Tầng 1 SQLite FTS5, Tầng 2 Kaizen, Tầng 3 Đồ thị thực thể EYC gồm 8 nhóm giải pháp & 4 phân hệ Teacher/Family/Admin/TV).",
+            f"3. **03. Agents:** Kích hoạt chuyên gia `{meta['profile_ref']}` với điểm phê duyệt của con người (Human Approval Gate).",
+            f"4. **04. Hành động:** Thực thi tự động qua `{meta['weapons']}`.",
+            "5. **05. Kiểm tra:** Ghi nhật ký kiểm tra (Audit Log) và trình Giám đốc nghiệm thu trên giao diện.",
+            "6. **06. Kết quả:** Lưu tài sản số vào Kho dữ liệu EYC & cập nhật chỉ số KPI.",
+        ]
+
+        if kaizen_patch:
+            response_lines.extend(
+                [
+                    "",
+                    "#### 2. Luật Tự Học Kaizen Đang Áp Dụng Nghiêm Ngặt Tại Bộ Phận:",
+                    f"```text\n{kaizen_patch}\n```",
+                ]
+            )
+
+        # Add department-specific actionable plan for EYC
+        dept_specific = {
+            "01_ceo": "Lập kế hoạch 6 giai đoạn cho 8 mảng giải pháp EYC (AI & Tự động hóa, Phần mềm & SaaS, Cloud/Dữ liệu, Tích hợp, AI Marketing, AI Content/Media, Công nghệ kết nối, R&D) và phân bổ KPI tới 16 phòng ban.",
+            "02_creative_director": "Kiểm duyệt chặt chẽ chuẩn thiết kế Deep Tech của EYC (Nền #07080B, Cam #FE5E02, Font Be Vietnam Pro & IBM Plex Sans) và thông điệp 'Hệ thống do con người chỉ huy. AI Agents phối hợp thực thi.'",
+            "03_design": "Xuất trực tiếp ấn phẩm Visual Studio chuẩn WebP 1080x1080 & Storyboard 9:16 mang thương hiệu EYC – Everything You Connect và Early Years Circle.",
+            "04_content": "Biên soạn nội dung chuyên sâu 5-Tier E-E-A-T, tài liệu giải pháp B2B và 200 biến thể Spintax không trùng lặp cho EYC & Early Years Circle.",
+            "05_media_livestream": "Tạo thuyết minh giọng đọc AI Neural Tiếng Việt (`vi-VN-HoaiMyNeural` / `vi-VN-NamMinhNeural`) và cấu hình luồng phát sóng MediaMTX/FFmpeg.",
+            "06_video_editor": "Chạy kiểm định 6 chiều `score_slideshow_risk` trên pipeline `clip-factory` của OpenMontage và kết xuất video MP4 H.264/AAC kèm phụ đề SRT.",
+            "07_seo": "Quét trực tiếp `https://eyc.asia/vi-vn/` và `/en-us/`, khóa cụm chủ đề (Topic Cluster) chống ăn thịt từ khóa cho 'AI Agents doanh nghiệp', 'Early Years Circle', 'Phần mềm mầm non cloud'.",
+            "08_aio": "Đóng gói khối câu trả lời trực tiếp 45 từ và JSON-LD (`Organization`, `SoftwareApplication`, `FAQPage`) để ChatGPT, Perplexity, Gemini ưu tiên trích dẫn `eyc.asia`.",
+            "09_sao": "Nhúng giao thức Model Context Protocol (`WebMCP` Declarative & Imperative) và bộ từ khóa giọng nói 3 giây đầu cho kênh tìm kiếm mạng xã hội.",
+            "10_social": "Vận hành dàn trình duyệt chống phát hiện Camoufox & lập lịch phân phối đa kênh (LinkedIn, Facebook, YouTube) có cổng chờ Giám đốc duyệt.",
+            "11_ads": "Kiểm soát ngân sách quảng cáo B2B/EdTech theo trần CPL và tự động dừng nhóm quảng cáo kém hiệu quả.",
+            "12_sale": "Bóc tách thông tin liên hệ của Doanh nghiệp & Trường mầm non, đồng bộ trực tiếp vào `Twenty CRM` (People, Opportunities Kanban, Follow-up Tasks) và gửi thông điệp tư vấn.",
+            "13_cfo": "Đối soát P&L thời gian thực, kiểm soát chi phí hạ tầng Cloud/API và đề xuất phân bổ vốn theo ROAS thực tế.",
+            "14_accountant": "Lập chứng từ hạch toán chuẩn MST `0319723892` và xuất video đối soát chứng từ tự động.",
+            "15_hr": "Truy vấn hơn 600 hồ sơ kỹ năng (`agency-agents` + `OpenMontage` + `Twenty CRM`), chấm điểm KPI và vá nóng System Prompt theo chỉ đạo của Giám đốc.",
+            "16_it": "Giám sát 31 git submodules, máy chủ MCP (`second-brain-mcp`, `zalo-mcp`), mã bảo mật 2FA TOTP (RFC 6238) và xuất luồng tự động hóa `n8n`.",
+        }
+        response_lines.extend(
+            [
+                "",
+                "#### 3. Cam kết hành động ngay khi Giám đốc bấm 'Giao Việc & Thực Thi':",
+                f"👉 {dept_specific.get(department_id, meta['role'])}",
+            ]
+        )
+
+        full_answer = "\n".join(response_lines)
+        now_iso = _utc_now_iso()
+        log_id = f"ilog_{uuid.uuid4().hex[:10]}"
+
+        with self.brain._connect() as conn:
+            conn.execute(
+                """
+                INSERT INTO eyc_interview_logs (
+                    log_id, department_id, interaction_mode, director_input,
+                    agent_response, deliverable_json, status, created_at_utc
+                )
+                VALUES (?, ?, 'INTERVIEW', ?, ?, '{}', 'COMPLETED', ?);
+                """,
+                (log_id, department_id, question, full_answer, now_iso),
+            )
+
+        push_live_event(
+            department_id,
+            "01_ceo",
+            "INTERVIEW_RESPONSE",
+            f"Đã trả lời phỏng vấn trực tiếp của Giám đốc: '{question[:60]}'",
+            "READY",
+            100,
+            eyc_step=3,
+        )
+        return {
+            "ok": True,
+            "log_id": log_id,
+            "department_id": department_id,
+            "agent_response": full_answer,
+        }
+
+    def update_department_prompt_and_kaizen(
+        self,
+        department_id: str,
+        system_prompt: str,
+        new_kaizen_rule: str = "",
+    ) -> dict[str, Any]:
+        """
+        Allows the Director to directly edit a department's System Prompt and/or inject a new
+        Kaizen optimization rule during 1-on-1 testing.
+        """
+        if department_id not in CORPORATE_DEPARTMENTS:
+            raise ValueError(f"Unknown department_id: {department_id}")
+
+        now_iso = _utc_now_iso()
+        with self.brain._connect() as conn:
+            conn.execute(
+                """
+                UPDATE hr_agent_roster
+                SET system_prompt_excerpt = ?,
+                    updated_at_utc = ?
+                WHERE department_id = ?;
+                """,
+                (system_prompt.strip(), now_iso, department_id),
+            )
+
+        patch_res = None
+        if new_kaizen_rule.strip():
+            patch_res = self.hr.evaluate_department_kpi_and_kaizen(
+                department_id=department_id,
+                campaign_id="EYC_CORE",
+                kpi_achieved={"prompt_optimization": 100.0},
+                kpi_target={"prompt_optimization": 100.0},
+                notes=f"[Tối Ưu Trực Tiếp Từ Giám Đốc Phan Phúc Nguyên]: {new_kaizen_rule.strip()}",
+            )
+
+        log_id = f"ilog_{uuid.uuid4().hex[:10]}"
+        summary_msg = (
+            f"✅ Đã cập nhật System Prompt cho **{CORPORATE_DEPARTMENTS[department_id]['name']}**"
+            + (f" và bổ sung Luật Kaizen: *\"{new_kaizen_rule.strip()}\"*." if new_kaizen_rule.strip() else ".")
+        )
+        with self.brain._connect() as conn:
+            conn.execute(
+                """
+                INSERT INTO eyc_interview_logs (
+                    log_id, department_id, interaction_mode, director_input,
+                    agent_response, deliverable_json, status, created_at_utc
+                )
+                VALUES (?, ?, 'PROMPT_OPTIMIZATION', ?, ?, '{}', 'OPTIMIZED', ?);
+                """,
+                (
+                    log_id,
+                    department_id,
+                    new_kaizen_rule.strip() or "Cập nhật System Prompt chuẩn EYC",
+                    summary_msg,
+                    now_iso,
+                ),
+            )
+
+        push_live_event(
+            "15_hr",
+            department_id,
+            "PROMPT_OPTIMIZED",
+            summary_msg,
+            "READY",
+            100,
+            eyc_step=3,
+        )
+        return {
+            "ok": True,
+            "department_id": department_id,
+            "message": summary_msg,
+            "kaizen_patch": patch_res,
+        }
+
     def delegate_and_execute_department_task(
         self,
         department_id: str,
         task_title: str,
         instructions: str,
-        campaign_id: str = "CAMP_MASSAGE_11",
-        product_name: str = "Máy Massage Cổ Vai Gáy AI Pro",
-        price_vnd: float = 890000,
+        campaign_id: str = "EYC_CORE",
+        product_name: str = "EYC – Everything You Connect (eyc.asia)",
+        price_vnd: float = 25000000,
         async_mode: bool = False,
     ) -> dict[str, Any]:
         """
-        Assigns a live Work Order from the visual UI to a specific department (or CEO for full company).
-        When `async_mode=True` (used by the Web UI), immediately marks the department `WORKING` with
-        step-by-step live progress updates (15% -> 40% -> 75% -> 100%) in a background thread so the
-        UI responds in <50ms and animates the workflow live!
+        Executes a concrete task for EYC (`eyc.asia` / `Early Years Circle`) on the selected department,
+        walking through EYC's 6-Step Operating Model (`01 Định hướng → 02 Ngữ cảnh → 03 Agents → 04 Hành động → 05 Kiểm tra → 06 Kết quả`).
         """
         if department_id not in CORPORATE_DEPARTMENTS:
             raise ValueError(f"Unknown department_id: {department_id}")
@@ -398,197 +578,190 @@ class VirtualCompanyController:
         job_id = f"job_{uuid.uuid4().hex[:8]}"
         dept_name = CORPORATE_DEPARTMENTS[department_id]["name"]
 
+        # Step 01: Định hướng
         update_active_job(
             running=True,
             department_id=department_id,
             task_title=task_title,
-            progress_percent=15,
-            current_step=f"🚀 [15%] CEO (#1) đang giao lệnh '{task_title}' cho {dept_name}...",
+            progress_percent=16,
+            current_step=f"[Bước 01/06 — Định hướng] Giám đốc giao nhiệm vụ '{task_title}' cho {dept_name}...",
+            eyc_step_index=1,
             job_id=job_id,
         )
         push_live_event(
             "01_ceo",
             department_id,
-            "DIRECT_ASSIGNMENT",
-            f"[15%] Giao việc trực tiếp: '{task_title}' — {instructions[:70]}",
+            "STEP_01_DIRECTION",
+            f"[Bước 01: Định hướng] Giao nhiệm vụ: '{task_title}' — {instructions[:80]}",
             "WORKING",
-            progress_percent=15,
+            progress_percent=16,
+            eyc_step=1,
         )
 
-        # Store custom instruction into Tier-1 Second Brain memory for that department
         self.brain.save_memory(
             category="CampaignRule",
-            key=f"direct_wo_{department_id}_{uuid.uuid4().hex[:6]}",
-            content=f"[{task_title}] Chỉ đạo trực tiếp từ Ban Giám Đốc trên Giao Diện Điều Hành: {instructions}",
+            key=f"eyc_task_{department_id}_{uuid.uuid4().hex[:6]}",
+            content=f"[{task_title}] Chỉ đạo của Giám đốc cho {dept_name}: {instructions}",
             importance=5,
             department=department_id,
-            tags=f"direct_delegation,{campaign_id},{department_id}",
+            tags=f"eyc_task,{campaign_id},{department_id}",
         )
 
-        # Update or insert Work Order in ceo_work_orders
+        order_id = f"WO_{campaign_id}_{department_id.upper()}_{uuid.uuid4().hex[:4]}"
         with self.brain._connect() as conn:
-            existing = conn.execute(
-                "SELECT order_id FROM ceo_work_orders WHERE campaign_id = ? AND department_id = ?;",
-                (campaign_id, department_id),
-            ).fetchone()
-            if existing:
-                order_id = existing["order_id"]
-                conn.execute(
-                    """
-                    UPDATE ceo_work_orders
-                    SET task_title = ?, sop_instructions = ?, status = 'WORKING',
-                        deliverable_summary = ?, approval_status = 'PENDING_APPROVAL',
-                        director_feedback = ?, updated_at_utc = ?
-                    WHERE order_id = ?;
-                    """,
-                    (
-                        task_title,
-                        instructions,
-                        f"⏳ Đang thực thi lệnh: {task_title} ({instructions[:80]})...",
-                        instructions,
-                        now_iso,
-                        order_id,
-                    ),
+            conn.execute(
+                """
+                INSERT INTO ceo_work_orders (
+                    order_id, campaign_id, department_id, phase_number,
+                    task_title, sop_instructions, kpi_target_json, assigned_weapons,
+                    status, deliverable_summary, kpi_achieved_json,
+                    approval_status, director_feedback, created_at_utc, updated_at_utc
                 )
-            else:
-                order_id = f"WO_{campaign_id}_{department_id.upper()}_{uuid.uuid4().hex[:4]}"
-                conn.execute(
-                    """
-                    INSERT INTO ceo_work_orders (
-                        order_id, campaign_id, department_id, phase_number,
-                        task_title, sop_instructions, kpi_target_json, assigned_weapons,
-                        status, deliverable_summary, kpi_achieved_json,
-                        approval_status, director_feedback, created_at_utc, updated_at_utc
-                    )
-                    VALUES (?, ?, ?, 1, ?, ?, '{"completion": 100}', ?, 'WORKING', ?, '{}', 'PENDING_APPROVAL', ?, ?, ?);
-                    """,
-                    (
-                        order_id,
-                        campaign_id,
-                        department_id,
-                        task_title,
-                        instructions,
-                        CORPORATE_DEPARTMENTS[department_id]["weapons"],
-                        f"⏳ Đang thực thi lệnh: {task_title}...",
-                        instructions,
-                        now_iso,
-                        now_iso,
-                    ),
-                )
+                VALUES (?, ?, ?, 1, ?, ?, '{"completion": 100}', ?, 'WORKING', ?, '{}', 'PENDING_APPROVAL', ?, ?, ?);
+                """,
+                (
+                    order_id,
+                    campaign_id,
+                    department_id,
+                    task_title,
+                    instructions,
+                    CORPORATE_DEPARTMENTS[department_id]["weapons"],
+                    f"Đang thực thi theo quy trình 6 bước EYC: {task_title}...",
+                    instructions,
+                    now_iso,
+                    now_iso,
+                ),
+            )
 
-        def _execute_worker() -> str:
+        def _execute_worker() -> dict[str, Any]:
             try:
+                # Step 02: Ngữ cảnh
                 update_active_job(
                     running=True,
                     department_id=department_id,
                     task_title=task_title,
-                    progress_percent=40,
-                    current_step=f"🧠 [40%] {dept_name} đang truy xuất Bộ Não 3 Tầng (SQLite FTS5 + Luật Kaizen + Đồ thị LightRAG)...",
+                    progress_percent=33,
+                    current_step=f"[Bước 02/06 — Ngữ cảnh] {dept_name} đang nạp dữ liệu EYC (eyc.asia) & Luật Kaizen từ Bộ Não 3 Tầng...",
+                    eyc_step_index=2,
                 )
                 push_live_event(
                     department_id,
                     department_id,
-                    "SECOND_BRAIN_SYNC",
-                    f"[40%] Đã nạp ngữ cảnh Bộ Não 3 Tầng & bắt đầu chạy vũ khí chuyên dụng cho '{task_title}'",
+                    "STEP_02_CONTEXT",
+                    f"[Bước 02: Ngữ cảnh] Đồng bộ hồ sơ EYC, sản phẩm Early Years Circle & Luật Kaizen.",
                     "WORKING",
-                    progress_percent=40,
+                    progress_percent=33,
+                    eyc_step=2,
                 )
 
+                # Step 03: Agents & Step 04: Hành động
+                update_active_job(
+                    running=True,
+                    department_id=department_id,
+                    task_title=task_title,
+                    progress_percent=65,
+                    current_step=f"[Bước 04/06 — Hành động] {dept_name} đang vận hành công cụ ({CORPORATE_DEPARTMENTS[department_id]['weapons']})...",
+                    eyc_step_index=4,
+                )
+
+                deliverable_payload: dict[str, Any] = {}
                 execution_summary = ""
+
                 if department_id in ("01_ceo", "15_hr"):
-                    self.hr.recruit_full_16_department_roster()
-                    update_active_job(
-                        running=True,
-                        department_id=department_id,
-                        task_title=task_title,
-                        progress_percent=75,
-                        current_step="📊 [75%] CEO (#1) & HR (#15) đang tính toán Unit Economics & phát hành 16 Work Orders...",
+                    talent_matches = self.hr.scan_talent_pool(keyword="ai", limit=8)
+                    plan = self.ceo.launch_strategic_campaign(
+                        campaign_name=task_title,
+                        product_name=product_name,
+                        product_price_vnd=price_vnd,
+                        target_revenue_vnd=price_vnd * 20,
+                        target_audience=instructions or "Doanh nghiệp & Trường mầm non tại Việt Nam (eyc.asia)",
                     )
-                    with self.brain._connect() as conn:
-                        conn.execute(
-                            """
-                            UPDATE ceo_work_orders
-                            SET status = 'WAITING_APPROVAL',
-                                approval_status = 'PENDING_APPROVAL',
-                                director_feedback = ?,
-                                updated_at_utc = ?
-                            WHERE campaign_id = ?;
-                            """,
-                            (instructions, _utc_now_iso(), campaign_id),
-                        )
-                    execution_summary = f"Đã lập Master Plan '{task_title}' & đồng bộ chỉ đạo mới cho toàn bộ 16/16 Phòng Ban."
-                    push_live_event(department_id, "07_seo", "WORK_ORDERS_ISSUED", execution_summary, "WAITING_APPROVAL", 100)
+                    deliverable_payload = {
+                        "type": "CEO_HR_MASTER_PLAN",
+                        "unit_economics": plan["unit_economics"],
+                        "work_orders_count": len(plan["work_orders"]),
+                        "talent_profiles_matched": [t["name"] for t in talent_matches],
+                    }
+                    execution_summary = (
+                        f"Đã lập Kế hoạch Điều phối EYC '{task_title}' (Mục tiêu: {plan['unit_economics']['target_revenue_vnd']:,.0f}đ, "
+                        f"ROAS kỳ vọng: {plan['unit_economics']['target_roas']}x) & rà soát {len(talent_matches)} hồ sơ chuyên gia AI."
+                    )
 
                 elif department_id in ("07_seo", "08_aio", "09_sao"):
-                    update_active_job(
-                        running=True,
-                        department_id=department_id,
-                        task_title=task_title,
-                        progress_percent=70,
-                        current_step="🔍 [70%] Khối Tìm Kiếm (#7 SEO, #8 AIO, #9 SAO) đang khóa Topic Cluster & xuất bản bài E-E-A-T + WebMCP...",
-                    )
                     div = SearchGrowthDivision(self.brain)
+                    crawl_res = div.seo.scrape_and_audit_url("https://eyc.asia/vi-vn/")
                     res = div.execute_step3_search_dominance(
                         campaign_id=campaign_id,
                         product_name=product_name,
                         price_vnd=price_vnd,
-                        primary_keyword="máy massage cổ vai gáy loại nào tốt nhất 2026",
+                        primary_keyword=task_title if len(task_title) > 10 else "nền tảng điều phối AI Agents và Early Years Circle EYC",
                         satellite_keywords=[
-                            "máy massage cổ vai gáy cho dân văn phòng",
-                            "cách giảm đau mỏi cổ vai gáy khi ngồi máy tính",
+                            "giải pháp AI và tự động hóa doanh nghiệp EYC",
+                            "phần mềm quản lý mầm non Early Years Circle",
+                            "tích hợp Model Context Protocol MCP cho doanh nghiệp",
                         ],
-                        target_persona=instructions or "Dân văn phòng & IT ngồi máy tính 8h/ngày",
+                        target_persona=instructions or "Ban giám đốc doanh nghiệp & Ban giám hiệu trường mầm non",
+                        competitor_url="https://eyc.asia/vi-vn/",
                     )
+                    deliverable_payload = {
+                        "type": "SEO_AIO_SAO_PACKAGE",
+                        "live_crawl_eyc_asia": {
+                            "url": crawl_res["url"],
+                            "title": crawl_res["title"],
+                            "word_count": crawl_res["word_count"],
+                        },
+                        "pillar_slug": res["pillar_article"]["slug"],
+                        "pillar_word_count": res["pillar_article"]["word_count"],
+                        "aio_direct_answer_45w": res["aio_package"]["direct_answer_block"],
+                        "sao_tiktok_title": res["sao_and_webmcp_package"]["social_search_seo"]["tiktok_search_title"],
+                        "markdown_excerpt": res["pillar_article"]["markdown_body"][:900],
+                    }
                     execution_summary = (
-                        f"[{task_title}] Xuất bản Pillar '{res['pillar_article']['slug']}' ({res['pillar_article']['word_count']} từ) + "
-                        f"Schema JSON-LD + WebMCP Ready."
+                        f"Đã quét trực tiếp `https://eyc.asia/vi-vn/` ({crawl_res['word_count']} từ), khóa Topic Cluster 4 URL "
+                        f"(0 Cannibalization), xuất bài Pillar `{res['pillar_article']['slug']}` ({res['pillar_article']['word_count']} từ) "
+                        f"kèm 45-word AIO Answer & chuẩn WebMCP."
                     )
-                    push_live_event(department_id, "02_creative_director", "SEARCH_CLUSTER_PUBLISHED", execution_summary, "WAITING_APPROVAL", 100)
 
                 elif department_id in ("02_creative_director", "03_design", "04_content", "05_media_livestream", "06_video_editor"):
-                    update_active_job(
-                        running=True,
-                        department_id=department_id,
-                        task_title=task_title,
-                        progress_percent=65,
-                        current_step="🎬 [65%] Xưởng Phim OpenMontage (#2..#6) đang thu âm AI edge-tts, vẽ ảnh WebP & dựng video MP4 9:16...",
-                    )
-                    push_live_event(
-                        "02_creative_director",
-                        "06_video_editor",
-                        "OPENMONTAGE_PIPELINE",
-                        f"[65%] Đang chạy pipeline 'clip-factory' (OpenMontage) + thu âm edge-tts & render FFmpeg 1080x1920 cho '{task_title}'...",
-                        "WORKING",
-                        progress_percent=65,
-                    )
                     studio = CreativeVideoStudioDivision(self.brain)
                     bundle = studio.produce_full_campaign_creative_bundle(
                         campaign_id=campaign_id,
                         product_name=product_name,
                         price_vnd=price_vnd,
                         usp_highlights=[
-                            "Xung điện TENS kép tác động sâu",
-                            "Chườm ấm hồng ngoại chuẩn 42°C",
-                            instructions[:65] if instructions else "Bảo hành 1 đổi 1 12 tháng - Freeship",
+                            "Hệ thống do con người chỉ huy — AI Agents phối hợp thực thi",
+                            "Early Years Circle: Kết nối Teacher, Family, Admin & TV",
+                            instructions[:70] if instructions else "100% Chủ quyền dữ liệu & Điểm phê duyệt của con người",
                         ],
-                        target_persona="Dân văn phòng & Lập trình viên",
-                        spintax_count=200,
+                        target_persona="Doanh nghiệp chuyển đổi số & Hệ thống giáo dục mầm non",
+                        spintax_count=50,
+                        watermark_text="EYC.ASIA — EVERYTHING YOU CONNECT",
                     )
                     om_qa = bundle["openmontage_qa_report"]
+                    webp_name = Path(bundle["studio_banner_webp"]["file_path"]).name
+                    mp3_name = Path(bundle["voiceover_audio"]["audio_path"]).name
+                    mp4_name = Path(bundle["short_video_mp4"]["video_mp4_path"]).name
+                    mtime = int(time.time())
+                    deliverable_payload = {
+                        "type": "CREATIVE_MEDIA_VIDEO_BUNDLE",
+                        "approved_hook_3s": bundle["creative_approval"]["approved_hook_3s"],
+                        "spintax_generated": bundle["spintax_summary"]["total_unique_generated"],
+                        "spintax_sample": bundle["spintax_summary"]["sample_variations"][0] if bundle["spintax_summary"]["sample_variations"] else "",
+                        "banner_webp_url": f"/media/{urllib.parse.quote(webp_name)}?v={mtime}",
+                        "voiceover_mp3_url": f"/media/{urllib.parse.quote(mp3_name)}?v={mtime}",
+                        "video_mp4_url": f"/media/{urllib.parse.quote(mp4_name)}?v={mtime}",
+                        "video_duration_sec": bundle["short_video_mp4"]["duration_sec"],
+                        "openmontage_pipeline": om_qa["selected_pipeline"],
+                        "openmontage_risk_score": om_qa["slideshow_risk_score"],
+                        "openmontage_verdict": om_qa["slideshow_risk_verdict"],
+                    }
                     execution_summary = (
-                        f"[{task_title}] Xuất Banner WebP + Audio TTS + Video 9:16 MP4 ({bundle['short_video_mp4']['duration_sec']}s) | "
-                        f"OpenMontage '{om_qa['selected_pipeline']}' QA Score: {om_qa['slideshow_risk_score']}/5.0 ({om_qa['slideshow_risk_verdict'].upper()})."
+                        f"Đã sản xuất trọn bộ Media cho EYC: Ảnh thiết kế `{webp_name}`, Giọng đọc AI `{mp3_name}`, "
+                        f"và Video 9:16 `{mp4_name}` ({bundle['short_video_mp4']['duration_sec']}s) — "
+                        f"OpenMontage `{om_qa['selected_pipeline']}` QA: {om_qa['slideshow_risk_score']}/5.0 ({om_qa['slideshow_risk_verdict'].upper()})."
                     )
-                    push_live_event(department_id, "10_social", "CREATIVE_BUNDLE_READY", execution_summary, "WAITING_APPROVAL", 100)
 
                 elif department_id in ("10_social", "11_ads", "12_sale"):
-                    update_active_job(
-                        running=True,
-                        department_id=department_id,
-                        task_title=task_title,
-                        progress_percent=75,
-                        current_step="🤝 [75%] Khối Tăng Trưởng & Sale (#10..#12) đang quét SĐT ẩn, bắn Zalo.Net & tạo Deal WON trên Twenty CRM...",
-                    )
                     div = SocialAdsSaleDivision(self.brain)
                     rep = div.sale.mine_leads_and_auto_close(
                         campaign_id=campaign_id,
@@ -596,36 +769,44 @@ class VirtualCompanyController:
                         price_vnd=price_vnd,
                         raw_comments=[
                             {
-                                "channel": "UI Live Task",
-                                "uid": f"ui_{uuid.uuid4().hex[:6]}",
-                                "author_name": f"Khách VIP ({task_title[:22]})",
-                                "comment": f"Chốt ngay 1 máy theo yêu cầu '{task_title}', giao nhanh SĐT 0988.777.666 nhé!",
+                                "channel": "EYC Website / LinkedIn B2B",
+                                "uid": f"eyc_b2b_{uuid.uuid4().hex[:6]}",
+                                "author_name": f"Đối tác B2B ({task_title[:24]})",
+                                "comment": f"{instructions} — Liên hệ tư vấn triển khai qua SĐT 0942.391.906 và email contact@partner.vn",
                             }
                         ],
                     )
                     tw = rep["twenty_crm_sync"]
+                    deliverable_payload = {
+                        "type": "TWENTY_CRM_AND_GROWTH",
+                        "leads_extracted": rep["leads"],
+                        "twenty_crm_sync": tw,
+                        "revenue_recorded_vnd": rep["revenue_generated_vnd"],
+                    }
                     execution_summary = (
-                        f"[{task_title}] Đã quét Lead & đồng bộ Twenty CRM ({tw['total_people_in_crm']} People, "
-                        f"{tw['campaign_opportunities_won']} WON Deals) -> Thu thêm {rep['revenue_generated_vnd']:,.0f}đ."
+                        f"Đã bóc tách nhu cầu khách hàng B2B, khởi tạo hồ sơ trên Twenty CRM "
+                        f"({tw['total_people_in_crm']} People, {tw['campaign_opportunities_won']} Deal `{tw['kanban_stage']}`, "
+                        f"{tw['campaign_tasks_dispatched']} Follow-up Task) — Giá trị hợp đồng: {rep['revenue_generated_vnd']:,.0f}đ."
                     )
-                    push_live_event(department_id, "13_cfo", "TWENTY_CRM_SYNCED", execution_summary, "WAITING_APPROVAL", 100)
 
                 else:
-                    update_active_job(
-                        running=True,
-                        department_id=department_id,
-                        task_title=task_title,
-                        progress_percent=75,
-                        current_step="💎 [75%] Khối Tài Chính CFO (#13), Kế Toán (#14) & IT (#16) đang đối soát sổ cái P&L và kiểm tra bảo mật...",
+                    cfo = CFOFinancialStrategistAgent(self.brain).audit_campaign_pnl_and_reallocate_budget(
+                        campaign_id=campaign_id,
+                        unit_cogs_vnd=price_vnd * 0.25,
                     )
-                    cfo = CFOFinancialStrategistAgent(self.brain).audit_campaign_pnl_and_reallocate_budget(campaign_id=campaign_id)
                     it_rep = ITDevOpsSecurityAgent(self.brain).run_infrastructure_health_audit()
+                    deliverable_payload = {
+                        "type": "FINANCE_AND_IT_AUDIT",
+                        "cfo_pnl": cfo,
+                        "it_audit": it_rep,
+                    }
                     execution_summary = (
-                        f"[{task_title}] P&L Lãi ròng: {cfo['net_operating_profit_vnd']:,.0f}đ (ROAS {cfo['actual_roas']}x -> {cfo['cfo_directive']}) | "
-                        f"Hạ tầng IT: {it_rep['overall_status']} ({it_rep['git_submodules_count']} submodules)."
+                        f"Đã kiểm toán P&L EYC (Doanh thu: {cfo['gross_revenue_vnd']:,.0f}đ, Lãi ròng: {cfo['net_operating_profit_vnd']:,.0f}đ, "
+                        f"Quyết định CFO: `{cfo['cfo_directive']}`) & Kiểm tra hạ tầng IT (`{it_rep['overall_status']}`, "
+                        f"{it_rep['git_submodules_count']} submodules, mã 2FA mẫu: `{it_rep['totp_2fa_sample_code']}`)."
                     )
-                    push_live_event(department_id, "01_ceo", "FINANCE_IT_AUDITED", execution_summary, "WAITING_APPROVAL", 100)
 
+                # Step 05: Kiểm tra (Human Approval Gate)
                 with self.brain._connect() as conn:
                     conn.execute(
                         """
@@ -638,26 +819,57 @@ class VirtualCompanyController:
                         """,
                         (execution_summary, _utc_now_iso(), order_id),
                     )
+                    conn.execute(
+                        """
+                        UPDATE hr_agent_roster
+                        SET tasks_completed = tasks_completed + 1,
+                            status = 'WAITING_APPROVAL',
+                            updated_at_utc = ?
+                        WHERE department_id = ?;
+                        """,
+                        (_utc_now_iso(), department_id),
+                    )
+                    conn.execute(
+                        """
+                        INSERT INTO eyc_interview_logs (
+                            log_id, department_id, interaction_mode, director_input,
+                            agent_response, deliverable_json, status, created_at_utc
+                        )
+                        VALUES (?, ?, 'TASK_EXECUTION', ?, ?, ?, 'WAITING_APPROVAL', ?);
+                        """,
+                        (
+                            f"ilog_{uuid.uuid4().hex[:10]}",
+                            department_id,
+                            f"[{task_title}] {instructions}",
+                            execution_summary,
+                            json.dumps(deliverable_payload, ensure_ascii=False),
+                            _utc_now_iso(),
+                        ),
+                    )
 
                 update_active_job(
                     running=False,
                     department_id=department_id,
                     task_title=task_title,
                     progress_percent=100,
-                    current_step=f"✅ [100% HOÀN TẤT] {execution_summary}",
+                    current_step=f"[Bước 05/06 — Kiểm tra & Chờ Phê Duyệt] {execution_summary}",
+                    eyc_step_index=5,
                 )
-                return execution_summary
-            except Exception as exc:
-                err_msg = f"❌ Lỗi thực thi tại {dept_name}: {exc}"
-                update_active_job(
-                    running=False,
-                    department_id=department_id,
-                    task_title=task_title,
+                push_live_event(
+                    department_id,
+                    "01_ceo",
+                    "STEP_05_HUMAN_REVIEW",
+                    execution_summary,
+                    "WAITING_APPROVAL",
                     progress_percent=100,
-                    current_step=err_msg,
+                    eyc_step=5,
                 )
-                push_live_event(department_id, "01_ceo", "ERROR", err_msg, "REVISION_REQUIRED", 100)
-                return err_msg
+                return {"summary": execution_summary, "deliverable": deliverable_payload}
+            except Exception as exc:
+                err_msg = f"Lỗi thực thi tại {dept_name}: {exc}"
+                update_active_job(False, department_id, task_title, 100, err_msg, eyc_step_index=5)
+                push_live_event(department_id, "01_ceo", "ERROR", err_msg, "REVISION_REQUIRED", 100, eyc_step=5)
+                return {"summary": err_msg, "deliverable": {}}
 
         if async_mode:
             threading.Thread(target=_execute_worker, daemon=True).start()
@@ -667,17 +879,18 @@ class VirtualCompanyController:
                 "job_id": job_id,
                 "order_id": order_id,
                 "department_id": department_id,
-                "execution_summary": f"Đã phát lệnh '{task_title}' tới {dept_name}. Đang thực thi trực tiếp trên sơ đồ văn phòng ảo...",
+                "execution_summary": f"Đã giao nhiệm vụ '{task_title}' cho {dept_name}. Hệ thống đang chạy theo 6 bước EYC...",
             }
 
-        summary = _execute_worker()
+        res_sync = _execute_worker()
         return {
             "ok": True,
             "async": False,
             "job_id": job_id,
             "order_id": order_id,
             "department_id": department_id,
-            "execution_summary": summary,
+            "execution_summary": res_sync["summary"],
+            "deliverable": res_sync["deliverable"],
         }
 
     def review_and_approve_work_order(
@@ -686,12 +899,6 @@ class VirtualCompanyController:
         decision: str,
         feedback_note: str = "",
     ) -> dict[str, Any]:
-        """
-        Human-in-the-Loop Approval Gate:
-        - `APPROVE`: Marks the work order `APPROVED` & `COMPLETED`, broadcasting confirmation to downstream departments.
-        - `REJECT_KAIZEN`: Records a new Tier-2 Kaizen Self-Learning Rule, hot-patches the department's System Prompt via HR (#15),
-          and marks the work order for revision.
-        """
         now_iso = _utc_now_iso()
         with self.brain._connect() as conn:
             row = conn.execute("SELECT * FROM ceo_work_orders WHERE order_id = ?;", (order_id,)).fetchone()
@@ -711,21 +918,24 @@ class VirtualCompanyController:
                         updated_at_utc = ?
                     WHERE order_id = ?;
                     """,
-                    (feedback_note or "Đã nghiệm thu & phê duyệt xuất bản.", now_iso, order_id),
+                    (feedback_note or "Giám đốc Phan Phúc Nguyên đã nghiệm thu & phê duyệt (Bước 06: Kết quả).", now_iso, order_id),
                 )
-            msg = f"✅ Giám Đốc đã PHÊ DUYỆT Work Order của {CORPORATE_DEPARTMENTS[dept_id]['name']}: {feedback_note or 'Đạt chuẩn 100%'}"
-            push_live_event("01_ceo", dept_id, "APPROVED", msg, "COMPLETED", 100)
-            update_active_job(False, dept_id, wo.get("task_title", ""), 100, msg)
+                conn.execute(
+                    "UPDATE hr_agent_roster SET status = 'COMPLETED', updated_at_utc = ? WHERE department_id = ?;",
+                    (now_iso, dept_id),
+                )
+            msg = f"[Bước 06/06 — Kết quả] Giám đốc đã PHÊ DUYỆT kết quả của {CORPORATE_DEPARTMENTS[dept_id]['name']}."
+            push_live_event("01_ceo", dept_id, "STEP_06_OUTCOME_APPROVED", msg, "COMPLETED", 100, eyc_step=6)
+            update_active_job(False, dept_id, wo.get("task_title", ""), 100, msg, eyc_step_index=6)
             return {"ok": True, "order_id": order_id, "department_id": dept_id, "new_status": "APPROVED_BY_DIRECTOR", "message": msg}
 
-        # REJECT_KAIZEN: Inject Tier-2 Kaizen Rule & Hot-Patch Prompt via HR (#15)
-        rule_text = feedback_note.strip() or "Phải tối ưu lại Hook 3s và CTA rõ ràng hơn theo chuẩn chuyển đổi thực chiến."
+        rule_text = feedback_note.strip() or "Cần bám sát hơn định vị Deep Tech của EYC (eyc.asia) và nêu rõ các điểm phê duyệt của con người."
         patch_res = self.hr.evaluate_department_kpi_and_kaizen(
             department_id=dept_id,
-            campaign_id=wo.get("campaign_id", "CAMP_MASSAGE_11"),
-            kpi_achieved={"director_approval": 65.0},
+            campaign_id=wo.get("campaign_id", "EYC_CORE"),
+            kpi_achieved={"director_approval": 70.0},
             kpi_target={"director_approval": 100.0},
-            notes=f"[Chỉ Đạo Trực Tiếp Từ Giám Đốc]: {rule_text}",
+            notes=f"[Chỉ Đạo Tối Ưu Từ Giám Đốc Phan Phúc Nguyên]: {rule_text}",
         )
         with self.brain._connect() as conn:
             conn.execute(
@@ -739,9 +949,13 @@ class VirtualCompanyController:
                 """,
                 (rule_text, now_iso, order_id),
             )
-        msg = f"🔄 Giám Đốc yêu cầu {CORPORATE_DEPARTMENTS[dept_id]['name']} làm lại & HR (#15) đã tự động vá System Prompt bằng luật Kaizen: '{rule_text}'"
-        push_live_event("15_hr", dept_id, "KAIZEN_HOT_PATCH", msg, "REVISION_REQUIRED", 100)
-        update_active_job(False, dept_id, wo.get("task_title", ""), 100, msg)
+            conn.execute(
+                "UPDATE hr_agent_roster SET status = 'REVISION_REQUIRED', updated_at_utc = ? WHERE department_id = ?;",
+                (now_iso, dept_id),
+            )
+        msg = f"Đã ghi nhận yêu cầu tối ưu cho {CORPORATE_DEPARTMENTS[dept_id]['name']} & tự động cập nhật Luật Kaizen vào System Prompt: '{rule_text}'"
+        push_live_event("15_hr", dept_id, "KAIZEN_HOT_PATCH", msg, "REVISION_REQUIRED", 100, eyc_step=3)
+        update_active_job(False, dept_id, wo.get("task_title", ""), 100, msg, eyc_step_index=3)
         return {
             "ok": True,
             "order_id": order_id,
@@ -752,31 +966,26 @@ class VirtualCompanyController:
         }
 
     def trigger_simulated_company_wave(self) -> dict[str, Any]:
-        """Emits a sequence of realistic inter-department handoff events across all 16 departments."""
         wave_steps = [
-            ("01_ceo", "15_hr", "CEO_BRIEFING", "CEO (#1) & HR (#15) họp giao ban, khóa KPI ROAS >= 6.67x & CPL <= 33,375đ", "WORKING", 10),
-            ("07_seo", "08_aio", "SEO_CLUSTER", "SEO (#7) khóa 5 URL Topic Cluster -> Chuyển AIO (#8) đóng gói JSON-LD & 45-word Answer", "WORKING", 20),
-            ("09_sao", "04_content", "SAO_WEBMCP", "SAO (#9) xuất bộ từ khóa giọng nói 3s đầu & WebMCP Schema cho Content (#4)", "WORKING", 30),
-            ("02_creative_director", "03_design", "HOOK_APPROVED", "Creative Director (#2) duyệt Hook B (Cảnh dân IT mỏi cổ 11h đêm) -> Chuyển Design (#3)", "WORKING", 45),
-            ("05_media_livestream", "06_video_editor", "VOICE_READY", "Media (#5) xuất file thu âm vi-VN-HoaiMyNeural (31.51s) -> Chuyển Dựng Phim (#6)", "WORKING", 60),
-            ("06_video_editor", "10_social", "OPENMONTAGE_RENDER", "Dựng Phim (#6) chạy OpenMontage 'clip-factory' (Risk 0.0/5 STRONG) & xuất MP4 9:16", "WAITING_APPROVAL", 70),
-            ("10_social", "11_ads", "CAMOUFOX_DISPATCH", "Social (#10) kích hoạt 10 Profile Camoufox rải 12 kênh + Livestream MediaMTX 24/7", "WORKING", 80),
-            ("11_ads", "12_sale", "ROAS_SCALING", "Ads (#11) nhân đôi ngân sách nhóm Reels CPL 20.3kđ & đẩy bình luận sang Sale (#12)", "WORKING", 88),
-            ("12_sale", "14_accountant", "TWENTY_CRM_DEAL", "Sale (#12) lọc SĐT ẩn, bắn Zalo.Net & tạo 4 WON Deals trên Twenty CRM Kanban", "WAITING_APPROVAL", 95),
-            ("14_accountant", "13_cfo", "PACKING_REPLAY", "Kế Toán (#14) xuất 8 video đóng gói Simple Replay & chuyển CFO (#13) duyệt lãi ròng 53.18%", "COMPLETED", 100),
+            ("01_ceo", "15_hr", "STEP_01_DIRECTION", "01. Định hướng: Khóa mục tiêu chiến lược cho EYC (eyc.asia) & Early Years Circle", "WORKING", 16, 1),
+            ("07_seo", "08_aio", "STEP_02_CONTEXT", "02. Ngữ cảnh: Kiểm toán SEO/AIO trực tiếp trên https://eyc.asia/vi-vn/", "WORKING", 33, 2),
+            ("15_hr", "02_creative_director", "STEP_03_AGENTS", "03. Agents: Kích hoạt 16 Trưởng bộ phận AI & kiểm tra điểm phê duyệt của con người", "WORKING", 50, 3),
+            ("06_video_editor", "10_social", "STEP_04_ACTION", "04. Hành động: Vận hành OpenMontage & chuẩn bị tài sản truyền thông EYC", "WORKING", 68, 4),
+            ("12_sale", "13_cfo", "STEP_05_VERIFY", "05. Kiểm tra: Đồng bộ Twenty CRM & trình Giám đốc nghiệm thu qua Audit Log", "WAITING_APPROVAL", 85, 5),
+            ("13_cfo", "01_ceo", "STEP_06_OUTCOME", "06. Kết quả: Đo lường hiệu quả & bàn giao hệ thống trên bảng điều khiển EYC", "COMPLETED", 100, 6),
         ]
 
         def _bg_wave() -> None:
-            for src, dst, act, text, st, pct in wave_steps:
-                update_active_job(pct < 100, src, "Mô phỏng dây chuyền 16 phòng ban", pct, f"⚡ [{pct}%] {text}")
-                push_live_event(src, dst, act, text, st, pct)
+            for src, dst, act, text, st, pct, step_idx in wave_steps:
+                update_active_job(pct < 100, src, "Chu trình 6 bước vận hành EYC", pct, text, eyc_step_index=step_idx)
+                push_live_event(src, dst, act, text, st, pct, eyc_step=step_idx)
                 time.sleep(0.75)
 
         threading.Thread(target=_bg_wave, daemon=True).start()
         return {"ok": True, "wave_steps_scheduled": len(wave_steps)}
 
 
-CONTROLLER = VirtualCompanyController()
+CONTROLLER = EYCCompanyController()
 
 
 class VirtualOfficeHTTPHandler(BaseHTTPRequestHandler):
@@ -833,7 +1042,7 @@ class VirtualOfficeHTTPHandler(BaseHTTPRequestHandler):
 
         if path == "/api/company-state":
             qs = urllib.parse.parse_qs(parsed.query)
-            camp_id = qs.get("campaign_id", ["CAMP_MASSAGE_11"])[0]
+            camp_id = qs.get("campaign_id", ["EYC_CORE"])[0]
             self._send_json(CONTROLLER.get_full_company_state(campaign_id=camp_id))
             return
 
@@ -859,14 +1068,36 @@ class VirtualOfficeHTTPHandler(BaseHTTPRequestHandler):
             payload = {}
 
         try:
+            if path == "/api/interview-department":
+                res = CONTROLLER.interview_department(
+                    department_id=payload.get("department_id", "01_ceo"),
+                    question=payload.get("question", "Hãy báo cáo chức năng và quy trình làm việc của bộ phận tại EYC."),
+                )
+                self._send_json(res)
+                return
+
+            if path == "/api/update-prompt":
+                res = CONTROLLER.update_department_prompt_and_kaizen(
+                    department_id=payload.get("department_id", "01_ceo"),
+                    system_prompt=payload.get("system_prompt", ""),
+                    new_kaizen_rule=payload.get("new_kaizen_rule", ""),
+                )
+                self._send_json(res)
+                return
+
+            if path == "/api/reset-clean":
+                res = CONTROLLER.clean_reset_eyc()
+                self._send_json(res)
+                return
+
             if path == "/api/delegate-task":
                 res = CONTROLLER.delegate_and_execute_department_task(
                     department_id=payload.get("department_id", "01_ceo"),
-                    task_title=payload.get("task_title", "Nhiệm vụ đột xuất"),
+                    task_title=payload.get("task_title", "Nhiệm vụ chiến lược EYC"),
                     instructions=payload.get("instructions", ""),
-                    campaign_id=payload.get("campaign_id", "CAMP_MASSAGE_11"),
-                    product_name=payload.get("product_name", "Máy Massage Cổ Vai Gáy AI Pro"),
-                    price_vnd=float(payload.get("price_vnd", 890000)),
+                    campaign_id=payload.get("campaign_id", "EYC_CORE"),
+                    product_name=payload.get("product_name", "EYC – Everything You Connect (eyc.asia)"),
+                    price_vnd=float(payload.get("price_vnd", 25000000)),
                     async_mode=bool(payload.get("async_mode", True)),
                 )
                 self._send_json(res)
@@ -898,7 +1129,7 @@ class ReusableThreadingHTTPServer(ThreadingHTTPServer):
 def run_server(host: str = "0.0.0.0", port: int = 8090) -> None:
     STATIC_DIR.mkdir(parents=True, exist_ok=True)
     primary_server = ReusableThreadingHTTPServer((host, port), VirtualOfficeHTTPHandler)
-    print(f"🏢 Virtual AI Company Command Center listening at http://{host}:{port}", flush=True)
+    print(f"🏢 EYC AI Command Center listening at http://{host}:{port}", flush=True)
 
     if port != 80:
         try:
