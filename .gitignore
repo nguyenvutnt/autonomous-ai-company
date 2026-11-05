@@ -4,6 +4,7 @@ __pycache__/
 .env
 *.db-shm
 *.db-wal
+second-brain/data/
 04-distribution-livestream-crm/mediamtx/mediamtx_v*
 04-distribution-livestream-crm/mediamtx/mediamtx-bin
 04-distribution-livestream-crm/mediamtx/LICENSE
