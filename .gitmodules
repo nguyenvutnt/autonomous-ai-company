@@ -70,3 +70,9 @@
 [submodule "04-distribution-livestream-crm/srs"]
 	path = 04-distribution-livestream-crm/srs
 	url = https://github.com/ossrs/srs.git
+[submodule "05-core-platforms/Facebook.Net"]
+	path = 05-core-platforms/Facebook.Net
+	url = https://github.com/ppn-systems/Facebook.Net.git
+[submodule "05-core-platforms/Zalo.Net"]
+	path = 05-core-platforms/Zalo.Net
+	url = https://github.com/ppn-systems/Zalo.Net.git
