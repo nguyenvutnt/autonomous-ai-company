@@ -602,10 +602,16 @@ class VirtualOfficeHTTPHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(data)
 
+    def do_HEAD(self) -> None:
+        self.send_response(200)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.end_headers()
+
     def do_OPTIONS(self) -> None:
         self.send_response(204)
         self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, HEAD, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.end_headers()
 
@@ -676,11 +682,25 @@ class VirtualOfficeHTTPHandler(BaseHTTPRequestHandler):
             self._send_json({"ok": False, "error": str(exc)}, status=500)
 
 
+class ReusableThreadingHTTPServer(ThreadingHTTPServer):
+    allow_reuse_address = True
+
+
 def run_server(host: str = "0.0.0.0", port: int = 8090) -> None:
     STATIC_DIR.mkdir(parents=True, exist_ok=True)
-    server = ThreadingHTTPServer((host, port), VirtualOfficeHTTPHandler)
-    print(f"🏢 Virtual AI Company Command Center listening at http://{host}:{port}")
-    server.serve_forever()
+    primary_server = ReusableThreadingHTTPServer((host, port), VirtualOfficeHTTPHandler)
+    print(f"🏢 Virtual AI Company Command Center listening at http://{host}:{port}", flush=True)
+
+    # Also bind port 80 if available so users can visit http://13.140.213.137 directly without a port
+    if port != 80:
+        try:
+            http80_server = ReusableThreadingHTTPServer((host, 80), VirtualOfficeHTTPHandler)
+            threading.Thread(target=http80_server.serve_forever, daemon=True).start()
+            print(f"🌐 Standard HTTP Port 80 also active at http://{host}:80", flush=True)
+        except OSError as exc:
+            print(f"ℹ️ Port 80 bind skipped: {exc}", flush=True)
+
+    primary_server.serve_forever()
 
 
 if __name__ == "__main__":
