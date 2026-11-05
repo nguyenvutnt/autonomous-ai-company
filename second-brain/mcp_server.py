@@ -24,6 +24,7 @@ from engine import (
 from ceo_hr_orchestrator import CEOExecutiveAgent, HRAgentDirector
 from creative_video_division import CreativeVideoStudioDivision
 from seo_aio_sao_division import SearchGrowthDivision
+from social_ads_sale_division import SocialAdsSaleDivision
 
 mcp = FastMCP("corporate-second-brain")
 brain = CorporateSecondBrain()
@@ -31,6 +32,7 @@ hr_director = HRAgentDirector(brain)
 ceo_agent = CEOExecutiveAgent(brain, hr_director)
 search_division = SearchGrowthDivision(brain)
 creative_division = CreativeVideoStudioDivision(brain)
+social_ads_sale = SocialAdsSaleDivision(brain)
 
 
 @mcp.tool()
@@ -373,6 +375,45 @@ def creative_produce_campaign_bundle(
         usp_highlights=usps,
         target_persona=target_persona,
         spintax_count=spintax_count,
+    )
+    return json.dumps(res, ensure_ascii=False, indent=2)
+
+
+@mcp.tool()
+def social_ads_sale_execute_cycle(
+    campaign_id: str,
+    product_name: str,
+    price_vnd: float,
+    max_cpl_vnd: float,
+    video_mp4_path: str,
+    target_groups_json: str,
+    ad_sets_json: str,
+    raw_comments_json: str,
+) -> str:
+    """
+    [Social #10 + Ads #11 + Sale #12] Chạy chu trình Phân phối Đa Kênh, Livestream 24/7,
+    Tối ưu Ads/Seeding và Quét SĐT/Email Chốt Đơn tự động qua Zalo.Net & Chatwoot.
+    """
+    groups = json.loads(target_groups_json) if target_groups_json else []
+    ad_sets = json.loads(ad_sets_json) if ad_sets_json else []
+    comments = json.loads(raw_comments_json) if raw_comments_json else []
+    spintax = creative_division.copywriter.generate_spintax_variations(
+        product_name=product_name,
+        price_vnd=price_vnd,
+        usp_highlights=["Xung điện TENS kép", "Chườm ấm hồng ngoại 42°C"],
+        count=50,
+    )["all_variations"]
+
+    res = social_ads_sale.execute_full_distribution_ads_and_sale_cycle(
+        campaign_id=campaign_id,
+        product_name=product_name,
+        price_vnd=price_vnd,
+        max_cpl_vnd=max_cpl_vnd,
+        video_mp4_path=video_mp4_path,
+        spintax_variations=spintax,
+        target_groups=groups,
+        ad_sets=ad_sets,
+        raw_comments=comments,
     )
     return json.dumps(res, ensure_ascii=False, indent=2)
 

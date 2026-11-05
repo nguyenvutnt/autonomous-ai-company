@@ -23,6 +23,12 @@ from .seo_aio_sao_division import (
     SEOSpecialistAgent,
     SearchGrowthDivision,
 )
+from .social_ads_sale_division import (
+    AdsViralSeedingAgent,
+    SaleLeadCloserAgent,
+    SocialAdsSaleDivision,
+    SocialDistributionAgent,
+)
 
 __all__ = [
     "CEOExecutiveAgent",
@@ -37,4 +43,8 @@ __all__ = [
     "MediaLivestreamAgent",
     "VideoEditorAgent",
     "CreativeVideoStudioDivision",
+    "SocialDistributionAgent",
+    "AdsViralSeedingAgent",
+    "SaleLeadCloserAgent",
+    "SocialAdsSaleDivision",
 ]
