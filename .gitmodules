@@ -82,3 +82,12 @@
 [submodule "04-distribution-livestream-crm/twenty"]
 	path = 04-distribution-livestream-crm/twenty
 	url = https://github.com/twentyhq/twenty.git
+[submodule "00-ai-company-agents/paperclip"]
+	path = 00-ai-company-agents/paperclip
+	url = https://github.com/paperclipai/paperclip.git
+[submodule "00-ai-company-agents/pixel-agents"]
+	path = 00-ai-company-agents/pixel-agents
+	url = https://github.com/pixel-agents-hq/pixel-agents.git
+[submodule "00-ai-company-agents/agent-office"]
+	path = 00-ai-company-agents/agent-office
+	url = https://github.com/harishkotra/agent-office.git

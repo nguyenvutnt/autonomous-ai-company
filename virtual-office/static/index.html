@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🏢 Autonomous AI Company — Trung Tâm Mô Phỏng & Điều Hành 16 Phòng Ban Thời Gian Thực</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #070B14;
+      color: #E2E8F0;
+    }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .office-grid {
+      background-color: #0B1120;
+      background-image:
+        linear-gradient(to right, rgba(56, 189, 248, 0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(56, 189, 248, 0.06) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.92); box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.55); }
+      70% { transform: scale(1); box-shadow: 0 0 0 12px rgba(56, 189, 248, 0); }
+      100% { transform: scale(0.92); box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
+    }
+    @keyframes float-avatar {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-4px); }
+    }
+    @keyframes dash-flow {
+      to { stroke-dashoffset: -28; }
+    }
+    .avatar-node {
+      animation: float-avatar 3s ease-in-out infinite;
+      transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .avatar-node:hover {
+      transform: scale(1.08) translateY(-4px);
+      z-index: 40;
+    }
+    .state-WORKING {
+      animation: pulse-ring 2s infinite;
+    }
+    .flow-line {
+      stroke-dasharray: 7 7;
+      animation: dash-flow 0.9s linear infinite;
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0F172A; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- TOP EXECUTIVE BAR -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-50 px-6 py-3">
+    <div class="max-w-[1800px] mx-auto flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center text-xl shadow-lg shadow-amber-500/20">🏢</div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-lg font-extrabold tracking-tight text-white">AUTONOMOUS AI COMPANY OS</h1>
+            <span class="px-2 py-0.5 text-[11px] font-bold rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center gap-1">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> LIVE REALTIME
+            </span>
+          </div>
+          <p class="text-xs text-slate-400">Mô Phỏng Văn Phòng Ảo 16 Phòng Ban • Paperclip Governance • OpenMontage Studio • Twenty CRM • Bộ Não 3 Tầng</p>
+        </div>
+      </div>
+
+      <!-- KPI RIBBON -->
+      <div class="flex flex-wrap items-center gap-3" id="top-kpi-ribbon">
+        <div class="bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5">
+          <div class="text-[10px] uppercase text-slate-400">Doanh Thu Gộp (CFO #13)</div>
+          <div class="text-sm font-bold text-emerald-400 mono" id="kpi-rev">--</div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5">
+          <div class="text-[10px] uppercase text-slate-400">Lợi Nhuận Ròng Sau Thuế</div>
+          <div class="text-sm font-bold text-cyan-400 mono" id="kpi-profit">--</div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5">
+          <div class="text-[10px] uppercase text-slate-400">ROAS / Quyết Định CFO</div>
+          <div class="text-sm font-bold text-amber-400 mono" id="kpi-roas">--</div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5">
+          <div class="text-[10px] uppercase text-slate-400">Twenty CRM (#12)</div>
+          <div class="text-sm font-bold text-purple-400 mono" id="kpi-crm">--</div>
+        </div>
+      </div>
+
+      <!-- ACTION BUTTONS -->
+      <div class="flex items-center gap-2">
+        <button onclick="triggerCompanyWave()" class="px-3.5 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold text-xs shadow-lg shadow-cyan-500/20 flex items-center gap-1.5">
+          <span>⚡</span> Chạy Mô Phỏng Sóng 16 Phòng Ban
+        </button>
+        <button onclick="openDelegateModal()" class="px-3.5 py-2 rounded-lg bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-bold text-xs shadow-lg shadow-amber-500/20 flex items-center gap-1.5">
+          <span>📋</span> Giao Việc Trực Tiếp
+        </button>
+        <button onclick="fetchCompanyState()" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700">
+          🔄 Làm mới
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN WORKSPACE GRID -->
+  <main class="max-w-[1800px] w-full mx-auto flex-1 grid grid-cols-1 xl:grid-cols-12 gap-5 p-5">
+
+    <!-- LEFT/CENTER 8 COLS: INTERACTIVE 2D VIRTUAL OFFICE FLOORPLAN + APPROVAL GATE -->
+    <section class="xl:col-span-8 flex flex-col gap-5">
+
+      <!-- 2D VIRTUAL OFFICE FLOORPLAN -->
+      <div class="rounded-2xl border border-slate-800 bg-slate-950 overflow-hidden shadow-2xl">
+        <div class="px-4 py-3 border-b border-slate-800 bg-slate-900/70 flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <span class="text-base">🗺️</span>
+            <h2 class="text-sm font-bold text-white">SƠ ĐỒ MÔ PHỎNG VĂN PHÒNG ẢO 16 PHÒNG BAN (CLICK VÀO BÀN ĐỂ XEM & GIAO VIỆC)</h2>
+          </div>
+          <div class="flex items-center gap-3 text-[11px]">
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-cyan-400 inline-block"></span> Đang làm việc</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block"></span> Chờ Giám Đốc duyệt</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block"></span> Đã hoàn thành</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block"></span> Yêu cầu sửa (Kaizen)</span>
+          </div>
+        </div>
+
+        <!-- FLOORPLAN CANVAS -->
+        <div class="relative office-grid w-full h-[560px] select-none overflow-hidden" id="office-canvas">
+          <!-- ZONE BACKGROUNDS -->
+          <div class="absolute left-[3%] top-[5%] w-[34%] h-[25%] rounded-xl border border-amber-500/30 bg-amber-500/5 p-2.5">
+            <div class="text-[10px] font-bold uppercase tracking-wider text-amber-300/90">🏛️ Khu A: Ban Tổng Giám Đốc & Nhân Sự (Paperclip Governance)</div>
+          </div>
+          <div class="absolute left-[3%] top-[33%] w-[34%] h-[22%] rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-2.5">
+            <div class="text-[10px] font-bold uppercase tracking-wider text-emerald-300/90">💰 Khu B: Tài Chính CFO & Kiểm Toán Simple Replay</div>
+          </div>
+          <div class="absolute left-[3%] top-[58%] w-[34%] h-[36%] rounded-xl border border-indigo-500/30 bg-indigo-500/5 p-2.5">
+            <div class="text-[10px] font-bold uppercase tracking-wider text-indigo-300/90">🛡️ Khu C: Trung Tâm Hạ Tầng IT/2FA & Bộ Não Thứ 2 (3 Tầng)</div>
+            <!-- Central Brain Core Badge -->
+            <div class="mt-7 mx-auto w-[88%] rounded-xl border border-cyan-500/40 bg-slate-900/90 p-2.5 text-center shadow-inner">
+              <div class="text-xs font-extrabold text-cyan-300">🧠 3-TIER SECOND BRAIN CORE</div>
+              <div class="text-[10px] text-slate-400 mt-0.5">Tier 1: SQLite FTS5 • Tier 2: Kaizen • Tier 3: LightRAG Graph</div>
+            </div>
+          </div>
+
+          <div class="absolute left-[40%] top-[5%] w-[57%] h-[25%] rounded-xl border border-blue-500/30 bg-blue-500/5 p-2.5">
+            <div class="text-[10px] font-bold uppercase tracking-wider text-blue-300/90">🔍 Khu D: Trung Tâm Thống Trị Tìm Kiếm (SEO #7 • AIO #8 • SAO/WebMCP #9)</div>
+          </div>
+
+          <div class="absolute left-[40%] top-[33%] w-[57%] h-[32%] rounded-xl border border-orange-500/30 bg-orange-500/5 p-2.5">
+            <div class="text-[10px] font-bold uppercase tracking-wider text-orange-300/90">🎬 Khu E: Xưởng Phim & Đồ Họa OpenMontage (#2 Creative • #3 Design • #4 Content • #5 Media • #6 Video)</div>
+          </div>
+
+          <div class="absolute left-[40%] top-[68%] w-[57%] h-[26%] rounded-xl border border-pink-500/30 bg-pink-500/5 p-2.5">
+            <div class="text-[10px] font-bold uppercase tracking-wider text-pink-300/90">🚀 Khu F: Phân Phối Đa Kênh Camoufox, Ads ROAS & Twenty CRM (#10 Social • #11 Ads • #12 Sale)</div>
+          </div>
+
+          <!-- SVG OVERLAY FOR ANIMATED INTER-DEPARTMENT DATA FLOWS -->
+          <svg id="office-svg-links" class="absolute inset-0 w-full h-full pointer-events-none z-10"></svg>
+
+          <!-- DYNAMIC DEPARTMENT DESK NODES -->
+          <div id="office-nodes-layer" class="absolute inset-0 z-20"></div>
+        </div>
+      </div>
+
+      <!-- INTERACTIVE WORK ORDERS & HUMAN-IN-THE-LOOP APPROVAL GATE -->
+      <div class="rounded-2xl border border-slate-800 bg-slate-950 overflow-hidden shadow-xl">
+        <div class="px-5 py-3.5 border-b border-slate-800 bg-slate-900/70 flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <span>✅</span> CỔNG DUYỆT & GIAO VIỆC TRỰC TIẾP 16 PHÒNG BAN (HUMAN-IN-THE-LOOP APPROVAL GATE)
+            </h3>
+            <p class="text-xs text-slate-400">Bấm <strong>"Phê Duyệt"</strong> để nghiệm thu, hoặc <strong>"Yêu Cầu Sửa + Vá Kaizen"</strong> để HR (#15) tự động ghi luật vào System Prompt của phòng ban đó.</p>
+          </div>
+          <span class="text-xs mono text-amber-300 bg-amber-500/10 border border-amber-500/30 px-2.5 py-1 rounded-md" id="wo-count-badge">16 Work Orders</span>
+        </div>
+
+        <div class="overflow-x-auto max-h-[420px]">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead class="bg-slate-900/90 text-slate-400 uppercase text-[10px] sticky top-0 z-10">
+              <tr>
+                <th class="py-2.5 px-3">Phòng Ban</th>
+                <th class="py-2.5 px-3">Nhiệm Vụ & Kết Quả Thực Thi (Deliverable)</th>
+                <th class="py-2.5 px-3">Trạng Thái</th>
+                <th class="py-2.5 px-3 text-right">Thao Tác Duyệt / Giao Việc</th>
+              </tr>
+            </thead>
+            <tbody id="work-orders-tbody" class="divide-y divide-slate-800/70"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TWENTY CRM KANBAN & MEDIA VAULT PREVIEW TABS -->
+      <div class="rounded-2xl border border-slate-800 bg-slate-950 overflow-hidden shadow-xl">
+        <div class="px-5 py-3 border-b border-slate-800 bg-slate-900/70 flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <button onclick="switchBottomTab('media')" id="tab-btn-media" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
+              🎞️ Kho Sản Phẩm Media Thực Tế (OpenMontage MP4 / WebP / TTS / Simple Replay)
+            </button>
+            <button onclick="switchBottomTab('crm')" id="tab-btn-crm" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">
+              🤝 Bảng Twenty CRM Kanban & Leads (#12 Sale)
+            </button>
+            <button onclick="switchBottomTab('brain')" id="tab-btn-brain" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">
+              🧠 Luật Tự Học Kaizen & Đồ Thị Tri Thức LightRAG
+            </button>
+          </div>
+        </div>
+
+        <!-- TAB 1: MEDIA VAULT -->
+        <div id="tab-panel-media" class="p-4 grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+
+        <!-- TAB 2: TWENTY CRM KANBAN -->
+        <div id="tab-panel-crm" class="p-4 hidden">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="twenty-crm-container"></div>
+        </div>
+
+        <!-- TAB 3: KAIZEN & KNOWLEDGE GRAPH -->
+        <div id="tab-panel-brain" class="p-4 hidden">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="brain-inspector-container"></div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- RIGHT 4 COLS: SELECTED DEPARTMENT INSPECTOR + REAL-TIME ACTIVITY STREAM -->
+    <aside class="xl:col-span-4 flex flex-col gap-5">
+
+      <!-- SELECTED DEPARTMENT COMMAND CARD -->
+      <div class="rounded-2xl border border-slate-800 bg-slate-950 p-5 shadow-xl" id="dept-inspector-card">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <div class="flex items-center gap-3">
+            <div id="insp-icon" class="w-11 h-11 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-2xl">👑</div>
+            <div>
+              <span id="insp-zone" class="text-[10px] uppercase tracking-wider font-bold text-amber-400">Executive Suite</span>
+              <h3 id="insp-name" class="text-base font-bold text-white">Chọn 1 Phòng Ban trên Sơ Đồ</h3>
+            </div>
+          </div>
+          <button onclick="openDelegateModalForSelected()" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs">
+            ⚡ Giao Việc Phòng Này
+          </button>
+        </div>
+
+        <div class="mt-3 space-y-3 text-xs">
+          <div>
+            <div class="text-[10px] uppercase text-slate-400 font-semibold">Trạng Thái Hiện Tại & Báo Cáo</div>
+            <div id="insp-bubble" class="mt-1 p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-cyan-300 font-medium">
+              Nhấp vào bất kỳ bàn làm việc nào trên sơ đồ văn phòng để kiểm tra System Prompt, Vũ khí Open-Source, hoặc giao việc trực tiếp.
+            </div>
+          </div>
+
+          <div>
+            <div class="text-[10px] uppercase text-slate-400 font-semibold">Vũ Khí Open-Source Được Trang Bị</div>
+            <div id="insp-weapons" class="mt-1 flex flex-wrap gap-1.5"></div>
+          </div>
+
+          <div>
+            <div class="text-[10px] uppercase text-slate-400 font-semibold">System Prompt & Bản Vá Tự Học Kaizen (HR #15)</div>
+            <pre id="insp-prompt" class="mt-1 p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-[11px] text-slate-300 whitespace-pre-wrap max-h-40 overflow-y-auto mono"></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- REAL-TIME INTER-DEPARTMENT EVENT STREAM -->
+      <div class="rounded-2xl border border-slate-800 bg-slate-950 flex-1 flex flex-col overflow-hidden shadow-xl">
+        <div class="px-4 py-3 border-b border-slate-800 bg-slate-900/70 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-white">LUỒNG PHỐI HỢP LIÊN PHÒNG BAN REALTIME</h3>
+          </div>
+          <span class="text-[11px] text-slate-400 mono" id="event-clock">--:--:--</span>
+        </div>
+        <div id="live-events-feed" class="p-3.5 space-y-2.5 overflow-y-auto max-h-[540px] text-xs"></div>
+      </div>
+
+      <!-- INTEGRATED OPEN-SOURCE ENGINES CARD -->
+      <div class="rounded-2xl border border-slate-800 bg-slate-950 p-4 shadow-xl">
+        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-2.5">⚙️ Lõi Mã Nguồn Mở Đang Vận Hành (31 Submodules)</h4>
+        <div id="engines-list" class="space-y-2 text-xs"></div>
+      </div>
+
+    </aside>
+  </main>
+
+  <!-- MODAL: DIRECT TASK DELEGATION -->
+  <div id="delegate-modal" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">📋 Giao Việc & Chạy Thực Tế Cho Phòng Ban AI</h3>
+        <button onclick="closeDelegateModal()" class="text-slate-400 hover:text-white text-lg">✕</button>
+      </div>
+      <form onsubmit="submitDelegateTask(event)" class="mt-4 space-y-3.5 text-xs">
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Chọn Phòng Ban Nhận Lệnh:</label>
+          <select id="form-dept-id" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-white focus:border-cyan-400 outline-none"></select>
+        </div>
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Tiêu Đề Nhiệm Vụ (Task Title):</label>
+          <input id="form-task-title" type="text" required value="Tối ưu chiến dịch Máy Massage Cổ Vai Gáy AI Pro" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-white focus:border-cyan-400 outline-none" />
+        </div>
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Chỉ Đạo Chi Tiết Từ Giám Đốc (Instructions / USP / Yêu Cầu):</label>
+          <textarea id="form-instructions" rows="3" required class="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-white focus:border-cyan-400 outline-none">Nhấn mạnh Hook 3s cảnh lập trình viên mỏi cổ lúc 11h đêm, chườm ấm 42 độ C và ưu đãi 890.000đ Freeship.</textarea>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Mã Chiến Dịch:</label>
+            <input id="form-campaign-id" type="text" value="CAMP_MASSAGE_11" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-white mono" />
+          </div>
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Giá Bán (VNĐ):</label>
+            <input id="form-price-vnd" type="number" value="890000" class="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-white mono" />
+          </div>
+        </div>
+        <div class="flex items-center justify-end gap-2 pt-2">
+          <button type="button" onclick="closeDelegateModal()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold">Hủy</button>
+          <button type="submit" id="btn-submit-delegate" class="px-4 py-2 rounded-lg bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-bold shadow-lg">
+            🚀 Phát Lệnh & Thực Thi Ngay
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: KAIZEN REJECTION / REVISION FEEDBACK -->
+  <div id="kaizen-modal" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-rose-500/40 rounded-2xl max-w-lg w-full p-6 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 class="text-base font-bold text-rose-400 flex items-center gap-2">🔄 Yêu Cầu Sửa & Tự Động Vá Luật Kaizen (HR #15)</h3>
+        <button onclick="closeKaizenModal()" class="text-slate-400 hover:text-white text-lg">✕</button>
+      </div>
+      <form onsubmit="submitKaizenRejection(event)" class="mt-4 space-y-3.5 text-xs">
+        <input type="hidden" id="kaizen-order-id" />
+        <p class="text-slate-300">Nhập nhận xét/yêu cầu chỉnh sửa của bạn. Hệ thống sẽ tự động lưu vào <strong>Tầng 2 (Kaizen Memory)</strong> và <strong>HR (#15)</strong> sẽ vá trực tiếp vào System Prompt của phòng ban này:</p>
+        <textarea id="kaizen-feedback-note" rows="3" required class="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-white focus:border-rose-400 outline-none" placeholder="VD: Đổi phụ đề sang chữ Vàng nền Đen cỡ lớn, thêm cam kết bảo hành 1 đổi 1 ngay giây thứ 3..."></textarea>
+        <div class="flex items-center justify-end gap-2 pt-2">
+          <button type="button" onclick="closeKaizenModal()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold">Đóng</button>
+          <button type="submit" class="px-4 py-2 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-bold shadow-lg">
+            ⚡ Ghi Luật Kaizen & Yêu Cầu Làm Lại
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    let STATE = null;
+    let SELECTED_DEPT_ID = '01_ceo';
+
+    function fmtVND(n) {
+      return new Intl.NumberFormat('vi-VN').format(Math.round(n || 0)) + ' đ';
+    }
+
+    function statusBadge(st, approval) {
+      if (approval === 'APPROVED_BY_DIRECTOR' || st === 'COMPLETED') {
+        return `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">✅ ĐÃ DUYỆT</span>`;
+      }
+      if (approval === 'REJECTED_WITH_KAIZEN' || st === 'REVISION_REQUIRED') {
+        return `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40">🔄 CẦN SỬA (KAIZEN)</span>`;
+      }
+      if (st === 'WAITING_APPROVAL') {
+        return `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 animate-pulse">⏳ CHỜ DUYỆT</span>`;
+      }
+      return `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">⚡ ĐANG CHẠY</span>`;
+    }
+
+    async function fetchCompanyState() {
+      try {
+        const res = await fetch('/api/company-state');
+        STATE = await res.json();
+        renderAll();
+      } catch (e) {
+        console.error('Error fetching state:', e);
+      }
+    }
+
+    function renderAll() {
+      if (!STATE) return;
+      document.getElementById('event-clock').textContent = new Date().toLocaleTimeString('vi-VN');
+
+      // 1. Top KPI Ribbon
+      const fin = STATE.financials || {};
+      document.getElementById('kpi-rev').textContent = `${fmtVND(fin.gross_revenue_vnd)} (${fin.total_orders || 0} đơn)`;
+      document.getElementById('kpi-profit').textContent = `${fmtVND(fin.net_operating_profit_vnd)} (${fin.net_margin_percent || 0}%)`;
+      document.getElementById('kpi-roas').textContent = `${fin.actual_roas || 0}x • ${fin.cfo_directive || ''}`;
+      const crm = STATE.twenty_crm || {};
+      document.getElementById('kpi-crm').textContent = `${(crm.people || []).length} People • ${(crm.opportunities || []).length} WON Deals`;
+
+      // 2. Render 2D Virtual Office Floorplan
+      renderOfficeFloorplan();
+
+      // 3. Render Selected Department Inspector
+      renderDepartmentInspector(SELECTED_DEPT_ID);
+
+      // 4. Render Work Orders & Approval Gate Table
+      renderWorkOrdersTable();
+
+      // 5. Render Live Events Stream
+      renderLiveEvents();
+
+      // 6. Render Bottom Tabs (Media Vault, Twenty CRM, Second Brain)
+      renderMediaVault();
+      renderTwentyCRM();
+      renderBrainInspector();
+      renderIntegratedEngines();
+      populateDepartmentSelect();
+    }
+
+    function renderOfficeFloorplan() {
+      const layer = document.getElementById('office-nodes-layer');
+      const svg = document.getElementById('office-svg-links');
+      const depts = STATE.departments || [];
+      const deptMap = {};
+      depts.forEach(d => { deptMap[d.department_id] = d; });
+
+      // Draw animated SVG links for recent live events
+      let svgHtml = '';
+      const recentEvents = (STATE.live_events || []).slice(0, 6);
+      recentEvents.forEach((ev, idx) => {
+        const src = deptMap[ev.source_dept];
+        const dst = deptMap[ev.target_dept];
+        if (src && dst) {
+          const opacity = Math.max(0.25, 1 - idx * 0.14);
+          const color = idx === 0 ? '#38BDF8' : '#F59E0B';
+          svgHtml += `
+            <line x1="${src.x}%" y1="${src.y}%" x2="${dst.x}%" y2="${dst.y}%"
+                  stroke="${color}" stroke-width="${idx === 0 ? 3 : 2}" stroke-opacity="${opacity}"
+                  class="flow-line" />
+          `;
+        }
+      });
+      svg.innerHTML = svgHtml;
+
+      // Render 16 Department Desks
+      layer.innerHTML = depts.map(d => {
+        const isSelected = d.department_id === SELECTED_DEPT_ID;
+        const wo = d.work_order || {};
+        let ringColor = 'border-slate-700';
+        let dotColor = 'bg-cyan-400';
+        if (wo.approval_status === 'APPROVED_BY_DIRECTOR' || d.live_state === 'COMPLETED') {
+          ringColor = 'border-emerald-500/80';
+          dotColor = 'bg-emerald-400';
+        } else if (wo.approval_status === 'REJECTED_WITH_KAIZEN' || d.live_state === 'REVISION_REQUIRED') {
+          ringColor = 'border-rose-500';
+          dotColor = 'bg-rose-500';
+        } else if (d.live_state === 'WAITING_APPROVAL' || wo.status === 'WAITING_APPROVAL') {
+          ringColor = 'border-amber-400';
+          dotColor = 'bg-amber-400';
+        }
+
+        const bubbleText = (d.speech_bubble || '').slice(0, 48);
+        return `
+          <div onclick="selectDepartment('${d.department_id}')"
+               style="left: calc(${d.x}% - 58px); top: calc(${d.y}% - 38px);"
+               class="avatar-node state-${d.live_state} absolute w-[116px] cursor-pointer rounded-xl bg-slate-900/95 border-2 ${isSelected ? 'border-cyan-400 ring-2 ring-cyan-400/40' : ringColor} p-2 shadow-xl">
+            <!-- Speech bubble tooltip -->
+            <div class="mb-1 px-1.5 py-0.5 rounded bg-slate-950/90 border border-slate-800 text-[9px] text-slate-300 truncate" title="${(d.speech_bubble || '').replace(/"/g, '&quot;')}">
+              💬 ${bubbleText}...
+            </div>
+            <div class="flex items-center gap-1.5">
+              <div class="w-7 h-7 rounded-lg flex items-center justify-center text-base shrink-0" style="background:${d.color}22; border:1px solid ${d.color}66;">
+                ${d.icon}
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center justify-between">
+                  <span class="text-[10px] font-extrabold text-white truncate">${d.short_label}</span>
+                  <span class="w-2 h-2 rounded-full ${dotColor} shrink-0"></span>
+                </div>
+                <div class="text-[9px] text-slate-400 truncate">${d.name}</div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function selectDepartment(deptId) {
+      SELECTED_DEPT_ID = deptId;
+      renderOfficeFloorplan();
+      renderDepartmentInspector(deptId);
+    }
+
+    function renderDepartmentInspector(deptId) {
+      const depts = STATE.departments || [];
+      const d = depts.find(x => x.department_id === deptId) || depts[0];
+      if (!d) return;
+      document.getElementById('insp-icon').textContent = d.icon;
+      document.getElementById('insp-zone').textContent = `${d.zone} • Mã: ${d.department_id}`;
+      document.getElementById('insp-name').textContent = d.name;
+      document.getElementById('insp-bubble').textContent = d.speech_bubble || d.focus;
+
+      const weaponsEl = document.getElementById('insp-weapons');
+      weaponsEl.innerHTML = (d.weapons || []).map(w =>
+        `<span class="px-2 py-0.5 rounded-md bg-slate-900 border border-slate-700 text-cyan-300 text-[10px] mono">${w}</span>`
+      ).join('');
+
+      const promptText = [
+        `[Vai trò]: ${d.role}`,
+        `[Trọng tâm]: ${d.focus}`,
+        `[System Prompt Gốc]:\n${d.system_prompt || 'Chuẩn SOP 16 Phòng Ban'}`,
+        d.kaizen_patches ? `\n[Bản Vá Tự Học Kaizen (HR #15)]:\n${d.kaizen_patches}` : ''
+      ].filter(Boolean).join('\n\n');
+      document.getElementById('insp-prompt').textContent = promptText;
+    }
+
+    function renderWorkOrdersTable() {
+      const tbody = document.getElementById('work-orders-tbody');
+      const depts = STATE.departments || [];
+      document.getElementById('wo-count-badge').textContent = `${depts.length} Phòng Ban / Work Orders`;
+
+      tbody.innerHTML = depts.map(d => {
+        const wo = d.work_order || {};
+        const orderId = wo.order_id || '';
+        const summary = wo.deliverable_summary || wo.objective || d.focus;
+        const feedback = wo.director_feedback ? `<div class="mt-1 text-[10px] text-amber-300">📌 Chỉ đạo GĐ: ${wo.director_feedback}</div>` : '';
+        return `
+          <tr class="hover:bg-slate-900/60 transition">
+            <td class="py-2.5 px-3 whitespace-nowrap">
+              <button onclick="selectDepartment('${d.department_id}')" class="flex items-center gap-2 text-left hover:text-cyan-300">
+                <span class="text-base">${d.icon}</span>
+                <div>
+                  <div class="font-bold text-white">${d.short_label}</div>
+                  <div class="text-[10px] text-slate-400">${d.name}</div>
+                </div>
+              </button>
+            </td>
+            <td class="py-2.5 px-3 max-w-md">
+              <div class="text-slate-200 font-medium">${summary}</div>
+              ${feedback}
+            </td>
+            <td class="py-2.5 px-3 whitespace-nowrap">
+              ${statusBadge(wo.status || d.live_state, wo.approval_status)}
+            </td>
+            <td class="py-2.5 px-3 text-right whitespace-nowrap space-x-1">
+              ${orderId ? `
+                <button onclick="approveWorkOrder('${orderId}')" class="px-2.5 py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-[11px]">
+                  ✅ Duyệt
+                </button>
+                <button onclick="openKaizenModal('${orderId}')" class="px-2.5 py-1 rounded bg-rose-600/80 hover:bg-rose-500 text-white font-semibold text-[11px]">
+                  🔄 Sửa + Kaizen
+                </button>
+              ` : ''}
+              <button onclick="openDelegateModal('${d.department_id}')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/30 font-semibold text-[11px]">
+                📋 Giao Việc
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderLiveEvents() {
+      const feed = document.getElementById('live-events-feed');
+      const events = STATE.live_events || [];
+      feed.innerHTML = events.map(ev => `
+        <div class="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-slate-700 transition">
+          <div class="flex items-center justify-between text-[10px] text-slate-400 mb-1">
+            <span class="font-bold text-cyan-300 mono">${ev.source_dept} ➔ ${ev.target_dept}</span>
+            <span class="px-1.5 py-0.5 rounded bg-slate-800 text-amber-300 mono">${ev.action_type}</span>
+          </div>
+          <div class="text-slate-200 leading-relaxed">${ev.message}</div>
+        </div>
+      `).join('');
+    }
+
+    function renderMediaVault() {
+      const container = document.getElementById('tab-panel-media');
+      const files = STATE.media_vault || [];
+      const featured = files.slice(0, 6);
+      container.innerHTML = featured.map(f => {
+        let previewHtml = '';
+        if (f.ext === '.mp4') {
+          previewHtml = `<video src="${f.url}" controls class="w-full h-44 object-contain bg-black rounded-lg border border-slate-800"></video>`;
+        } else if (f.ext === '.webp' || f.ext === '.png') {
+          previewHtml = `<img src="${f.url}" alt="${f.filename}" class="w-full h-44 object-contain bg-black rounded-lg border border-slate-800" />`;
+        } else if (f.ext === '.mp3') {
+          previewHtml = `<div class="h-44 flex flex-col items-center justify-center bg-slate-900 rounded-lg border border-slate-800 p-4">
+            <div class="text-3xl mb-2">🎙️</div>
+            <audio src="${f.url}" controls class="w-full"></audio>
+          </div>`;
+        } else {
+          previewHtml = `<div class="h-44 flex items-center justify-center bg-slate-900 rounded-lg border border-slate-800 text-slate-400 mono text-xs">${f.filename}</div>`;
+        }
+        return `
+          <div class="p-3 rounded-xl bg-slate-900/70 border border-slate-800 flex flex-col justify-between">
+            ${previewHtml}
+            <div class="mt-2 flex items-center justify-between text-[11px]">
+              <a href="${f.url}" target="_blank" class="font-bold text-cyan-400 hover:underline truncate max-w-[70%]">${f.filename}</a>
+              <span class="text-slate-400 mono">${(f.size_bytes / 1024).toFixed(1)} KB</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderTwentyCRM() {
+      const container = document.getElementById('twenty-crm-container');
+      const crm = STATE.twenty_crm || {};
+      const opps = crm.opportunities || [];
+      const tasks = crm.tasks || [];
+      container.innerHTML = `
+        <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800">
+          <h4 class="text-xs font-bold uppercase text-emerald-400 mb-2">💰 Twenty CRM — Opportunities Kanban (Stage: WON)</h4>
+          <div class="space-y-2 max-h-60 overflow-y-auto">
+            ${opps.map(o => `
+              <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800 flex items-center justify-between text-xs">
+                <div>
+                  <div class="font-bold text-white">${o.deal_name}</div>
+                  <div class="text-[10px] text-slate-400 mono">Person ID: ${o.person_id} • Xác suất: ${o.probability_percent}%</div>
+                </div>
+                <div class="text-right">
+                  <div class="font-bold text-emerald-400 mono">${fmtVND(o.amount_vnd)}</div>
+                  <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[10px] font-bold">${o.stage}</span>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800">
+          <h4 class="text-xs font-bold uppercase text-cyan-400 mb-2">📋 Twenty CRM — Follow-up Tasks (#12 Sale & #14 Kế Toán)</h4>
+          <div class="space-y-2 max-h-60 overflow-y-auto">
+            ${tasks.map(t => `
+              <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800 flex items-center justify-between text-xs">
+                <div class="pr-2">
+                  <div class="font-medium text-slate-200">${t.title}</div>
+                  <div class="text-[10px] text-slate-400 mono">Phụ trách: ${t.assignee_department}</div>
+                </div>
+                <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 text-[10px] font-bold">${t.status}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderBrainInspector() {
+      const container = document.getElementById('brain-inspector-container');
+      const rules = STATE.kaizen_rules || [];
+      const kg = STATE.knowledge_graph || { nodes: [], edges: [] };
+      container.innerHTML = `
+        <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800">
+          <h4 class="text-xs font-bold uppercase text-amber-400 mb-2">⚡ Tầng 2: Luật Tự Học Kaizen Thực Chiến (${rules.length} Luật)</h4>
+          <div class="space-y-2 max-h-60 overflow-y-auto text-xs">
+            ${rules.map(r => `
+              <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800">
+                <div class="flex items-center justify-between text-[10px] text-slate-400 mb-1">
+                  <span class="text-amber-300 font-bold mono">${r.source_department} ➔ ${r.target_departments}</span>
+                  <span>Confidence: ${(r.confidence * 100).toFixed(0)}%</span>
+                </div>
+                <div class="text-slate-200">${r.learned_rule}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800">
+          <h4 class="text-xs font-bold uppercase text-purple-400 mb-2">🕸️ Tầng 3: Đồ Thị Tri Thức LightRAG (${(kg.nodes || []).length} Thực thể / ${(kg.edges || []).length} Quan hệ)</h4>
+          <div class="space-y-1.5 max-h-60 overflow-y-auto text-xs">
+            ${(kg.edges || []).map(e => `
+              <div class="p-2 rounded-lg bg-slate-950 border border-slate-800 text-[11px]">
+                <span class="font-bold text-cyan-300">${e.source_entity}</span>
+                <span class="px-1.5 py-0.5 mx-1 rounded bg-purple-500/20 text-purple-300 mono text-[10px]">${e.relation_type}</span>
+                <span class="font-bold text-emerald-300">${e.target_entity}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderIntegratedEngines() {
+      const el = document.getElementById('engines-list');
+      el.innerHTML = (STATE.integrated_engines || []).map(eng => `
+        <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="font-bold text-white">${eng.name}</div>
+            <div class="text-[11px] text-slate-400">${eng.role}</div>
+          </div>
+          <span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30 font-bold mono text-[10px]">${eng.stars}</span>
+        </div>
+      `).join('');
+    }
+
+    function switchBottomTab(tab) {
+      ['media', 'crm', 'brain'].forEach(t => {
+        const panel = document.getElementById(`tab-panel-${t}`);
+        const btn = document.getElementById(`tab-btn-${t}`);
+        if (t === tab) {
+          panel.classList.remove('hidden');
+          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40';
+        } else {
+          panel.classList.add('hidden');
+          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700';
+        }
+      });
+    }
+
+    function populateDepartmentSelect() {
+      const sel = document.getElementById('form-dept-id');
+      if (sel.options.length > 0) return;
+      (STATE.departments || []).forEach(d => {
+        const opt = document.createElement('option');
+        opt.value = d.department_id;
+        opt.textContent = `${d.icon} ${d.short_label} — ${d.name}`;
+        sel.appendChild(opt);
+      });
+    }
+
+    function openDelegateModal(deptId) {
+      populateDepartmentSelect();
+      if (deptId) {
+        document.getElementById('form-dept-id').value = deptId;
+      } else if (SELECTED_DEPT_ID) {
+        document.getElementById('form-dept-id').value = SELECTED_DEPT_ID;
+      }
+      const m = document.getElementById('delegate-modal');
+      m.classList.remove('hidden');
+      m.classList.add('flex');
+    }
+
+    function openDelegateModalForSelected() {
+      openDelegateModal(SELECTED_DEPT_ID);
+    }
+
+    function closeDelegateModal() {
+      const m = document.getElementById('delegate-modal');
+      m.classList.add('hidden');
+      m.classList.remove('flex');
+    }
+
+    async function submitDelegateTask(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btn-submit-delegate');
+      btn.disabled = true;
+      btn.textContent = '⏳ Đang thực thi...';
+      try {
+        const payload = {
+          department_id: document.getElementById('form-dept-id').value,
+          task_title: document.getElementById('form-task-title').value,
+          instructions: document.getElementById('form-instructions').value,
+          campaign_id: document.getElementById('form-campaign-id').value,
+          price_vnd: Number(document.getElementById('form-price-vnd').value || 890000),
+        };
+        const res = await fetch('/api/delegate-task', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        SELECTED_DEPT_ID = payload.department_id;
+        closeDelegateModal();
+        await fetchCompanyState();
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '🚀 Phát Lệnh & Thực Thi Ngay';
+      }
+    }
+
+    async function approveWorkOrder(orderId) {
+      await fetch('/api/approve-work-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          order_id: orderId,
+          decision: 'APPROVE',
+          feedback_note: 'Giám Đốc đã duyệt trực tiếp trên Trung Tâm Điều Hành.',
+        }),
+      });
+      await fetchCompanyState();
+    }
+
+    function openKaizenModal(orderId) {
+      document.getElementById('kaizen-order-id').value = orderId;
+      document.getElementById('kaizen-feedback-note').value = '';
+      const m = document.getElementById('kaizen-modal');
+      m.classList.remove('hidden');
+      m.classList.add('flex');
+    }
+
+    function closeKaizenModal() {
+      const m = document.getElementById('kaizen-modal');
+      m.classList.add('hidden');
+      m.classList.remove('flex');
+    }
+
+    async function submitKaizenRejection(e) {
+      e.preventDefault();
+      const orderId = document.getElementById('kaizen-order-id').value;
+      const note = document.getElementById('kaizen-feedback-note').value;
+      await fetch('/api/approve-work-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          order_id: orderId,
+          decision: 'REJECT_KAIZEN',
+          feedback_note: note,
+        }),
+      });
+      closeKaizenModal();
+      await fetchCompanyState();
+    }
+
+    async function triggerCompanyWave() {
+      await fetch('/api/simulate-wave', { method: 'POST' });
+      for (let i = 0; i < 8; i++) {
+        setTimeout(fetchCompanyState, i * 750);
+      }
+    }
+
+    fetchCompanyState();
+    setInterval(fetchCompanyState, 2500);
+  </script>
+</body>
+</html>
