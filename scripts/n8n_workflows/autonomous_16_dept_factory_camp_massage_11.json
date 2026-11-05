@@ -1,0 +1,142 @@
+{
+  "name": "Autonomous 16-Department AI Company Pipeline (CAMP_MASSAGE_11)",
+  "nodes": [
+    {
+      "id": "1",
+      "name": "1. Schedule / Webhook Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [
+        100,
+        300
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 6
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "2",
+      "name": "2. CEO (#1) & HR (#15) Strategic Dispatch",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [
+        360,
+        300
+      ],
+      "parameters": {
+        "command": "/root/ecosystem/.venv/bin/python /root/ecosystem/agents/test_step2_ceo_hr.py"
+      }
+    },
+    {
+      "id": "3",
+      "name": "3. SEO (#7) + AIO (#8) + SAO (#9) Omni-Search Engine",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [
+        640,
+        300
+      ],
+      "parameters": {
+        "command": "/root/ecosystem/.venv/bin/python /root/ecosystem/agents/test_step3_seo_aio_sao.py"
+      }
+    },
+    {
+      "id": "4",
+      "name": "4. Creative (#2) + Design (#3) + Content (#4) + Media (#5) + Video (#6)",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [
+        920,
+        300
+      ],
+      "parameters": {
+        "command": "/root/ecosystem/.venv/bin/python /root/ecosystem/agents/test_step4_creative_video.py"
+      }
+    },
+    {
+      "id": "5",
+      "name": "5. Social (#10) + Ads Seeding (#11) + Sale Zalo Closer (#12)",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [
+        1200,
+        300
+      ],
+      "parameters": {
+        "command": "/root/ecosystem/.venv/bin/python /root/ecosystem/agents/test_step5_social_ads_sale.py"
+      }
+    },
+    {
+      "id": "6",
+      "name": "6. CFO (#13) + Accountant (#14) + IT (#16) Closed-Loop Audit",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [
+        1480,
+        300
+      ],
+      "parameters": {
+        "command": "/root/ecosystem/.venv/bin/python /root/ecosystem/agents/test_step6_finance_it_master.py"
+      }
+    }
+  ],
+  "connections": {
+    "1. Schedule / Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "2. CEO (#1) & HR (#15) Strategic Dispatch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. CEO (#1) & HR (#15) Strategic Dispatch": {
+      "main": [
+        [
+          {
+            "node": "3. SEO (#7) + AIO (#8) + SAO (#9) Omni-Search Engine",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3. SEO (#7) + AIO (#8) + SAO (#9) Omni-Search Engine": {
+      "main": [
+        [
+          {
+            "node": "4. Creative (#2) + Design (#3) + Content (#4) + Media (#5) + Video (#6)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "4. Creative (#2) + Design (#3) + Content (#4) + Media (#5) + Video (#6)": {
+      "main": [
+        [
+          {
+            "node": "5. Social (#10) + Ads Seeding (#11) + Sale Zalo Closer (#12)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "5. Social (#10) + Ads Seeding (#11) + Sale Zalo Closer (#12)": {
+      "main": [
+        [
+          {
+            "node": "6. CFO (#13) + Accountant (#14) + IT (#16) Closed-Loop Audit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true
+}

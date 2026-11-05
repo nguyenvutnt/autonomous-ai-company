@@ -17,6 +17,12 @@ from .creative_video_division import (
     MediaLivestreamAgent,
     VideoEditorAgent,
 )
+from .finance_it_pipeline_division import (
+    AccountantBookkeeperAgent,
+    CFOFinancialStrategistAgent,
+    FinanceITAndMasterPipelineDivision,
+    ITDevOpsSecurityAgent,
+)
 from .seo_aio_sao_division import (
     AIOCitationAgent,
     SAOSocialAgenticAgent,
@@ -47,4 +53,8 @@ __all__ = [
     "AdsViralSeedingAgent",
     "SaleLeadCloserAgent",
     "SocialAdsSaleDivision",
+    "CFOFinancialStrategistAgent",
+    "AccountantBookkeeperAgent",
+    "ITDevOpsSecurityAgent",
+    "FinanceITAndMasterPipelineDivision",
 ]

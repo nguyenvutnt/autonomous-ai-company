@@ -23,6 +23,7 @@ from engine import (
 )
 from ceo_hr_orchestrator import CEOExecutiveAgent, HRAgentDirector
 from creative_video_division import CreativeVideoStudioDivision
+from finance_it_pipeline_division import FinanceITAndMasterPipelineDivision
 from seo_aio_sao_division import SearchGrowthDivision
 from social_ads_sale_division import SocialAdsSaleDivision
 
@@ -33,6 +34,7 @@ ceo_agent = CEOExecutiveAgent(brain, hr_director)
 search_division = SearchGrowthDivision(brain)
 creative_division = CreativeVideoStudioDivision(brain)
 social_ads_sale = SocialAdsSaleDivision(brain)
+finance_it_master = FinanceITAndMasterPipelineDivision(brain)
 
 
 @mcp.tool()
@@ -414,6 +416,25 @@ def social_ads_sale_execute_cycle(
         target_groups=groups,
         ad_sets=ad_sets,
         raw_comments=comments,
+    )
+    return json.dumps(res, ensure_ascii=False, indent=2)
+
+
+@mcp.tool()
+def finance_it_execute_master_closure(
+    campaign_id: str,
+    product_name: str,
+    unit_cogs_vnd: float = 290000.0,
+) -> str:
+    """
+    [CFO #13 + Kế Toán #14 + IT/DevOps #16] Chạy kiểm toán Báo cáo Lãi/Lỗ P&L,
+    xuất video bằng chứng đóng gói hàng `Simple Replay` (.mp4 + SHA-256),
+    kiểm tra sức khỏe 26 submodules + 2FA TOTP, và xuất file `n8n` Workflow khép kín 16 phòng ban.
+    """
+    res = finance_it_master.execute_step6_and_close_all_16_work_orders(
+        campaign_id=campaign_id,
+        product_name=product_name,
+        unit_cogs_vnd=unit_cogs_vnd,
     )
     return json.dumps(res, ensure_ascii=False, indent=2)
 
